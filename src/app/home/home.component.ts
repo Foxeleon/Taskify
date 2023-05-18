@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   public todos = [];
   public accordeonActive = true;
   public holdTitle: boolean;
-  public todoTextArea: boolean;
+  public todoTextArea = false;
   public currTitle: string;
   public todoTextIconClass = {
     right: !this.todoTextArea,
@@ -22,16 +22,16 @@ export class HomeComponent implements OnInit {
     icon: true,
     ui: true
   };
-
-  public todoForm = this.fb.group({
-    title: ['', [Validators.required, Validators.maxLength(25)] ],
-    todoText: ['', [Validators.required, Validators.maxLength(150)] ],
-    deadline: [this.tdService.yyyymmdd(this.tdService.currDay), [Validators.required]]
-  });
+  todoForm: any;
 
   constructor( private fb: FormBuilder, public tdService: TodoService ) {}
 
   ngOnInit() {
+    this.todoForm = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(25)] ],
+      todoText: ['', [Validators.required, Validators.maxLength(150)] ],
+      deadline: [this.tdService.yyyymmdd(this.tdService.currDay), [Validators.required]]
+    });
     this.tdService.todoId = JSON.parse(localStorage.getItem('todoId'));
     if (this.tdService.todoId == null) {
       this.setId();
