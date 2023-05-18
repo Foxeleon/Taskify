@@ -1,0 +1,123 @@
+<!--
+<div *ngIf="!this.bauarbeiten">
+Registration:
+{{registerForm.value | json}}
+<br>
+Login:
+{{loginForm.value | json}}
+<br>
+Users:
+<br>
+{{users[0] | json}}
+<br>
+<div>PassMAtch= {{passwordMatch}}</div>
+//-->
+<ng-container [ngSwitch]="this.view">
+<!-- -------------------------------------- Register Form -------------------------------------------------- -->
+<div *ngSwitchCase="'registration'">
+<form [formGroup]="registerForm" class="ui equal width form">
+    <div class="fields">
+      <div class="field">
+        <label>Username</label>
+        <input formControlName="username" type="text" placeholder="Username">
+        <div *ngIf="registerForm.get('username').invalid">
+            <small *ngIf="registerForm.get('username').errors?.required && registerForm.get('username').touched" class="ui up pointing red basic label">{{'Required'|translate}}</small>
+            <small *ngIf="registerForm.get('username').errors?.maxlength" class="ui up pointing red basic label">{{'Max150Symbols'|translate}}</small>
+        </div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input formControlName="password" type="password" placeholder="Password" [style.color]="this.registerForm.value.password === this.registerForm.value.passwordRepeat ? 'green' : ''">
+        <div *ngIf="registerForm.get('password').invalid">
+            <small *ngIf="registerForm.get('password').errors?.required && registerForm.get('password').touched" class="ui up pointing red basic label">{{'Required'|translate}}</small>
+            <small *ngIf="registerForm.get('password').errors?.maxlength" class="ui up pointing red basic label">{{'Max150Symbols'|translate}}</small>
+        </div>
+      </div>
+      <div class="field">
+        <label>Repeat password</label>
+        <input formControlName="passwordRepeat" type="password" placeholder="Repeat password" [style.color]="this.registerForm.value.password === this.registerForm.value.passwordRepeat ? 'green' : ''">
+        <div *ngIf="registerForm.get('passwordRepeat').invalid">
+            <small *ngIf="registerForm.get('passwordRepeat').errors?.required && registerForm.get('passwordRepeat').touched" class="ui up pointing red basic label">{{'Required'|translate}}</small>
+            <small *ngIf="registerForm.get('passwordRepeat').errors?.maxlength" class="ui up pointing red basic label">{{'Max150Symbols'|translate}}</small>
+            <small *ngIf="this.registerForm.value.password !== this.registerForm.value.passwordRepeat && registerForm.get('passwordRepeat').touched" class="ui up pointing red basic label">{{'password does not match'|translate}}</small>
+        </div>
+      </div>
+    </div>
+    <div class="fields">
+      <div class="field">
+        <label>First name</label>
+        <input formControlName="firstName" type="text" placeholder="First Name">
+        <div *ngIf="registerForm.get('firstName').invalid">
+            <small *ngIf="registerForm.get('firstName').errors?.required && registerForm.get('firstName').touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
+            <small *ngIf="registerForm.get('firstName').errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
+        </div>
+      </div>
+      <div class="field">
+        <label>Last name</label>
+        <input formControlName="lastName" type="text" placeholder="Last Name">
+        <div *ngIf="registerForm.get('lastName').invalid">
+            <small *ngIf="registerForm.get('lastName').errors?.required && registerForm.get('lastName').touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
+            <small *ngIf="registerForm.get('lastName').errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
+        </div>
+      </div>
+      <div [class.error]="registerForm.get('email').invalid && registerForm.get('email').touched" class="field" >
+          <label>E-mail</label>
+          <input email formControlName="email" type="email" placeholder="joe@schmoe.com">
+          <small *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched" class="ui up pointing red basic label">Invalid Email</small>
+      </div>
+    </div>
+    <div class="ui error message">
+        <div class="header">Action Forbidden</div>
+        <p>You can only sign up for an account once with a given e-mail address.</p>
+    </div>
+    <button [disabled]="registerForm.get('email').invalid || registerForm.get('password').invalid || registerForm.get('username').invalid" class="ui submit button"  type="submit">Register</button>
+    <button class="ui button"  type="button" (click)="this.view = 'login'">Cancel</button>
+</form>
+</div>
+<!-- -------------------------------------- Login Form -------------------------------------------------- -->
+<div *ngSwitchCase="'login'">
+<form [formGroup]="loginForm" class="ui equal width form">
+  <div class="fields">
+    <div class="field">
+      <label>Username</label>
+      <input formControlName="username" type="text" placeholder="Username">
+      <div *ngIf="loginForm.get('username').invalid">
+          <small *ngIf="loginForm.get('username').errors?.required && loginForm.get('username').touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
+          <small *ngIf="loginForm.get('username').errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
+      </div>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input formControlName="password" type="password" placeholder="Password">
+      <div *ngIf="loginForm.get('password').invalid">
+          <small *ngIf="loginForm.get('password').errors?.required && loginForm.get('password').touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
+          <small *ngIf="loginForm.get('password').errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
+      </div>
+    </div>
+  </div>
+  <button [disabled]="loginForm.get('username').invalid || loginForm.get('password').invalid" class="ui submit button"  type="submit">Submit</button>
+  <button class="ui button" type="button" (click)="this.view = 'registration'">Register</button>
+</form>
+</div>
+
+<!-- -------------------------------------- Default Loader -------------------------------------------------- -->
+<div *ngSwitchDefault>
+<div class="ui centered header" translate>{{'Under construction'}}</div>
+      <div class="ui big segment">
+          <div class="ui grid">
+              <div class="row"></div>
+              <div class="three column row">
+                  <div class="column"></div>
+                  <div class="column">
+                    <div class="ui active inverted dimmer">
+                      <div class="ui text loader" translate>{{'Under construction'}}</div>
+                    </div>
+                  </div>
+                  <div class="column"></div>
+              </div>
+              <div class="row"></div>
+              <div class="row"></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>

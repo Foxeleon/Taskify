@@ -1,0 +1,27 @@
+
+    this.todos.unshift({
+      id: 1,
+      title: 'My TODO',
+      complete: false,
+      creationDate: new Date,
+      toBeDoneDate: '',
+      doneDate: ''
+    },
+    {
+      id: 2,
+      title: 'My 2 TODO',
+      complete: false,
+      creationDate: new Date,
+      toBeDoneDate: '',
+      doneDate: ''
+    }
+    );
+	
+	
+      <div class="ui calendar labeled input field">
+          <label class="ui label" translate>
+            <i class="calendar plus outline icon"></i>
+            {{'creationDate'}}
+          </label>
+          <input type="date" class="form-control" formControlName="creationDate" placeholder="Date">
+    </div>

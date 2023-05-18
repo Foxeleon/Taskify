@@ -1,0 +1,51 @@
+<div class="ui header">Details: Alfa Version</div>
+<table class="ui celled definition table">
+  <thead>
+    <tr>
+        <th></th>
+        <th translate>Task ID</th>
+        <th translate>{{'TableTitle'}}</th>
+        <th translate>{{'TableTODO'}}</th>
+        <th translate>{{'TableDeadline'}}</th>
+        <th translate>Done?</th>
+        <th translate>Creation date</th>
+        <th translate *ngIf="this.todo.complete===true">Done date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Details</td>
+      <td>{{this.id}}</td>
+      <td>{{this.todo.title}}</td>
+      <td>{{this.todo.todoText}}</td>
+      <td>{{this.todo.deadline}}</td>
+      <ng-template *ngIf="this.todo.complete===true; then complete; else notComplete"></ng-template>
+      <ng-template #complete>
+        <td><i class="checkmark green icon"></i></td>
+      </ng-template>
+      <ng-template #notComplete>
+        <td><i class="x red icon"></i></td>
+      </ng-template>
+      <td>{{this.todo.creationDate}}</td>
+      <td *ngIf="this.todo.doneDate!==''">{{this.todo.doneDate}}</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>Dauer</td>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>{{this.daysTillDeadline}} Tage vor Deadline</th>
+      <th></th>
+      <ng-template *ngIf="this.todo.complete===true; then doNothing; else showCurrDuration"></ng-template>
+      <ng-template #doNothing>
+        <th></th>
+      </ng-template>
+      <ng-template #showCurrDuration>
+          <th>Current duration of task: {{this.daysCurrDuration}}</th>
+      </ng-template>
+      <th *ngIf="this.todo.doneDate!==''">Dauer: {{this.daysTillDone}} Tage</th>
+    </tr>
+  </tfoot>
+</table>

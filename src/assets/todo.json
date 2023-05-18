@@ -1,0 +1,31 @@
+[
+  {
+    "id": -2,
+    "title": "Example Todo",
+    "todoText": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo labore consequuntur blanditiis autem, obcaecati fugiat corrupti soluta nulla quaerat saepe illo deleniti cupiditate dicta omnis animi veritatis est, voluptates inventore.",
+    "complete": false,
+    "creationDate": "10-10-2019",
+    "doneDate": "12-10-2019",
+    "deadline": "12-12-2019"
+  },
+
+  {
+    "id": -1,
+    "title": "My first Todo",
+    "todoText":"Do It!",
+    "complete": false,
+    "creationDate": "12-12-1972",
+    "doneDate": "10-10-1990",
+    "deadline": "12-12-2002"
+  },
+
+  {
+    "id": 0,
+    "title": "My second Todo",
+    "todoText":"Just Do It!",
+    "complete": true,
+    "creationDate": "12-12-2017",
+    "doneDate": "01-11-2019",
+    "deadline": "12-12-2020"
+  }
+]

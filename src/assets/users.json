@@ -1,0 +1,37 @@
+[
+  {
+    "id": "k1pdqzyl",
+    "role": "admin",
+    "username": "admin",
+    "password": "admin",
+    "firstName": "And",
+    "lastName": "W",
+    "email": "andreywirz@gmail.com",
+    "creationDate": "10-10-2019",
+    "lastLoginDate": "10-10-2019"
+  },
+
+  {
+    "id": "k1pdqsfy",
+    "role": "user",
+    "username": "testuser1",
+    "password": "test",
+    "firstName": "test",
+    "lastName": "test",
+    "email": "test@test.com",
+    "creationDate": "10-10-2019",
+    "lastLoginDate": "10-10-2019"
+  },
+
+  {
+    "id": "k1pdqoe6",
+    "role": "user",
+    "username": "testuser2",
+    "password": "test2",
+    "firstName": "test2",
+    "lastName": "test2",
+    "email": "test2@test.com",
+    "creationDate": "10-10-2019",
+    "lastLoginDate": "10-10-2019"
+  }
+]

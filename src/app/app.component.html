@@ -1,0 +1,20 @@
+<div class="ui container">
+  <h1 class="ui centered header" translate>{{'ProjectTitle'}}</h1>
+    <div class="ui grid">
+        <div class="fifteen wide column">
+          <nav class="clearfix ui three item menu">
+            <!-- Damit die Aktivierung von Startseite-Element in dem Menu nur beim Startseite angezeigt wird, brauche ich Direktive [routerLinkActiveOptions]="{exact: true}"-->
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="item">{{'ToDo-List'| translate}}</a>
+            <a routerLink="/done" routerLinkActive="active" class="item">{{'Done-Todos'|translate}}</a>
+            <a routerLink="/account" routerLinkActive="active" class="item">{{'UserProfile'|translate}}</a>
+          </nav>
+        </div>
+        <div class="one wide column">
+          <select class="ui dropdown button" #langSelect (change)="translateService.use(langSelect.value)">
+              <option class="item" *ngFor="let lang of translateService.getLangs()" value="{{lang}}">{{lang}}</option>
+          </select>
+        </div>
+    </div>
+    <br>
+  <router-outlet></router-outlet>
+</div>
