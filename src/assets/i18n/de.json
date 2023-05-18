@@ -33,5 +33,6 @@
   "Completed!": "Erledigt!",
   "Required": "Pflichtsfeld",
   "Max25Symbols": "Maximal 25 Zeichen",
-  "Max150Symbols": "Maximal 150 Zeichen"
+  "Max150Symbols": "Maximal 150 Zeichen",
+  "todoList-tab-title": "Generelle Aufgaben"
 }

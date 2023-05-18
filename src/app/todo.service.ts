@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Todo } from './todo';
-import { User } from './user';
 import { HttpClient } from '@angular/common/http';
+import { Todo, User } from './types';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
 
-  public allTodos: any;
-  public todoId: number;
-  public userId: string;
-  public currDay = new Date();
-  public todo = new Todo();
-  public user = new User();
-  public allUsers: any;
+  allTodos: any;
+  todoId: number;
+  userId: string;
+  currDay = new Date();
+  todo: Todo;
+  user: User;
+  allUsers: User[];
   private url = '../assets/testTodos.json';
   private users = '../assets/users.json';
 
@@ -24,8 +24,8 @@ export class TodoService {
     return this.http.get(this.url);
   }
 
-  getUsers() {
-    return this.http.get(this.users);
+  getUsers(): Observable<User[]> {
+    return this.http.get(this.users) as Observable<User[]>;
   }
 
   setUserId() {
