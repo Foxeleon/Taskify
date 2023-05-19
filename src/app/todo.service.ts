@@ -42,13 +42,13 @@ export class TodoService {
            ].join('');
   }
 
-  completeTodo(arr: Todo[], i: number) {
-    if (arr[i].complete === false) {
-      arr[i].complete = true;
-      arr[i].doneDate = this.yyyymmdd(this.currDay);
+  completeTodo(arr: Todo[], index: number) {
+    if (arr[index].complete === false) {
+      arr[index].complete = true;
+      arr[index].doneDate = this.yyyymmdd(this.currDay);
       } else {
-        arr[i].complete = false;
-        arr[i].doneDate = '';
+        arr[index].complete = false;
+        arr[index].doneDate = '';
       }
     this.updateTodoStore(arr);
   }

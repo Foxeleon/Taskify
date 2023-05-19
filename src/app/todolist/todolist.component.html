@@ -12,37 +12,37 @@
           <th translate>{{'TableDelete'}}</th>
         </tr>
         </thead>
-        <tbody>
-        <tr *ngFor="let todo of todos; index as i">
-          <td data-label="Title">
-            <a class="ui ribbon label" (click)="showDetails(todo.id)">{{i + 1}}</a>
-            {{todo.title}}
-          </td>
-          <td data-label="TODO">{{todo.todoText}}</td>
-          <td data-label="Deadline">{{todo.deadline}}</td>
-          <td data-label="Complete?">
-            <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
-              <input type="checkbox" name="public" [checked]="todo.complete==true">
-              <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
-              <ng-template #newTodo>
-                <label translate>{{'Complete issue'}}</label>
-              </ng-template>
-              <ng-template #completedTodo>
-                <label translate>{{'Completed!'}}</label>
-              </ng-template>
-            </div>
-          </td>
-          <td data-label="Delete">
-            <div class="ui small basic icon buttons">
-              <button class="ui button">
-                <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
-              </button>
-              <button class="ui button" *ngIf="false">
-                <i class="edit green large link icon right" (click)="this.tdService.updateTodo(todos, i)"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
+        <tbody *ngFor="let todo of todos; index as i">
+          <tr *ngIf="!todo.complete">
+            <td data-label="Title">
+              <a class="ui ribbon label" (click)="showDetails(todo.id)">{{i + 1}}</a>
+              {{todo.title}}
+            </td>
+            <td data-label="TODO">{{todo.todoText}}</td>
+            <td data-label="Deadline">{{todo.deadline}}</td>
+            <td data-label="Complete?">
+              <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
+                <input type="checkbox" name="public" [checked]="todo.complete==true">
+                <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
+                <ng-template #newTodo>
+                  <label translate>{{'Complete issue'}}</label>
+                </ng-template>
+                <ng-template #completedTodo>
+                  <label translate>{{'Completed!'}}</label>
+                </ng-template>
+              </div>
+            </td>
+            <td data-label="Delete">
+              <div class="ui small basic icon buttons">
+                <button class="ui button">
+                  <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
+                </button>
+                <button class="ui button" *ngIf="false">
+                  <i class="edit green large link icon right" (click)="this.tdService.updateTodo(todos, i)"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
       <div class="ui buttons" *ngIf="this.todos.length > 1">

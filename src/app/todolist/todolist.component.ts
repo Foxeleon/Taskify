@@ -27,20 +27,19 @@ export class TodolistComponent implements OnInit {
     arr.reverse();
     this.tdService.updateTodoStore(arr);
   }
-/**
-  sortDeadline(arr: Todo[]) {
-    arr.sort(this.compare);
-    this.tdService.updateTodoStore(arr);
-  }
 
-  compare(a: Todo[], b: Todo[]) {
-    if ( a.deadline < b.deadline ){
-        return -1;
-      }
-    if ( a.ldeadline > b.deadline ){
-        return 1;
-        }
-    return 0;
-    }
-*/
+  // sortDeadline(arr: Todo[]) {
+  //   arr.sort(this.compare);
+  //   this.tdService.updateTodoStore(arr);
+  // }
+  //
+  // compare(a: Todo[], b: Todo[]) {
+  //   if ( a.deadline < b.deadline ){
+  //       return -1;
+  //     }
+  //   if ( a.ldeadline > b.deadline ){
+  //       return 1;
+  //       }
+  //   return 0;
+  //   }
 }
