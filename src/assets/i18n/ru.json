@@ -34,5 +34,6 @@
   "Required": "обязательное поле",
   "Max25Symbols": "Максимум 25 символов",
   "Max150Symbols": "Максимум 150 символов",
-  "todoList-tab-title": "Общий список дел"
+  "todoList-tab-title": "Общий список дел",
+  "dailyTodos-tab-title": "Дела на день"
 }

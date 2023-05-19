@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TodoService } from '../todo.service';
+import { Todo } from '../types';
 
 @Component({
   selector: 'app-home',
@@ -9,12 +10,12 @@ import { TodoService } from '../todo.service';
 })
 export class HomeComponent implements OnInit {
 
-  public todos = [];
-  public accordeonActive = true;
-  public holdTitle: boolean;
-  public todoTextArea = false;
-  public currTitle: string;
-  public todoTextIconClass = {
+  todos: Todo[] = [];
+  accordeonActive = true;
+  holdTitle: boolean;
+  todoTextArea = false;
+  currTitle: string;
+  todoTextIconClass = {
     right: !this.todoTextArea,
     down: this.todoTextArea,
     yellow: this.todoTextArea,
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
   };
   todoForm: any;
 
-  constructor( private fb: FormBuilder, public tdService: TodoService ) {}
+  constructor( private fb: FormBuilder, private tdService: TodoService ) {}
 
   ngOnInit() {
     this.todoForm = this.fb.group({

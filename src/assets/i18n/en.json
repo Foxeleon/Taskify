@@ -34,5 +34,6 @@
   "Required": "Required",
   "Max25Symbols": "Max 25 symbols",
   "Max150Symbols": "Max 150 symbols",
-  "todoList-tab-title": "General Todos"
+  "todoList-tab-title": "General Todos",
+  "dailyTodos-tab-title": "Dayly Todos"
 }

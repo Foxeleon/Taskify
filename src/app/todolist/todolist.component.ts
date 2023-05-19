@@ -10,7 +10,7 @@ import { Todo } from '../types';
 })
 export class TodolistComponent implements OnInit {
 
-  @Input() public todos: [];
+  @Input() public todos: Todo[];
 
   constructor( public tdService: TodoService, private router: Router ) { }
 
