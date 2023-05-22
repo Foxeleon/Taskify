@@ -1,0 +1,49 @@
+<div class="ui accordion">
+  <div class="title ui dividing header" [class.active]="panelOpenState" (click)="this.panelOpenState = !this.panelOpenState;">
+    <i class="icon dropdown"></i>
+    {{'weeklyTodoForm header' | translate}}
+  </div>
+  <div class="content" [class.active]="panelOpenState">
+    <form [formGroup]="weeklyTodoForm" class="ui form">
+      <div class="form-group two fields">
+        <div class="ui labeled input field" [class.error]="weeklyTodoForm.get('title').errors?.maxlength && weeklyTodoForm.get('title').touched">
+          <label class="ui label button" translate><i class="plus circle icon"></i>{{'ToDotitleForm'}}</label>
+          <input class="ui labeled input" type="text" class="form-control" formControlName="title" placeholder="{{'ToDotitlePlaceholder'|translate}}">
+          <small *ngIf="weeklyTodoForm.get('title').errors?.maxlength" class="ui left pointing red basic label">{{'Max25Symbols'|translate}}</small>
+        </div>
+        <div class="ui calendar labeled input field" [class.error]="weeklyTodoForm.get('deadline').invalid">
+          <label class="ui label">
+            <i class="calendar check outline icon"></i>
+            {{'Deadline' | translate}}
+          </label>
+          <input type="date" class="form-control" formControlName="deadline" value="weeklyTodoForm.get('deadline')">
+          <a *ngIf="weeklyTodoForm.get('deadline').untouched" class="ui tag label">{{'SelectDeadline'|translate}}</a>
+          <small *ngIf="weeklyTodoForm.get('deadline').invalid" class="ui left pointing red basic label">{{'Required'|translate}}</small>
+        </div>
+      </div>
+      <div class="form-group field">
+        <div class="ui labeled input field" [class.error]="weeklyTodoForm.get('todoText').invalid && weeklyTodoForm.get('todoText').touched">
+          <label class="ui label">
+            <i class="write icon"></i>
+            {{'ToDoTextForm'|translate}}
+            <a class="detail">
+              <i [ngClass]="this.todoTextIconClass"></i>
+            </a>
+          </label>
+          <ng-template *ngIf="this.todoTextArea===false; then inputBlock; else textAreaBlock"></ng-template>
+          <ng-template #textAreaBlock>
+            <textarea  rows="3" class="ui labeled input" type="text" class="form-control" formControlName="todoText" placeholder="{{'newToDoPlaceholder'|translate}}"></textarea>
+          </ng-template>
+          <ng-template #inputBlock>
+            <input class="ui labeled input" type="text" class="form-control" formControlName="todoText" placeholder="{{'newToDoPlaceholder'|translate}}">
+          </ng-template>
+          <div *ngIf="weeklyTodoForm.get('todoText').invalid">
+            <small *ngIf="weeklyTodoForm.get('todoText').errors?.required && weeklyTodoForm.get('todoText').touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
+            <small *ngIf="weeklyTodoForm.get('todoText').errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
+          </div>
+        </div>
+      </div>
+      <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoText').invalid || weeklyTodoForm.get('deadline').invalid || weeklyTodoForm.get('title').errors?.maxlength" (click)="setTodo(); resetForm()">{{'TodoSubmit'|translate}}</button>
+    </form>
+  </div>
+</div>
