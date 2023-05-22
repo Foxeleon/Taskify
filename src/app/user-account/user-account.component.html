@@ -91,7 +91,7 @@ Users:
       <input formControlName="password" type="password" placeholder="Password">
       <div *ngIf="loginForm.get('password').invalid">
           <small *ngIf="loginForm.get('password').errors?.required && loginForm.get('password').touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
-          <small *ngIf="loginForm.get('password').errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
+          <small *ngIf="loginForm.get('password').errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'| translate}}</small>
       </div>
     </div>
   </div>

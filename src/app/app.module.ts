@@ -17,6 +17,14 @@ import { DetailsComponent } from './details/details.component';
 import { UserComponent } from './user/user.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { WeeklyToDoComponent } from './components/weekly-to-do/weekly-to-do.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -31,7 +39,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TodoListDoneComponent,
     UserAccountComponent,
     DetailsComponent,
-    UserComponent
+    UserComponent,
+    WeeklyToDoComponent
   ],
   imports: [
     MatTabsModule,
@@ -47,7 +56,14 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

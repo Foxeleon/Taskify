@@ -1,117 +1,55 @@
 <h4 class="ui dividing header" translate>{{'todoList header'}}</h4>
-<mat-tab-group>
-  <mat-tab label="{{'todoList-tab-title' | translate}}">
-    <div>
-      <table class="ui sortable celled table">
-        <thead>
-        <tr>
-          <th class="" (click)="sortTitle(this.todos)" translate>{{'TableTitle'}}</th>
-          <th translate>{{'TableTODO'}}</th>
-          <th translate>{{'TableDeadline'}}</th>
-          <th translate>{{'TableComplete'}}</th>
-          <th translate>{{'TableDelete'}}</th>
-        </tr>
-        </thead>
-        <tbody *ngFor="let todo of todos; index as i">
-          <tr *ngIf="!todo.complete">
-            <td data-label="Title">
-              <a class="ui ribbon label" (click)="showDetails(todo.id)">{{i + 1}}</a>
-              {{todo.title}}
-            </td>
-            <td data-label="TODO">{{todo.todoText}}</td>
-            <td data-label="Deadline">{{todo.deadline}}</td>
-            <td data-label="Complete?">
-              <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
-                <input type="checkbox" name="public" [checked]="todo.complete==true">
-                <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
-                <ng-template #newTodo>
-                  <label translate>{{'Complete issue'}}</label>
-                </ng-template>
-                <ng-template #completedTodo>
-                  <label translate>{{'Completed!'}}</label>
-                </ng-template>
-              </div>
-            </td>
-            <td data-label="Delete">
-              <div class="ui small basic icon buttons">
-                <button class="ui button">
-                  <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
-                </button>
-                <button class="ui button" *ngIf="false">
-                  <i class="edit green large link icon right" (click)="this.tdService.updateTodo(todos, i)"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="ui buttons" *ngIf="this.todos.length > 1">
-        <div class="ui labeled button" tabindex="0">
-          <button class="ui positive button" (click)="this.tdService.completeAll(todos)">{{'Complete all' | translate}}</button>
-          <div class="ui basic label">
-            <i class="sort rotated down icon"></i>
-            <div class="ui centered text">{{ "or" | translate}}</div>
-            <i class="sort rotated up icon"></i>
-          </div>
-          <button class="ui red button" (click)="this.tdService.clearToDoList(todos)">{{'Delete all' | translate}}</button>
+<table class="ui sortable celled table">
+  <thead>
+  <tr>
+    <th class="" (click)="sortTitle(this.todos)" translate>{{'TableTitle'}}</th>
+    <th translate>{{'TableTODO'}}</th>
+    <th translate>{{'TableDeadline'}}</th>
+    <th translate>{{'TableComplete'}}</th>
+    <th translate>{{'TableDelete'}}</th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let todo of todos; index as i">
+    <tr *ngIf="!todo.complete">
+      <td data-label="Title">
+        <a class="ui ribbon label" (click)="showDetails(todo.id)">{{i + 1}}</a>
+        {{todo.title}}
+      </td>
+      <td data-label="TODO">{{todo.todoText}}</td>
+      <td data-label="Deadline">{{todo.deadline}}</td>
+      <td data-label="Complete?">
+        <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
+          <input type="checkbox" name="public" [checked]="todo.complete==true">
+          <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
+          <ng-template #newTodo>
+            <label translate>{{'Complete issue'}}</label>
+          </ng-template>
+          <ng-template #completedTodo>
+            <label translate>{{'Completed!'}}</label>
+          </ng-template>
         </div>
-      </div>
-    </div>
-  </mat-tab>
-  <mat-tab label="{{'dailyTodos-tab-title' | translate}}">
-    <table class="ui sortable celled table">
-      <thead>
-      <tr>
-        <th class="" (click)="sortTitle(this.todos)" translate>{{'TableTitle'}}</th>
-        <th translate>{{'TableTODO'}}</th>
-        <th translate>{{'TableDeadline'}}</th>
-        <th translate>{{'TableComplete'}}</th>
-        <th translate>{{'TableDelete'}}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let todo of todos; index as i">
-        <td data-label="Title">
-          <a class="ui ribbon label" (click)="showDetails(todo.id)">{{i + 1}}</a>
-          {{todo.title}}
-        </td>
-        <td data-label="TODO">{{todo.todoText}}</td>
-        <td data-label="Deadline">{{todo.deadline}}</td>
-        <td data-label="Complete?">
-          <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
-            <input type="checkbox" name="public" [checked]="todo.complete==true">
-            <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
-            <ng-template #newTodo>
-              <label translate>{{'Complete issue'}}</label>
-            </ng-template>
-            <ng-template #completedTodo>
-              <label translate>{{'Completed!'}}</label>
-            </ng-template>
-          </div>
-        </td>
-        <td data-label="Delete">
-          <div class="ui small basic icon buttons">
-            <button class="ui button">
-              <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
-            </button>
-            <button class="ui button" *ngIf="false">
-              <i class="edit green large link icon right" (click)="this.tdService.updateTodo(todos, i)"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="ui buttons" *ngIf="this.todos.length > 1">
-      <div class="ui labeled button" tabindex="0">
-        <button class="ui positive button" (click)="this.tdService.completeAll(todos)">{{'Complete all' | translate}}</button>
-        <div class="ui basic label">
-          <i class="sort rotated down icon"></i>
-          <div class="ui centered text">{{ "or" | translate}}</div>
-          <i class="sort rotated up icon"></i>
+      </td>
+      <td data-label="Delete">
+        <div class="ui small basic icon buttons">
+          <button class="ui button">
+            <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
+          </button>
+          <button class="ui button" *ngIf="false">
+            <i class="edit green large link icon right" (click)="this.tdService.updateTodo(todos, i)"></i>
+          </button>
         </div>
-        <button class="ui red button" (click)="this.tdService.clearToDoList(todos)">{{'Delete all' | translate}}</button>
-      </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="ui buttons" *ngIf="this.todos.length > 1">
+  <div class="ui labeled button" tabindex="0">
+    <button class="ui positive button" (click)="this.tdService.completeAll(todos)">{{'Complete all' | translate}}</button>
+    <div class="ui basic label">
+      <i class="sort rotated down icon"></i>
+      <div class="ui centered text">{{ "or" | translate}}</div>
+      <i class="sort rotated up icon"></i>
     </div>
-  </mat-tab>
-</mat-tab-group>
+    <button class="ui red button" (click)="this.tdService.clearToDoList(todos)">{{'Delete all' | translate}}</button>
+  </div>
+</div>
