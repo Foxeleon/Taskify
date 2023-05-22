@@ -19,3 +19,17 @@ export interface User {
   password: string;
   lastLoginDate: Date;
 }
+
+export interface DailyToDo {
+  meaning: string;
+  title: string;
+  icon: string;
+  todoTextPlaceholder: string;
+}
+
+export interface DailyToDos {
+  target: DailyToDo;
+  part: DailyToDo;
+  longBox: DailyToDo;
+  personalGrowth: DailyToDo;
+}

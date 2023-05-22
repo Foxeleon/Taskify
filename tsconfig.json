@@ -12,7 +12,8 @@
     "importHelpers": true,
     "target": "es2022",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "src/app/types.d.ts"
     ],
     "lib": [
       "ES2022",

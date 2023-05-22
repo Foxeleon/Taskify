@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { WeeklyTodoService } from '../../weekly-todo.service';
-import { HomeComponent } from '../../home/home.component';
+import { DailyToDo, DailyToDos } from '../../types';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -9,7 +9,7 @@ import { HomeComponent } from '../../home/home.component';
   styleUrls: ['./weekly-to-do.component.css']
 })
 export class WeeklyToDoComponent implements OnInit {
-  panelOpenState = false;
+  panelOpenState = true;
   weeklyTodoForm: any;
   weeklyTodos: any[] = [];
   todoTextArea = false;
@@ -22,19 +22,69 @@ export class WeeklyToDoComponent implements OnInit {
     ui: true
   };
 
+  dailyToDos: DailyToDos = {
+    target: {
+      meaning: 'Target',
+      title: 'ЦЕЛЬ',
+      icon: 'crosshairs',
+      todoTextPlaceholder: 'Главная задача на день'
+    },
+    part: {
+      meaning: 'Part',
+      title: 'ЧАСТЬ ЗАДАЧИ',
+      icon: 'tasks',
+      todoTextPlaceholder: 'Часть длительного дела, которые решается в несколько этапов'
+    },
+    longBox: {
+      meaning: 'LongBox',
+      title: 'ДОЛГИЙ ЯЩИК',
+      icon: 'clock',
+      todoTextPlaceholder: 'Не срочное дело, которое давно надо бы сделать'
+    },
+    personalGrowth: {
+      meaning: 'PersonalGrowth',
+      title: 'РОСТ',
+      icon: 'chess king',
+      todoTextPlaceholder: 'Всё что увеличит ваш "личностный рост" сегодня'
+    }
+  };
+  dailyToDoArr: DailyToDo[] = this.getValues(this.dailyToDos);
+
   constructor( private fb: FormBuilder, private tdService: WeeklyTodoService ) {}
 
   ngOnInit(): void {
     this.weeklyTodoForm = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(25)] ],
-      todoText: ['', [Validators.required, Validators.maxLength(150)] ],
-      deadline: [this.tdService.yyyymmdd(this.tdService.currDay), [Validators.required]]
+      titleTarget: this.dailyToDos.target.title,
+      todoTextTarget: ['', [Validators.required, Validators.maxLength(150)] ],
+
+      titlePart: this.dailyToDos.part.title,
+      todoTextPart: ['', [Validators.required, Validators.maxLength(150)] ],
+
+      titleLongBox: this.dailyToDos.longBox.title,
+      todoTextLongBox: ['', [Validators.required, Validators.maxLength(150)] ],
+
+      titlePersonalGrowth: this.dailyToDos.personalGrowth.title,
+      todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(150)] ],
     });
+  }
+
+  getValues(object: DailyToDos): DailyToDo[] {
+    return Object.values(object);
+  }
+
+  setTodoTextAreaState() {
+    this.todoTextArea = !this.todoTextArea;
+    this.todoTextIconClass.right = !this.todoTextArea;
+    this.todoTextIconClass.down = this.todoTextArea;
+    this.todoTextIconClass.yellow = this.todoTextArea;
   }
 
   resetForm() {
     this.weeklyTodoForm.patchValue({
-      todoText: ''
+      todoTextTarget: '',
+      todoTextPart: '',
+      todoTextLongBox: '',
+      todoTextPersonalGrowth: '',
     });
   }
 
@@ -43,18 +93,19 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   setTodo(): void {
-    this.tdService.weeklyTodo = {
-      id: this.setId(),
-      title: this.weeklyTodoForm.value.title,
-      todoText: this.weeklyTodoForm.value.todoText,
-      complete: false,
-      creationDate: this.tdService.yyyymmdd(this.tdService.currDay),
-      doneDate: '',
-      deadline: this.weeklyTodoForm.value.deadline
-    };
-    this.weeklyTodos.unshift(this.tdService.todo);
-    this.tdService.updateTodoStore(this.weeklyTodos);
-    const todoId = JSON.stringify(this.tdService.todoId);
-    localStorage.setItem('todoId', todoId);
+    console.log('add');
+    // this.tdService.weeklyTodo = {
+    //   id: this.setId(),
+    //   title: this.weeklyTodoForm.value.title,
+    //   todoText: this.weeklyTodoForm.value.todoText,
+    //   complete: false,
+    //   creationDate: this.tdService.yyyymmdd(this.tdService.currDay),
+    //   doneDate: '',
+    //   deadline: this.weeklyTodoForm.value.deadline
+    // };
+    // this.weeklyTodos.unshift(this.tdService.todo);
+    // this.tdService.updateTodoStore(this.weeklyTodos);
+    // const todoId = JSON.stringify(this.tdService.todoId);
+    // localStorage.setItem('todoId', todoId);
   }
 }
