@@ -140,14 +140,14 @@ export class WeeklyToDoComponent implements OnInit {
                                                 break;
       case this.dailyToDosEntries.longBox.meaning: {
         this.todoTextArea.longBox = !this.todoTextArea.longBox;
-        this.todoTextIconClass.longbox.right = !this.todoTextArea.longBox;
+        this.todoTextIconClass.longbox.right = this.todoTextArea.longBox;
         this.todoTextIconClass.longbox.down = !this.todoTextArea.longBox;
         this.todoTextIconClass.longbox.yellow = !this.todoTextArea.longBox;
       }
                                                    break;
       case this.dailyToDosEntries.personalGrowth.meaning: {
         this.todoTextArea.personalGrowth = !this.todoTextArea.personalGrowth;
-        this.todoTextIconClass.personalgrowth.right = !this.todoTextArea.personalGrowth;
+        this.todoTextIconClass.personalgrowth.right = this.todoTextArea.personalGrowth;
         this.todoTextIconClass.personalgrowth.down = !this.todoTextArea.personalGrowth;
         this.todoTextIconClass.personalgrowth.yellow = !this.todoTextArea.personalGrowth;
       }
