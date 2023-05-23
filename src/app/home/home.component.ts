@@ -11,6 +11,7 @@ import { Todo } from '../types';
 export class HomeComponent implements OnInit {
 
   todos: Todo[] = [];
+  todosUncompleted: Todo[] = [];
   accordeonActive = true;
   holdTitle: boolean;
   todoTextArea = false;

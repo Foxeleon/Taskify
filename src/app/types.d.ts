@@ -21,15 +21,31 @@ export interface User {
 }
 
 export interface DailyToDo {
+  id: number;
+  titleTarget: string;
+  todoTextTarget: string;
+  titlePart: string;
+  todoTextPart: string;
+  titleLongBox: string;
+  todoTextLongBox: string;
+  titlePersonalGrowth: string;
+  todoTextPersonalGrowth: string;
+  complete: boolean;
+  weekDay: string;
+  creationDate: string;
+  doneDate: string;
+}
+
+export interface DailyToDoEntries {
   meaning: string;
   title: string;
   icon: string;
   todoTextPlaceholder: string;
 }
 
-export interface DailyToDos {
-  target: DailyToDo;
-  part: DailyToDo;
-  longBox: DailyToDo;
-  personalGrowth: DailyToDo;
+export interface DailyToDosEntries {
+  target: DailyToDoEntries;
+  part: DailyToDoEntries;
+  longBox: DailyToDoEntries;
+  personalGrowth: DailyToDoEntries;
 }

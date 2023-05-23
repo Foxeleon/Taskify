@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { WeeklyTodoService } from '../../weekly-todo.service';
-import { DailyToDo, DailyToDos } from '../../types';
+import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -11,7 +11,7 @@ import { DailyToDo, DailyToDos } from '../../types';
 export class WeeklyToDoComponent implements OnInit {
   panelOpenState = true;
   weeklyTodoForm: any;
-  weeklyTodos: any[] = [];
+  dailyTodos: DailyToDo[] = [];
   todoTextArea = {
     target: true,
     part: true,
@@ -53,7 +53,7 @@ export class WeeklyToDoComponent implements OnInit {
     },
   };
 
-  dailyToDos: DailyToDos = {
+  dailyToDosEntries: DailyToDosEntries = {
     target: {
       meaning: 'Target',
       title: 'ЦЕЛЬ',
@@ -79,73 +79,79 @@ export class WeeklyToDoComponent implements OnInit {
       todoTextPlaceholder: 'Всё что увеличит ваш "личностный рост" сегодня'
     }
   };
-  dailyToDoArr: DailyToDo[] = this.getValues(this.dailyToDos);
+  dailyToDoArr: DailyToDoEntries[] = this.getValues(this.dailyToDosEntries);
 
   constructor( private fb: FormBuilder, private tdService: WeeklyTodoService ) {}
 
   ngOnInit(): void {
     this.weeklyTodoForm = this.fb.group({
-      titleTarget: this.dailyToDos.target.title,
+      titleTarget: this.dailyToDosEntries.target.title,
       todoTextTarget: ['', [Validators.required, Validators.maxLength(150)] ],
 
-      titlePart: this.dailyToDos.part.title,
+      titlePart: this.dailyToDosEntries.part.title,
       todoTextPart: ['', [Validators.required, Validators.maxLength(150)] ],
 
-      titleLongBox: this.dailyToDos.longBox.title,
+      titleLongBox: this.dailyToDosEntries.longBox.title,
       todoTextLongBox: ['', [Validators.required, Validators.maxLength(150)] ],
 
-      titlePersonalGrowth: this.dailyToDos.personalGrowth.title,
+      titlePersonalGrowth: this.dailyToDosEntries.personalGrowth.title,
       todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(150)] ],
+    });
+    this.tdService.getWeeklyTodosStore();
+    this.tdService.dailyTodos.subscribe(val => {
+      this.tdService.updateWeekyTodosStore(val);
+      if (this.dailyTodos !== val) { this.dailyTodos = val; }
+      console.log(val);
     });
   }
 
   getTextAreaState(meaning: string): boolean {
     switch (meaning) {
-      case this.dailyToDos.target.meaning:
+      case this.dailyToDosEntries.target.meaning:
         return this.todoTextArea.target;
-      case this.dailyToDos.part.meaning:
+      case this.dailyToDosEntries.part.meaning:
         return this.todoTextArea.part;
-      case this.dailyToDos.longBox.meaning:
+      case this.dailyToDosEntries.longBox.meaning:
         return this.todoTextArea.longBox;
-      case this.dailyToDos.personalGrowth.meaning:
+      case this.dailyToDosEntries.personalGrowth.meaning:
         return this.todoTextArea.personalGrowth;
     }
   }
 
-  getValues(object: DailyToDos): DailyToDo[] {
+  getValues(object: DailyToDosEntries): DailyToDoEntries[] {
     return Object.values(object);
   }
 
   setTodoTextAreaState(meaning: string) {
     switch (meaning) {
-      case this.dailyToDos.target.meaning: {
+      case this.dailyToDosEntries.target.meaning: {
         this.todoTextArea.target = !this.todoTextArea.target;
         this.todoTextIconClass.target.right = this.todoTextArea.target;
         this.todoTextIconClass.target.down = !this.todoTextArea.target;
         this.todoTextIconClass.target.yellow = !this.todoTextArea.target;
       }
-                                           break;
-      case this.dailyToDos.part.meaning: {
+                                                  break;
+      case this.dailyToDosEntries.part.meaning: {
         this.todoTextArea.part = !this.todoTextArea.part;
         this.todoTextIconClass.part.right = this.todoTextArea.part;
         this.todoTextIconClass.part.down = !this.todoTextArea.part;
         this.todoTextIconClass.part.yellow = !this.todoTextArea.part;
       }
-                                         break;
-      case this.dailyToDos.longBox.meaning: {
+                                                break;
+      case this.dailyToDosEntries.longBox.meaning: {
         this.todoTextArea.longBox = !this.todoTextArea.longBox;
         this.todoTextIconClass.longbox.right = !this.todoTextArea.longBox;
         this.todoTextIconClass.longbox.down = !this.todoTextArea.longBox;
         this.todoTextIconClass.longbox.yellow = !this.todoTextArea.longBox;
       }
-                                            break;
-      case this.dailyToDos.personalGrowth.meaning: {
+                                                   break;
+      case this.dailyToDosEntries.personalGrowth.meaning: {
         this.todoTextArea.personalGrowth = !this.todoTextArea.personalGrowth;
         this.todoTextIconClass.personalgrowth.right = !this.todoTextArea.personalGrowth;
         this.todoTextIconClass.personalgrowth.down = !this.todoTextArea.personalGrowth;
         this.todoTextIconClass.personalgrowth.yellow = !this.todoTextArea.personalGrowth;
       }
-                                                   break;
+                                                          break;
     }
   }
 
@@ -163,19 +169,22 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   setTodo(): void {
-    console.log('add');
-    // this.tdService.weeklyTodo = {
-    //   id: this.setId(),
-    //   title: this.weeklyTodoForm.value.title,
-    //   todoText: this.weeklyTodoForm.value.todoText,
-    //   complete: false,
-    //   creationDate: this.tdService.yyyymmdd(this.tdService.currDay),
-    //   doneDate: '',
-    //   deadline: this.weeklyTodoForm.value.deadline
-    // };
-    // this.weeklyTodos.unshift(this.tdService.todo);
-    // this.tdService.updateTodoStore(this.weeklyTodos);
-    // const todoId = JSON.stringify(this.tdService.todoId);
-    // localStorage.setItem('todoId', todoId);
+    this.tdService.dailyTodo = {
+      titleTarget: this.weeklyTodoForm.value.titleTarget,
+      titleLongBox: this.weeklyTodoForm.value.titleLongBox,
+      titlePart: this.weeklyTodoForm.value.titlePart,
+      titlePersonalGrowth: this.weeklyTodoForm.value.titlePersonalGrowth,
+      todoTextLongBox: this.weeklyTodoForm.value.todoTextLongBox,
+      todoTextPart: this.weeklyTodoForm.value.todoTextPart,
+      todoTextPersonalGrowth: this.weeklyTodoForm.value.todoTextPersonalGrowth,
+      todoTextTarget: this.weeklyTodoForm.value.todoTextTarget,
+      weekDay: '',
+      id: this.setId(),
+      complete: false,
+      creationDate: this.tdService.yyyymmdd(this.tdService.currDay),
+      doneDate: ''
+    };
+    this.dailyTodos.unshift(this.tdService.dailyTodo);
+    this.tdService.updateWeekyTodos(this.dailyTodos);
   }
 }
