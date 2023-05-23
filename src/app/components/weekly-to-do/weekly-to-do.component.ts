@@ -12,14 +12,45 @@ export class WeeklyToDoComponent implements OnInit {
   panelOpenState = true;
   weeklyTodoForm: any;
   weeklyTodos: any[] = [];
-  todoTextArea = false;
+  todoTextArea = {
+    target: true,
+    part: true,
+    longBox: true,
+    personalGrowth: true
+  };
   todoTextIconClass = {
-    right: !this.todoTextArea,
-    down: this.todoTextArea,
-    yellow: this.todoTextArea,
-    triangle: true,
-    icon: true,
-    ui: true
+    target: {
+      right: this.todoTextArea.target,
+      down: !this.todoTextArea.target,
+      yellow: !this.todoTextArea.target,
+      triangle: true,
+      icon: true,
+      ui: true
+    },
+    part: {
+      right: this.todoTextArea.part,
+      down: !this.todoTextArea.part,
+      yellow: !this.todoTextArea.part,
+      triangle: true,
+      icon: true,
+      ui: true
+    },
+    longbox: {
+      right: this.todoTextArea.longBox,
+      down: !this.todoTextArea.longBox,
+      yellow: !this.todoTextArea.longBox,
+      triangle: true,
+      icon: true,
+      ui: true
+    },
+    personalgrowth: {
+      right: this.todoTextArea.personalGrowth,
+      down: !this.todoTextArea.personalGrowth,
+      yellow: !this.todoTextArea.personalGrowth,
+      triangle: true,
+      icon: true,
+      ui: true
+    },
   };
 
   dailyToDos: DailyToDos = {
@@ -68,15 +99,54 @@ export class WeeklyToDoComponent implements OnInit {
     });
   }
 
+  getTextAreaState(meaning: string): boolean {
+    switch (meaning) {
+      case this.dailyToDos.target.meaning:
+        return this.todoTextArea.target;
+      case this.dailyToDos.part.meaning:
+        return this.todoTextArea.part;
+      case this.dailyToDos.longBox.meaning:
+        return this.todoTextArea.longBox;
+      case this.dailyToDos.personalGrowth.meaning:
+        return this.todoTextArea.personalGrowth;
+    }
+  }
+
   getValues(object: DailyToDos): DailyToDo[] {
     return Object.values(object);
   }
 
-  setTodoTextAreaState() {
-    this.todoTextArea = !this.todoTextArea;
-    this.todoTextIconClass.right = !this.todoTextArea;
-    this.todoTextIconClass.down = this.todoTextArea;
-    this.todoTextIconClass.yellow = this.todoTextArea;
+  setTodoTextAreaState(meaning: string) {
+    switch (meaning) {
+      case this.dailyToDos.target.meaning: {
+        this.todoTextArea.target = !this.todoTextArea.target;
+        this.todoTextIconClass.target.right = this.todoTextArea.target;
+        this.todoTextIconClass.target.down = !this.todoTextArea.target;
+        this.todoTextIconClass.target.yellow = !this.todoTextArea.target;
+      }
+                                           break;
+      case this.dailyToDos.part.meaning: {
+        this.todoTextArea.part = !this.todoTextArea.part;
+        this.todoTextIconClass.part.right = this.todoTextArea.part;
+        this.todoTextIconClass.part.down = !this.todoTextArea.part;
+        this.todoTextIconClass.part.yellow = !this.todoTextArea.part;
+      }
+                                         break;
+      case this.dailyToDos.longBox.meaning: {
+        this.todoTextArea.longBox = !this.todoTextArea.longBox;
+        this.todoTextIconClass.longbox.right = !this.todoTextArea.longBox;
+        this.todoTextIconClass.longbox.down = !this.todoTextArea.longBox;
+        this.todoTextIconClass.longbox.yellow = !this.todoTextArea.longBox;
+      }
+                                            break;
+      case this.dailyToDos.personalGrowth.meaning: {
+        this.todoTextArea.personalGrowth = !this.todoTextArea.personalGrowth;
+        this.todoTextIconClass.personalgrowth.right = !this.todoTextArea.personalGrowth;
+        this.todoTextIconClass.personalgrowth.down = !this.todoTextArea.personalGrowth;
+        this.todoTextIconClass.personalgrowth.yellow = !this.todoTextArea.personalGrowth;
+      }
+                                                   break;
+    }
   }
 
   resetForm() {

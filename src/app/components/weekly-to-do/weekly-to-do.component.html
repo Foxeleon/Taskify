@@ -15,10 +15,10 @@
               <i class="write icon"></i>
               {{'ToDoTextForm'|translate}}
               <a class="detail">
-                <i [ngClass]="this.todoTextIconClass" (click)="setTodoTextAreaState()"></i>
+                <i [ngClass]="this.todoTextIconClass[(dailyTodo.meaning).toLowerCase()]" (click)="setTodoTextAreaState(dailyTodo.meaning)"></i>
               </a>
             </label>
-            <ng-template *ngIf="this.todoTextArea===false; then inputBlock; else textAreaBlock"></ng-template>
+            <ng-template *ngIf="getTextAreaState(dailyTodo.meaning); then inputBlock; else textAreaBlock"></ng-template>
             <ng-template #textAreaBlock>
               <textarea  rows="3" class="ui labeled input" type="text" class="form-control" formControlName="{{'todoText' + dailyTodo.meaning}}" placeholder="{{dailyTodo.todoTextPlaceholder}}"></textarea>
             </ng-template>
