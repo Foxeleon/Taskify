@@ -79,9 +79,9 @@ export class WeeklyToDoComponent implements OnInit {
       todoTextPlaceholder: 'Всё что увеличит ваш "личностный рост" сегодня'
     }
   };
-  dailyToDoArr: DailyToDoEntries[] = this.getValues(this.dailyToDosEntries);
+  dailyToDosEntriesArr: DailyToDoEntries[] = this.getValues(this.dailyToDosEntries);
 
-  constructor( private fb: FormBuilder, private tdService: WeeklyTodoService ) {}
+  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService ) {}
 
   ngOnInit(): void {
     this.weeklyTodoForm = this.fb.group({
@@ -97,11 +97,11 @@ export class WeeklyToDoComponent implements OnInit {
       titlePersonalGrowth: this.dailyToDosEntries.personalGrowth.title,
       todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(150)] ],
     });
-    this.tdService.getWeeklyTodosStore();
-    this.tdService.dailyTodos.subscribe(val => {
-      this.tdService.updateWeekyTodosStore(val);
-      if (this.dailyTodos !== val) { this.dailyTodos = val; }
-      console.log(val);
+    this.weeklyTodoService.getWeeklyTodosStore();
+    this.weeklyTodoService.dailyTodos.subscribe(dailyTodos => {
+      this.weeklyTodoService.updateWeekyTodosStore(dailyTodos);
+      if (this.dailyTodos !== dailyTodos) { this.dailyTodos = dailyTodos; }
+      console.log(dailyTodos);
     });
   }
 
@@ -165,11 +165,11 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   setId() {
-    return this.tdService.todoId++;
+    return this.weeklyTodoService.todoId++;
   }
 
   setTodo(): void {
-    this.tdService.dailyTodo = {
+    this.weeklyTodoService.dailyTodo = {
       titleTarget: this.weeklyTodoForm.value.titleTarget,
       titleLongBox: this.weeklyTodoForm.value.titleLongBox,
       titlePart: this.weeklyTodoForm.value.titlePart,
@@ -181,10 +181,10 @@ export class WeeklyToDoComponent implements OnInit {
       weekDay: '',
       id: this.setId(),
       complete: false,
-      creationDate: this.tdService.yyyymmdd(this.tdService.currDay),
+      creationDate: this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay),
       doneDate: ''
     };
-    this.dailyTodos.unshift(this.tdService.dailyTodo);
-    this.tdService.updateWeekyTodos(this.dailyTodos);
+    this.dailyTodos.unshift(this.weeklyTodoService.dailyTodo);
+    this.weeklyTodoService.updateWeekyTodos(this.dailyTodos);
   }
 }

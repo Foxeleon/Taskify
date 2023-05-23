@@ -5,33 +5,53 @@
   </div>
   <div class="content" [class.active]="panelOpenState">
     <form [formGroup]="weeklyTodoForm" class="ui form">
-        <div class="form-group two fields" *ngFor="let dailyTodo of dailyToDoArr">
+        <div class="form-group two fields" *ngFor="let dailyToDosEntrie of dailyToDosEntriesArr">
           <div class="ui labeled input field">
-            <label class="ui label"><i class="{{dailyTodo.icon}} circle icon"></i>{{dailyTodo.title}}</label>
-            <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + dailyTodo.meaning}}" placeholder="{{dailyTodo.title}}">
+            <label class="ui label"><i class="{{dailyToDosEntrie.icon}} circle icon"></i>{{dailyToDosEntrie.title}}</label>
+            <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + dailyToDosEntrie.meaning}}" placeholder="{{dailyToDosEntrie.title}}">
           </div>
-          <div class="ui labeled input field" [class.error]="weeklyTodoForm.get('todoText' + dailyTodo.meaning).invalid && weeklyTodoForm.get('todoText' + dailyTodo.meaning).touched">
+          <div class="ui labeled input field" [class.error]="weeklyTodoForm.get('todoText' + dailyToDosEntrie.meaning).invalid && weeklyTodoForm.get('todoText' + dailyToDosEntrie.meaning).touched">
             <label class="ui label">
               <i class="write icon"></i>
               {{'ToDoTextForm'|translate}}
               <a class="detail">
-                <i [ngClass]="this.todoTextIconClass[(dailyTodo.meaning).toLowerCase()]" (click)="setTodoTextAreaState(dailyTodo.meaning)"></i>
+                <i [ngClass]="this.todoTextIconClass[(dailyToDosEntrie.meaning).toLowerCase()]" (click)="setTodoTextAreaState(dailyToDosEntrie.meaning)"></i>
               </a>
             </label>
-            <ng-template *ngIf="getTextAreaState(dailyTodo.meaning); then inputBlock; else textAreaBlock"></ng-template>
+            <ng-template *ngIf="getTextAreaState(dailyToDosEntrie.meaning); then inputBlock; else textAreaBlock"></ng-template>
             <ng-template #textAreaBlock>
-              <textarea  rows="3" class="ui labeled input" type="text" class="form-control" formControlName="{{'todoText' + dailyTodo.meaning}}" placeholder="{{dailyTodo.todoTextPlaceholder}}"></textarea>
+              <textarea  rows="3" class="ui labeled input" type="text" class="form-control" formControlName="{{'todoText' + dailyToDosEntrie.meaning}}" placeholder="{{dailyToDosEntrie.todoTextPlaceholder}}"></textarea>
             </ng-template>
             <ng-template #inputBlock>
-              <input class="ui labeled input" type="text" class="form-control" formControlName="{{'todoText' + dailyTodo.meaning}}" placeholder="{{dailyTodo.todoTextPlaceholder}}">
+              <input class="ui labeled input" type="text" class="form-control" formControlName="{{'todoText' + dailyToDosEntrie.meaning}}" placeholder="{{dailyToDosEntrie.todoTextPlaceholder}}">
             </ng-template>
-            <div *ngIf="weeklyTodoForm.get('todoText' + dailyTodo.meaning).invalid">
-              <small *ngIf="weeklyTodoForm.get('todoText' + dailyTodo.meaning).errors?.required && weeklyTodoForm.get('todoText' + dailyTodo.meaning).touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
-              <small *ngIf="weeklyTodoForm.get('todoText' + dailyTodo.meaning).errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
+            <div *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntrie.meaning).invalid">
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntrie.meaning).errors?.required && weeklyTodoForm.get('todoText' + dailyToDosEntrie.meaning).touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntrie.meaning).errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
             </div>
           </div>
         </div>
       <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid || weeklyTodoForm.get('todoTextPart').invalid || weeklyTodoForm.get('todoTextLongBox').invalid || weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo(); resetForm()">{{'TodoSubmit'|translate}}</button>
     </form>
+  </div>
+</div>
+<div class="ui cards" *ngFor="let dailyTodo of dailyTodos">
+  <a>{{'Monday' | translate}}</a>
+  <div class="ui card">
+    <div class="content">
+      <a class="header">{{dailyTodo.titleTarget}}</a>
+      <div class="meta">
+        <span class="date">Joined in 2013</span>
+      </div>
+      <div class="description">
+        Kristy is an art director living in New York.
+      </div>
+    </div>
+    <div class="extra content">
+      <a>
+        <i class="user icon"></i>
+        22 Friends
+      </a>
+    </div>
   </div>
 </div>
