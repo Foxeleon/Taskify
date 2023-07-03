@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { WeeklyTodoService } from '../../weekly-todo.service';
 import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -9,9 +10,12 @@ import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
   styleUrls: ['./weekly-to-do.component.css']
 })
 export class WeeklyToDoComponent implements OnInit {
+
   panelOpenState = true;
   weeklyTodoForm: any;
+  singleTodoForm: any;
   dailyTodos: DailyToDo[] = [];
+
   todoTextArea = {
     target: true,
     part: true,
@@ -80,10 +84,12 @@ export class WeeklyToDoComponent implements OnInit {
     }
   };
   dailyToDosEntriesArr: DailyToDoEntries[] = this.getValues(this.dailyToDosEntries);
+  dailyToDos$: Observable<DailyToDo[]>;
 
   constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService ) {}
 
   ngOnInit(): void {
+    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
     this.weeklyTodoForm = this.fb.group({
       titleTarget: this.dailyToDosEntries.target.title,
       todoTextTarget: ['', [Validators.required, Validators.maxLength(150)] ],
@@ -97,8 +103,12 @@ export class WeeklyToDoComponent implements OnInit {
       titlePersonalGrowth: this.dailyToDosEntries.personalGrowth.title,
       todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(150)] ],
     });
+
+    this.singleTodoForm = this.fb.group({
+    });
+
     this.weeklyTodoService.getWeeklyTodosStore();
-    this.weeklyTodoService.dailyTodos.subscribe(dailyTodos => {
+    this.dailyToDos$.subscribe(dailyTodos => {
       this.weeklyTodoService.updateWeekyTodosStore(dailyTodos);
       if (this.dailyTodos !== dailyTodos) { this.dailyTodos = dailyTodos; }
       console.log(dailyTodos);
@@ -169,7 +179,7 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   setTodo(): void {
-    this.weeklyTodoService.dailyTodo = {
+    const newDailyTodo = this.weeklyTodoService.dailyTodo = {
       titleTarget: this.weeklyTodoForm.value.titleTarget,
       titleLongBox: this.weeklyTodoForm.value.titleLongBox,
       titlePart: this.weeklyTodoForm.value.titlePart,
@@ -184,7 +194,8 @@ export class WeeklyToDoComponent implements OnInit {
       creationDate: this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay),
       doneDate: ''
     };
-    this.dailyTodos.unshift(this.weeklyTodoService.dailyTodo);
+    this.dailyTodos.unshift(newDailyTodo);
     this.weeklyTodoService.updateWeekyTodos(this.dailyTodos);
+    this.resetForm();
   }
 }

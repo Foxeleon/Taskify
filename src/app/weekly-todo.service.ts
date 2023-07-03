@@ -12,7 +12,7 @@ export class WeeklyTodoService extends TodoService {
   dailyTodo: DailyToDo;
 
   dailyTodoSubject = new BehaviorSubject<DailyToDo[]>([]);
-  dailyTodos: Observable<DailyToDo[]> = this.dailyTodoSubject.asObservable();
+  dailyToDos$: Observable<DailyToDo[]> = this.dailyTodoSubject.asObservable();
 
   constructor(private httpWeekly: HttpClient) {
     super(httpWeekly);

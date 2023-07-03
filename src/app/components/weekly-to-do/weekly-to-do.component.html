@@ -4,7 +4,7 @@
     {{'weeklyTodoForm header' | translate}}
   </div>
   <div class="content" [class.active]="panelOpenState">
-    <form [formGroup]="weeklyTodoForm" class="ui form">
+    <form [formGroup]="weeklyTodoForm" class="ui form" style="padding-bottom: 10px;">
         <div class="form-group two fields" *ngFor="let dailyToDosEntry of dailyToDosEntriesArr">
           <div class="ui labeled input field">
             <label class="ui label"><i class="{{dailyToDosEntry.icon}} circle icon"></i>{{dailyToDosEntry.title}}</label>
@@ -31,27 +31,49 @@
             </div>
           </div>
         </div>
-      <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid || weeklyTodoForm.get('todoTextPart').invalid || weeklyTodoForm.get('todoTextLongBox').invalid || weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo(); resetForm()">{{'TodoSubmit'|translate}}</button>
+      <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid || weeklyTodoForm.get('todoTextPart').invalid || weeklyTodoForm.get('todoTextLongBox').invalid || weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
     </form>
   </div>
 </div>
-<div class="ui cards" *ngFor="let dailyTodo of dailyTodos">
-  <a>{{'Monday' | translate}}</a>
-  <div class="ui card">
-    <div class="content">
-      <a class="header">{{dailyTodo.titleTarget}}</a>
-      <div class="meta">
-        <span class="date">Joined in 2013</span>
-      </div>
-      <div class="description">
-        Kristy is an art director living in New York.
-      </div>
+<form class="ui form">
+  <div class="form-group two fields">
+    <div class="ui labeled input field disabled">
+      <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
+      <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + this.dailyToDosEntries.target.meaning}}" placeholder="{{this.dailyToDosEntries.target.title}}">
     </div>
-    <div class="extra content">
-      <a>
-        <i class="user icon"></i>
-        22 Friends
-      </a>
+    <div class="ui labeled input field disabled">
+      <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
+      <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + this.dailyToDosEntries.target.meaning}}" placeholder="{{this.dailyToDosEntries.target.title}}">
     </div>
   </div>
-</div>
+  <div class="form-group two fields">
+    <div class="ui labeled input field disabled">
+      <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
+      <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + this.dailyToDosEntries.target.meaning}}" placeholder="{{this.dailyToDosEntries.target.title}}">
+    </div>
+    <div class="ui labeled input field disabled">
+      <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
+      <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + this.dailyToDosEntries.target.meaning}}" placeholder="{{this.dailyToDosEntries.target.title}}">
+    </div>
+  </div>
+</form>
+<!--<div class="ui cards" *ngFor="let dailyTodo of dailyTodos">-->
+<!--  <a>{{'Monday' | translate}}</a>-->
+<!--  <div class="ui card">-->
+<!--    <div class="content">-->
+<!--      <a class="header">{{dailyTodo.titleTarget}}</a>-->
+<!--      <div class="meta">-->
+<!--        <span class="date">Joined in 2013</span>-->
+<!--      </div>-->
+<!--      <div class="description">-->
+<!--        Kristy is an art director living in New York.-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="extra content">-->
+<!--      <a>-->
+<!--        <i class="user icon"></i>-->
+<!--        22 Friends-->
+<!--      </a>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
