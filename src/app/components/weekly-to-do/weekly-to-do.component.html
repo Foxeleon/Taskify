@@ -35,28 +35,32 @@
     </form>
   </div>
 </div>
-<form class="ui form">
-  <div class="form-group two fields">
-    <div class="ui labeled input field disabled">
-      <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
-      <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + this.dailyToDosEntries.target.meaning}}" placeholder="{{this.dailyToDosEntries.target.title}}">
-    </div>
-    <div class="ui labeled input field disabled">
-      <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
-      <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + this.dailyToDosEntries.target.meaning}}" placeholder="{{this.dailyToDosEntries.target.title}}">
-    </div>
+<ng-container *ngFor="let dailyTodo of (dailyToDos$ | async)">
+  <div class="ui card weekly-to-do">
+    <form class="ui form">
+      <div class="form-group two fields weekly-to-do-two-fields">
+        <div class="ui labeled input field">
+          <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
+          <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextTarget}}">
+        </div>
+        <div class="ui labeled input field">
+          <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{this.dailyToDosEntries.part.title}}</label>
+          <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextPart}}">
+        </div>
+      </div>
+      <div class="form-group two fields weekly-to-do-two-fields">
+        <div class="ui labeled input field">
+          <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{this.dailyToDosEntries.longBox.title}}</label>
+          <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextLongBox}}">
+        </div>
+        <div class="ui labeled input field">
+          <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{this.dailyToDosEntries.personalGrowth.title}}</label>
+          <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextPersonalGrowth}}">
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="form-group two fields">
-    <div class="ui labeled input field disabled">
-      <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
-      <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + this.dailyToDosEntries.target.meaning}}" placeholder="{{this.dailyToDosEntries.target.title}}">
-    </div>
-    <div class="ui labeled input field disabled">
-      <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
-      <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + this.dailyToDosEntries.target.meaning}}" placeholder="{{this.dailyToDosEntries.target.title}}">
-    </div>
-  </div>
-</form>
+</ng-container>
 <!--<div class="ui cards" *ngFor="let dailyTodo of dailyTodos">-->
 <!--  <a>{{'Monday' | translate}}</a>-->
 <!--  <div class="ui card">-->

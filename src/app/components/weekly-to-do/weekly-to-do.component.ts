@@ -14,7 +14,6 @@ export class WeeklyToDoComponent implements OnInit {
   panelOpenState = true;
   weeklyTodoForm: any;
   singleTodoForm: any;
-  dailyTodos: DailyToDo[] = [];
 
   todoTextArea = {
     target: true,
@@ -107,10 +106,9 @@ export class WeeklyToDoComponent implements OnInit {
     this.singleTodoForm = this.fb.group({
     });
 
-    this.weeklyTodoService.getWeeklyTodosStore();
+    this.weeklyTodoService.getWeeklyTodosLocalStorage();
     this.dailyToDos$.subscribe(dailyTodos => {
-      this.weeklyTodoService.updateWeekyTodosStore(dailyTodos);
-      if (this.dailyTodos !== dailyTodos) { this.dailyTodos = dailyTodos; }
+      this.weeklyTodoService.updateWeekyTodosLocalStorage(dailyTodos);
       console.log(dailyTodos);
     });
   }
@@ -194,8 +192,9 @@ export class WeeklyToDoComponent implements OnInit {
       creationDate: this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay),
       doneDate: ''
     };
-    this.dailyTodos.unshift(newDailyTodo);
-    this.weeklyTodoService.updateWeekyTodos(this.dailyTodos);
+    const currentDailyTodos = this.weeklyTodoService.getWeekyTodos();
+    currentDailyTodos.unshift(newDailyTodo);
+    this.weeklyTodoService.updateWeekyTodos(currentDailyTodos);
     this.resetForm();
   }
 }

@@ -18,16 +18,20 @@ export class WeeklyTodoService extends TodoService {
     super(httpWeekly);
   }
 
+  getWeekyTodos(): DailyToDo[] {
+    return this.dailyTodoSubject.getValue();
+  }
+
   updateWeekyTodos(DailyToDoArr: DailyToDo[] ) {
     this.dailyTodoSubject.next(DailyToDoArr);
   }
 
-  updateWeekyTodosStore(arr: DailyToDo[]) {
+  updateWeekyTodosLocalStorage(arr: DailyToDo[]) {
     const todoStore = JSON.stringify(arr);
     localStorage.setItem('weeklyTodoStore', todoStore);
   }
 
-  getWeeklyTodosStore() {
+  getWeeklyTodosLocalStorage() {
     const weeklyTodosStore = JSON.parse(localStorage.getItem('weeklyTodoStore'));
     (weeklyTodosStore !== null) ? this.updateWeekyTodos(weeklyTodosStore) : this.updateWeekyTodos([]);
   }
