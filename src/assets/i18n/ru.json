@@ -35,5 +35,12 @@
   "Max25Symbols": "Максимум 25 символов",
   "Max150Symbols": "Максимум 150 символов",
   "todoList-tab-title": "Общий список дел",
-  "dailyTodos-tab-title": "Дела на день"
+  "dailyTodos-tab-title": "Дела на день",
+  "Sunday": "Воскресенье",
+  "Monday": "Понедельник",
+  "Tuesday": "Вторник",
+  "Wednesday": "Среда",
+  "Thursday": "Четверг",
+  "Friday": "Пятница",
+  "Saturday": "Суббота"
 }

@@ -39,10 +39,23 @@
   <div class="ui card weekly-to-do">
     <form class="ui form">
 <!--      TODO create Header with weekday, date(?) and complete day button(complete 'uncompleted' todo, without completed tasks)-->
+      <div class="ui segment">
+        <div class="two fields">
+          <div class="field">
+            <div class="ui toggle checkbox">
+              <input type="checkbox" name="gift" tabindex="0" class="hidden">
+              <label>Complete day</label>
+            </div>
+          </div>
+          <div class="field">
+            <div style="font-weight: bold; font-size: 1em">{{dailyTodo.weekDay | translate}}, {{dailyTodo.creationDate}}</div>
+          </div>
+        </div>
+      </div>
       <div class="form-group two fields weekly-to-do-two-fields">
         <div class="ui labeled input field">
           <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
-          <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget">
+          <input class="weekly-to-do-input ui labeled input" type="text" (click)="$event.target.select()" value="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget">
           <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)"><i class="check circle {{(dailyTodo.completeTarget) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
         </div>
         <div class="ui labeled input field">

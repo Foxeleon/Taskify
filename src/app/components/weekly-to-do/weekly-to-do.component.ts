@@ -15,6 +15,16 @@ export class WeeklyToDoComponent implements OnInit {
   weeklyTodoForm: any;
   singleTodoForm: any;
 
+  dayNames = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+  ];
+
   todoTextArea = {
     target: true,
     part: true,
@@ -115,6 +125,9 @@ export class WeeklyToDoComponent implements OnInit {
       console.log(dailyTodos);
     });
   }
+
+  getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
+  getDay = (): string => this.dayNames[this.weeklyTodoService.currDay.getDay()];
 
   completeDailyTodo(uniqueId: string, meaning?: string) {
     const weeklyTodosArray = this.weeklyTodoService.getWeekyTodos();
@@ -245,8 +258,8 @@ export class WeeklyToDoComponent implements OnInit {
       completePersonalGrowth: false,
 
       complete: false,
-      weekDay: '',
-      creationDate: this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay),
+      weekDay: this.getDay(),
+      creationDate: this.getDate(),
       doneDate: ''
     };
     const currentDailyTodos = this.weeklyTodoService.getWeekyTodos();
