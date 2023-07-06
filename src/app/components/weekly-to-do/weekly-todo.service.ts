@@ -48,7 +48,7 @@ export class WeeklyTodoService extends TodoService {
   setUniqueId(): string {
     const currentTime = new Date().getTime();
     const randomNumber = Math.floor(Math.random() * Math.pow(10, 13));
-    return btoa((currentTime + randomNumber).toString());
+    return (currentTime + randomNumber).toString(36);
   }
 
   setIdNumber(): number {
