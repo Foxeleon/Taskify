@@ -42,42 +42,26 @@
         <div class="ui labeled input field">
           <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
           <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextTarget}}">
+          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)"><i class="check circle green icon weekly-to-do-icon-size"></i></button>
         </div>
         <div class="ui labeled input field">
           <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{this.dailyToDosEntries.part.title}}</label>
           <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextPart}}">
+          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)"><i class="check circle green icon weekly-to-do-icon-size"></i></button>
         </div>
       </div>
       <div class="form-group two fields weekly-to-do-two-fields">
         <div class="ui labeled input field">
           <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{this.dailyToDosEntries.longBox.title}}</label>
           <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextLongBox}}">
+          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)"><i class="check circle green icon weekly-to-do-icon-size"></i></button>
         </div>
         <div class="ui labeled input field">
           <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{this.dailyToDosEntries.personalGrowth.title}}</label>
           <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextPersonalGrowth}}">
+          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)"><i class="check circle green icon weekly-to-do-icon-size"></i></button>
         </div>
       </div>
     </form>
   </div>
 </ng-container>
-<!--<div class="ui cards" *ngFor="let dailyTodo of dailyTodos">-->
-<!--  <a>{{'Monday' | translate}}</a>-->
-<!--  <div class="ui card">-->
-<!--    <div class="content">-->
-<!--      <a class="header">{{dailyTodo.titleTarget}}</a>-->
-<!--      <div class="meta">-->
-<!--        <span class="date">Joined in 2013</span>-->
-<!--      </div>-->
-<!--      <div class="description">-->
-<!--        Kristy is an art director living in New York.-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="extra content">-->
-<!--      <a>-->
-<!--        <i class="user icon"></i>-->
-<!--        22 Friends-->
-<!--      </a>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->

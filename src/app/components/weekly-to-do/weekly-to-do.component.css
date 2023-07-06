@@ -11,5 +11,9 @@
   font-weight: bold!important;
 }
 .weekly-to-do-two-fields {
-  margin: 0.3em -0.5em!important;
+  margin: 1em -0.5em!important;
+  align-items: center;
+}
+.weekly-to-do-icon-size {
+  font-size: 1.2em;
 }

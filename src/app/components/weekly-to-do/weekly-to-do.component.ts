@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { WeeklyTodoService } from '../../weekly-todo.service';
+import { WeeklyTodoService } from './weekly-todo.service';
 import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
 import { Observable } from 'rxjs';
 
@@ -88,7 +88,11 @@ export class WeeklyToDoComponent implements OnInit {
   constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService ) {}
 
   ngOnInit(): void {
+    // update weeklyTodos from localStorage
+    this.weeklyTodoService.getWeeklyTodosLocalStorage();
+
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
+
     this.weeklyTodoForm = this.fb.group({
       titleTarget: this.dailyToDosEntries.target.title,
       todoTextTarget: ['', [Validators.required, Validators.maxLength(150)] ],
@@ -106,11 +110,58 @@ export class WeeklyToDoComponent implements OnInit {
     this.singleTodoForm = this.fb.group({
     });
 
-    this.weeklyTodoService.getWeeklyTodosLocalStorage();
     this.dailyToDos$.subscribe(dailyTodos => {
       this.weeklyTodoService.updateWeekyTodosLocalStorage(dailyTodos);
       console.log(dailyTodos);
     });
+  }
+
+  completeDailyTodo(uniqueId: string, meaning?: string) {
+    const weeklyTodosArray = this.weeklyTodoService.getWeekyTodos();
+    let updatedWeeklyTodosArray: DailyToDo[];
+
+    switch (meaning) {
+      case this.dailyToDosEntries.target.meaning:
+        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
+          if (dailyTodo.uniqueId === uniqueId) {
+            return { ...dailyTodo, completeTarget: true };
+          }
+          return dailyTodo;
+        });
+        break;
+      case this.dailyToDosEntries.part.meaning:
+        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
+          if (dailyTodo.uniqueId === uniqueId) {
+            return { ...dailyTodo, completePart: true };
+          }
+          return dailyTodo;
+        });
+        break;
+      case this.dailyToDosEntries.longBox.meaning:
+        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
+          if (dailyTodo.uniqueId === uniqueId) {
+            return { ...dailyTodo, completeLongBox: true };
+          }
+          return dailyTodo;
+        });
+        break;
+      case this.dailyToDosEntries.personalGrowth.meaning:
+        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
+          if (dailyTodo.uniqueId === uniqueId) {
+            return { ...dailyTodo, completePersonalGrowth: true };
+          }
+          return dailyTodo;
+        });
+        break;
+      default:
+        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
+          if (dailyTodo.uniqueId === uniqueId) {
+            return { ...dailyTodo, complete: true };
+          }
+          return dailyTodo;
+        });
+    }
+    this.weeklyTodoService.updateWeekyTodos(updatedWeeklyTodosArray);
   }
 
   getTextAreaState(meaning: string): boolean {
@@ -172,23 +223,29 @@ export class WeeklyToDoComponent implements OnInit {
     });
   }
 
-  setId() {
-    return this.weeklyTodoService.todoId++;
-  }
-
   setTodo(): void {
     const newDailyTodo = this.weeklyTodoService.dailyTodo = {
+      uniqueId: this.weeklyTodoService.setUniqueId(),
+      idNumber: this.weeklyTodoService.setIdNumber(),
+
       titleTarget: this.weeklyTodoForm.value.titleTarget,
       titleLongBox: this.weeklyTodoForm.value.titleLongBox,
+      completeTarget: false,
+
       titlePart: this.weeklyTodoForm.value.titlePart,
       titlePersonalGrowth: this.weeklyTodoForm.value.titlePersonalGrowth,
+      completePart: false,
+
       todoTextLongBox: this.weeklyTodoForm.value.todoTextLongBox,
       todoTextPart: this.weeklyTodoForm.value.todoTextPart,
+      completeLongBox: false,
+
       todoTextPersonalGrowth: this.weeklyTodoForm.value.todoTextPersonalGrowth,
       todoTextTarget: this.weeklyTodoForm.value.todoTextTarget,
-      weekDay: '',
-      id: this.setId(),
+      completePersonalGrowth: false,
+
       complete: false,
+      weekDay: '',
       creationDate: this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay),
       doneDate: ''
     };

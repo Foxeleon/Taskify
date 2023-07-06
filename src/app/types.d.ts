@@ -21,15 +21,25 @@ export interface User {
 }
 
 export interface DailyToDo {
-  id: number;
+  uniqueId: string;
+  idNumber: number;
+
   titleTarget: string;
   todoTextTarget: string;
+  completeTarget?: boolean;
+
   titlePart: string;
   todoTextPart: string;
+  completePart?: boolean;
+
   titleLongBox: string;
   todoTextLongBox: string;
+  completeLongBox?: boolean;
+
   titlePersonalGrowth: string;
   todoTextPersonalGrowth: string;
+  completePersonalGrowth?: boolean;
+
   complete: boolean;
   weekDay: string;
   creationDate: string;
