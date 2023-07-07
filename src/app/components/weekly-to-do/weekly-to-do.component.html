@@ -42,8 +42,8 @@
       <div class="ui segment">
         <div class="two fields">
           <div class="field">
-            <div class="ui toggle checkbox">
-              <input type="checkbox" name="gift" tabindex="0" class="hidden">
+            <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
+              <input type="checkbox" name="gift" tabindex="0" class="hidden" [checked]="dailyTodo.complete==true">
               <label>Complete day</label>
             </div>
           </div>
