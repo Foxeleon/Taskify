@@ -2,12 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { WeeklyTodoService } from './weekly-todo.service';
 import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-weekly-to-do',
   templateUrl: './weekly-to-do.component.html',
-  styleUrls: ['./weekly-to-do.component.css']
+  styleUrls: ['./weekly-to-do.component.css'],
+  animations: [
+    trigger('animateDestroy', [
+      state('void', style({ opacity: '0' })),
+      transition('* => void', animate('500ms ease')),
+    ])
+  ]
 })
 export class WeeklyToDoComponent implements OnInit {
 
@@ -94,6 +101,10 @@ export class WeeklyToDoComponent implements OnInit {
   };
   dailyToDosEntriesArr: DailyToDoEntries[] = this.getValues(this.dailyToDosEntries);
   dailyToDos$: Observable<DailyToDo[]>;
+  dailyToDosUncompleted$: Observable<DailyToDo[]>;
+  dailyToDosCompleted$: Observable<DailyToDo[]>;
+  dailyToDosPartlyCompleted$: Observable<DailyToDo[]>;
+  dailyToDosFullyCompleted$: Observable<DailyToDo[]>;
 
   constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService ) {}
 
@@ -102,6 +113,20 @@ export class WeeklyToDoComponent implements OnInit {
     this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
+    this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
+    this.dailyToDosCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => dailyTodo.complete)));
+
+    this.dailyToDosPartlyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
+        // tslint:disable-next-line:max-line-length
+        (dailyTodo.complete && (dailyTodo.completePart || dailyTodo.completeTarget || dailyTodo.completeLongBox || dailyTodo.completePersonalGrowth) && (!dailyTodo.completePart || !dailyTodo.completeTarget || !dailyTodo.completeLongBox || !dailyTodo.completePersonalGrowth))))
+    );
+    this.dailyToDosFullyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
+        (dailyTodo.complete && (dailyTodo.completePart && dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth))))
+    );
+    this.dailyToDosUncompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
+    this.dailyToDosPartlyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
+    this.dailyToDosCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
+    this.dailyToDosFullyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
 
     this.weeklyTodoForm = this.fb.group({
       titleTarget: this.dailyToDosEntries.target.title,

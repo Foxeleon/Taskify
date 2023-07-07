@@ -28,6 +28,8 @@ export class HomeComponent implements OnInit {
 
   constructor( private fb: FormBuilder, private tdService: TodoService ) {}
 
+  // TODO make selectedIndex of mat-tab-group globally shared using ngrx
+
   ngOnInit() {
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(25)] ],

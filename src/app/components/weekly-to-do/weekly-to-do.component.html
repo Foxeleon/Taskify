@@ -35,10 +35,9 @@
     </form>
   </div>
 </div>
-<ng-container *ngFor="let dailyTodo of (dailyToDos$ | async)">
+<ng-container *ngFor="let dailyTodo of (dailyToDosUncompleted$ | async)">
   <div class="ui card weekly-to-do">
     <form class="ui form">
-<!--      TODO create Header with weekday, date(?) and complete day button(complete 'uncompleted' todo, without completed tasks)-->
       <div class="ui segment">
         <div class="two fields">
           <div class="field">
@@ -48,7 +47,7 @@
             </div>
           </div>
           <div class="field">
-            <div style="font-weight: bold; font-size: 1em">{{dailyTodo.weekDay | translate}}, {{dailyTodo.creationDate}}</div>
+            <div style="font-weight: bold; font-size: 1em">{{dailyTodo.weekDay | translate}}, {{dailyTodo.creationDate}}, ID: {{dailyTodo.idNumber}}</div>
           </div>
         </div>
       </div>
