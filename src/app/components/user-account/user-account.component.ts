@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { TodoService } from '../todo.service';
-import { User } from '../types';
+import { TodoService } from '../../todo.service';
+import { User } from '../../types';
 
 @Component({
   selector: 'app-user-account',

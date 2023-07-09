@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TodoService } from '../todo.service';
-import { Todo } from '../types';
-import { AppState } from '../store/app.state';
+import { TodoService } from '../../todo.service';
+import { Todo } from '../../types';
+import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
-import { HomeActions } from '../store/home.actions';
-import { selectTabIndex } from '../store/home.selector';
+import { HomeActions } from '../../store/home.actions';
+import { selectTabIndex } from '../../store/home.selector';
 import { Observable } from 'rxjs';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
@@ -38,7 +38,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.tabIndex$ = this.store.select(selectTabIndex);
-    this.tabIndex$.subscribe(value => console.log(value));
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(25)] ],
       todoText: ['', [Validators.required, Validators.maxLength(150)] ],

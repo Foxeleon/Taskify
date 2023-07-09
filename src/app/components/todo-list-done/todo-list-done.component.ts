@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TodoService } from '../todo.service';
-import { Todo } from '../types';
+import { TodoService } from '../../todo.service';
+import { Todo } from '../../types';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store/app.state';
-import { selectTabIndex } from '../store/home.selector';
+import { AppState } from '../../store/app.state';
+import { selectTabIndex } from '../../store/home.selector';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { HomeActions } from '../store/home.actions';
+import { HomeActions } from '../../store/home.actions';
 
 @Component({
   selector: 'app-todo-list-done',

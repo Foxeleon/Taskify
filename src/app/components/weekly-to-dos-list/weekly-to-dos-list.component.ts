@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { DailyToDo, DailyToDosEntries } from '../types';
+import { DailyToDo, DailyToDosEntries } from '../../types';
 import { FormBuilder } from '@angular/forms';
-import { WeeklyTodoService } from '../components/weekly-to-do/weekly-todo.service';
+import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
 import { map, Observable } from 'rxjs';
-import { selectDailyToDosEntries } from '../store/weekly-to-do.selector';
+import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store/app.state';
+import { AppState } from '../../store/app.state';
 
 @Component({
   selector: 'app-weekly-to-dos-list',
@@ -16,6 +16,7 @@ export class WeeklyToDosListComponent {
 
   constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState> ) {}
 
+  // TODO make this component universal for weekly-todo and weekly-todo-done components
   dailyToDosEntries: DailyToDosEntries;
   dailyToDosEntries$: Observable<DailyToDosEntries>;
   dailyToDos$: Observable<DailyToDo[]>;
@@ -87,5 +88,4 @@ export class WeeklyToDosListComponent {
     }
     this.weeklyTodoService.updateWeekyTodos(updatedWeeklyTodosArray);
   }
-
 }
