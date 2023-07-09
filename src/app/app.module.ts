@@ -25,6 +25,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { provideState, provideStore, StoreModule } from '@ngrx/store';
+import { homeReducer } from './store/home.reducer';
+import { HOME_FEATURE_KEY, HomeState } from './store/home.state';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -63,9 +67,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatExpansionModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    StoreModule.forRoot({homeReducer}, {})
   ],
-  providers: [],
+  providers: [
+    provideStore(),
+    provideState<HomeState>(HOME_FEATURE_KEY, homeReducer),
+    provideStoreDevtools(),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

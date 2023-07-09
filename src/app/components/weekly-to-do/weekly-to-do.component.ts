@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeeklyTodoService } from './weekly-todo.service';
 import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
 import { map, Observable } from 'rxjs';
@@ -19,8 +19,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class WeeklyToDoComponent implements OnInit {
 
   panelOpenState = true;
-  weeklyTodoForm: any;
-  singleTodoForm: any;
+  weeklyTodoForm: FormGroup;
+  singleTodoForm: FormGroup;
 
   dayNames = [
     'Sunday',
@@ -110,6 +110,7 @@ export class WeeklyToDoComponent implements OnInit {
 
   ngOnInit(): void {
     // update weeklyTodos from localStorage
+    console.log('weeklyTodo');
     this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;

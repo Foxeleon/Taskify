@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TodoService } from '../todo.service';
 import { Todo } from '../types';
+import { AppState } from '../store/app.state';
+import { Store } from '@ngrx/store';
+import { HomeActions } from '../store/home.actions';
+import { selectTabIndex } from '../store/home.selector';
+import { Observable } from 'rxjs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-home',
@@ -24,13 +30,21 @@ export class HomeComponent implements OnInit {
     icon: true,
     ui: true
   };
-  todoForm: any;
+  todoForm: FormGroup;
 
-  constructor( private fb: FormBuilder, private tdService: TodoService ) {}
+  tabIndex$: Observable<number>;
+  tabIndex = 1;
 
-  // TODO make selectedIndex of mat-tab-group globally shared using ngrx
+  constructor( private fb: FormBuilder, private tdService: TodoService, private store: Store<AppState>) {}
+
+  selectTabIndex(): Observable<number> {
+    return this.store.select(selectTabIndex);
+  }
 
   ngOnInit() {
+    this.store.dispatch(HomeActions.setTabIndex({appTabIndex: this.tabIndex}));
+    this.tabIndex$ = this.store.select(selectTabIndex);
+    this.tabIndex$.subscribe(value => console.log(value));
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(25)] ],
       todoText: ['', [Validators.required, Validators.maxLength(150)] ],
@@ -76,9 +90,16 @@ export class HomeComponent implements OnInit {
           this.todos = this.tdService.allTodos;
         }
       },
-      (error) => console.log(error),
-      () => console.log('Done')
+      (error) => console.log(error)
       );
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.store.dispatch(HomeActions.setTabIndex({appTabIndex: tabChangeEvent.index}));
+  }
+
+  setTab(appTabIndex: number) {
+    this.store.dispatch(HomeActions.setTabIndex({appTabIndex}));
   }
 
   setTodo(): void {
