@@ -1,0 +1,43 @@
+<ng-container *ngFor="let dailyTodo of (dailyToDos$ | async)">
+  <div class="ui card weekly-to-do">
+  <form class="ui form">
+    <div class="ui segment">
+      <div class="two fields">
+        <div class="field">
+          <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
+            <input type="checkbox" name="gift" tabindex="0" class="hidden" [checked]="dailyTodo.complete==true">
+            <label>Complete day</label>
+          </div>
+        </div>
+        <div class="field">
+          <div style="font-weight: bold; font-size: 1em">{{dailyTodo.weekDay | translate}}, {{dailyTodo.creationDate}}, ID: {{dailyTodo.idNumber}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group two fields weekly-to-do-two-fields">
+      <div class="ui labeled input field">
+        <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
+        <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget">
+        <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)"><i class="check circle {{(dailyTodo.completeTarget) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
+      </div>
+      <div class="ui labeled input field">
+        <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{this.dailyToDosEntries.part.title}}</label>
+        <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextPart}}" [disabled]="dailyTodo.completePart">
+        <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)"><i class="check circle {{(dailyTodo.completePart) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
+      </div>
+    </div>
+    <div class="form-group two fields weekly-to-do-two-fields">
+      <div class="ui labeled input field">
+        <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{this.dailyToDosEntries.longBox.title}}</label>
+        <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextLongBox}}" [disabled]="dailyTodo.completeLongBox">
+        <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)"><i class="check circle {{(dailyTodo.completeLongBox) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
+      </div>
+      <div class="ui labeled input field">
+        <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{this.dailyToDosEntries.personalGrowth.title}}</label>
+        <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextPersonalGrowth}}" [disabled]="dailyTodo.completePersonalGrowth">
+        <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)"><i class="check circle {{(dailyTodo.completePersonalGrowth) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
+      </div>
+    </div>
+  </form>
+</div>
+</ng-container>

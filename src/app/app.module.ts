@@ -29,6 +29,9 @@ import { provideState, provideStore, StoreModule } from '@ngrx/store';
 import { homeReducer } from './store/home.reducer';
 import { HOME_FEATURE_KEY, HomeState } from './store/home.state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { WeeklyToDosListComponent } from './weekly-to-dos-list/weekly-to-dos-list.component';
+import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './store/weekly-to-do.state';
+import { weeklyTodoReducer } from './store/weekly-to-do.reducer';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -44,7 +47,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserAccountComponent,
     DetailsComponent,
     UserComponent,
-    WeeklyToDoComponent
+    WeeklyToDoComponent,
+    WeeklyToDosListComponent
   ],
   imports: [
     MatTabsModule,
@@ -73,6 +77,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     provideStore(),
     provideState<HomeState>(HOME_FEATURE_KEY, homeReducer),
+    provideState<WeeklyTodoState>(WEEKLY_TODO_FEATURE_KEY, weeklyTodoReducer),
     provideStoreDevtools(),
   ],
   bootstrap: [AppComponent]
