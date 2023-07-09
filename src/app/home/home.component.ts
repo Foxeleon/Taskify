@@ -33,16 +33,10 @@ export class HomeComponent implements OnInit {
   todoForm: FormGroup;
 
   tabIndex$: Observable<number>;
-  tabIndex = 1;
 
   constructor( private fb: FormBuilder, private tdService: TodoService, private store: Store<AppState>) {}
 
-  selectTabIndex(): Observable<number> {
-    return this.store.select(selectTabIndex);
-  }
-
   ngOnInit() {
-    this.store.dispatch(HomeActions.setTabIndex({appTabIndex: this.tabIndex}));
     this.tabIndex$ = this.store.select(selectTabIndex);
     this.tabIndex$.subscribe(value => console.log(value));
     this.todoForm = this.fb.group({

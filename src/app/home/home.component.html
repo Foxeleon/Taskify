@@ -1,4 +1,4 @@
-<mat-tab-group (selectedTabChange)="tabChanged($event)" [selectedIndex]="tabIndex">
+<mat-tab-group (selectedTabChange)="tabChanged($event)" [selectedIndex]="this.tabIndex$ | async">
   <mat-tab label="{{'todoList-tab-title' | translate}}">
     <div class="ui accordion">
       <div class="title ui dividing header" [class.active]="accordeonActive" (click)="setAccordeonState()">

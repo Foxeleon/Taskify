@@ -1,58 +1,64 @@
-<ng-template *ngIf="checkCompletedTodos(this.todos); then doneList; else noList"></ng-template>
-<ng-template #doneList>
-<h4 class="ui dividing header" translate>{{'todoDoneList header'}}</h4>
-<table class="ui celled table">
-    <thead>
-      <tr>
-        <th translate class="sorted descending">{{'TableTitle'}}</th>
-        <th translate>{{'TableTODO'}}</th>
-        <th translate>{{'TableDoneDate'}}</th>
-        <th translate>{{'TableDeadline'}}</th>
-        <th translate>{{'TableComplete'}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let todo of todos; index as i">
-        <tr *ngIf="todo.complete != false" style="text-decoration:line-through;">
-          <td data-label="Title"><a class="ui ribbon label">{{i + 1}}</a>{{todo.title}}</td>
-          <td data-label="TODO">{{todo.todoText}}</td>
-          <td data-label="doneDate">{{todo.doneDate}}</td>
-          <td data-label="Deadline">{{todo.deadline}}</td>
-          <td data-label="Complete?">
-              <div class="ui toggle checkbox">
-                  <input disabled (click)="this.tdService.completeTodo(todos, i)" type="checkbox" name="public" [checked]="todo.complete==true">
-                  <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
-                  <ng-template #newTodo>
-                    <label translate>{{'Complete issue'}}</label>
-                  </ng-template>
-                  <ng-template #completedTodo>
-                    <label translate>{{'Completed!'}}</label>
-                  </ng-template>
-              </div>
-          </td>
-         </tr>
-      </ng-container>
-    </tbody>
-  </table>
-</ng-template>
+<mat-tab-group (selectedTabChange)="tabChanged($event)" [selectedIndex]="this.tabIndex$ | async">
+  <mat-tab label="{{'todoList-tab-title' | translate}}">
+  <ng-template *ngIf="checkCompletedTodos(this.todos); then doneList; else noList"></ng-template>
+    <ng-template #doneList>
+      <h4 class="ui dividing header" translate>{{'todoDoneList header'}}</h4>
+        <table class="ui celled table">
+          <thead>
+            <tr>
+              <th translate class="sorted descending">{{'TableTitle'}}</th>
+              <th translate>{{'TableTODO'}}</th>
+              <th translate>{{'TableDoneDate'}}</th>
+              <th translate>{{'TableDeadline'}}</th>
+              <th translate>{{'TableComplete'}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let todo of todos; index as i">
+              <tr *ngIf="todo.complete != false" style="text-decoration:line-through;">
+                <td data-label="Title"><a class="ui ribbon label">{{i + 1}}</a>{{todo.title}}</td>
+                <td data-label="TODO">{{todo.todoText}}</td>
+                <td data-label="doneDate">{{todo.doneDate}}</td>
+                <td data-label="Deadline">{{todo.deadline}}</td>
+                <td data-label="Complete?">
+                    <div class="ui toggle checkbox">
+                        <input disabled (click)="this.tdService.completeTodo(todos, i)" type="checkbox" name="public" [checked]="todo.complete==true">
+                        <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
+                        <ng-template #newTodo>
+                          <label translate>{{'Complete issue'}}</label>
+                        </ng-template>
+                        <ng-template #completedTodo>
+                          <label translate>{{'Completed!'}}</label>
+                        </ng-template>
+                    </div>
+                </td>
+               </tr>
+            </ng-container>
+          </tbody>
+        </table>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="{{'dailyTodosDone-tab-title' | translate}}">
+    <ng-template *ngIf="false; then doneList; else noList"></ng-template>
+  </mat-tab>
+</mat-tab-group>
 <ng-template #noList>
   <div class="ui centered header" translate>{{'No completed tasks!'}}</div>
-      <div class="ui big segment">
-          <div class="ui grid">
-              <div class="row"></div>
-              <div class="three column row">
-                  <div class="column"></div>
-                  <div class="column">
-                    <div class="ui active inverted dimmer">
-                      <div class="ui text loader" translate>{{'NoCompletedTasksLoader'}}</div>
-                    </div>
-                  </div>
-                  <div class="column"></div>
-              </div>
-              <div class="row"></div>
-              <div class="row"></div>
+  <div class="ui big segment">
+    <div class="ui grid">
+      <div class="row"></div>
+      <div class="three column row">
+        <div class="column"></div>
+        <div class="column">
+          <div class="ui active inverted dimmer">
+            <div class="ui text loader" translate>{{'NoCompletedTasksLoader'}}</div>
+          </div>
         </div>
+        <div class="column"></div>
+      </div>
+      <div class="row"></div>
+      <div class="row"></div>
     </div>
+  </div>
 </ng-template>
-
 

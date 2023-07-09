@@ -8,13 +8,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 @Component({
   selector: 'app-weekly-to-do',
   templateUrl: './weekly-to-do.component.html',
-  styleUrls: ['./weekly-to-do.component.css'],
-  animations: [
-    trigger('animateDestroy', [
-      state('void', style({ opacity: '0' })),
-      transition('* => void', animate('500ms ease')),
-    ])
-  ]
+  styleUrls: ['./weekly-to-do.component.css']
 })
 export class WeeklyToDoComponent implements OnInit {
 
@@ -110,7 +104,6 @@ export class WeeklyToDoComponent implements OnInit {
 
   ngOnInit(): void {
     // update weeklyTodos from localStorage
-    console.log('weeklyTodo');
     this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
@@ -124,10 +117,10 @@ export class WeeklyToDoComponent implements OnInit {
     this.dailyToDosFullyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
         (dailyTodo.complete && (dailyTodo.completePart && dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth))))
     );
-    this.dailyToDosUncompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    this.dailyToDosPartlyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    this.dailyToDosCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    this.dailyToDosFullyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
+    // this.dailyToDosUncompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
+    // this.dailyToDosPartlyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
+    // this.dailyToDosCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
+    // this.dailyToDosFullyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
 
     this.weeklyTodoForm = this.fb.group({
       titleTarget: this.dailyToDosEntries.target.title,
@@ -148,7 +141,6 @@ export class WeeklyToDoComponent implements OnInit {
 
     this.dailyToDos$.subscribe(dailyTodos => {
       this.weeklyTodoService.updateWeekyTodosLocalStorage(dailyTodos);
-      console.log(dailyTodos);
     });
   }
 
