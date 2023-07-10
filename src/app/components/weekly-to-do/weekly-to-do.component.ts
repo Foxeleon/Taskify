@@ -5,7 +5,7 @@ import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
 import { map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
+import { selectDailyToDos, selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -92,8 +92,7 @@ export class WeeklyToDoComponent implements OnInit {
     // update weeklyTodos from localStorage
     this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
-    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
-
+    this.dailyToDos$ = this.store.select(selectDailyToDos);
     // this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
     // this.dailyToDosPartlyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
            // tslint:disable-next-line:max-line-length
@@ -209,9 +208,13 @@ export class WeeklyToDoComponent implements OnInit {
       creationDate: this.getDate(),
       doneDate: ''
     };
-    const currentDailyTodos = this.weeklyTodoService.getWeekyTodos();
-    currentDailyTodos.unshift(newDailyTodo);
-    this.weeklyTodoService.updateWeekyTodos(currentDailyTodos);
-    this.resetForm();
+
+    let currentDailyTodos: DailyToDo[] = [];
+    this.dailyToDos$.subscribe(dailyToDoArr => {
+      currentDailyTodos = dailyToDoArr;
+      currentDailyTodos.unshift(newDailyTodo);
+      this.weeklyTodoService.updateWeekyTodos(currentDailyTodos);
+      this.resetForm();
+    });
   }
 }

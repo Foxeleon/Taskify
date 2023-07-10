@@ -7,3 +7,13 @@ export const selectDailyToDosEntries = createSelector(
   selectWeeklyToDo,
   state => state.dailyToDosEntries
 );
+
+export const selectDailyToDos = createSelector(
+  selectWeeklyToDo,
+  state => state.dailyToDos
+);
+
+export const selectDailyToDosLastId = createSelector(
+  selectWeeklyToDo,
+  state => state.dailyToDosLastId
+);

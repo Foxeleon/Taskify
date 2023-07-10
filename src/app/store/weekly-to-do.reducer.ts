@@ -28,10 +28,14 @@ export const initialState: WeeklyTodoState = {
       icon: 'chess king',
       todoTextPlaceholder: 'Всё что увеличит ваш "личностный рост" сегодня'
     }
-  }
+  },
+  dailyToDos: [],
+  dailyToDosLastId: 0,
 };
 
 export const weeklyTodoReducer = createReducer(
   initialState,
   on(WeeklyTodoActions.setDailyToDosEntries, (state, {dailyToDosEntries}) => ({...state, dailyToDosEntries})),
+  on(WeeklyTodoActions.setDailyToDos, (state, {dailyToDos}) => ({...state, dailyToDos})),
+  on(WeeklyTodoActions.setDailyToDosLastId, (state, {dailyToDosLastId}) => ({...state, dailyToDosLastId})),
 );

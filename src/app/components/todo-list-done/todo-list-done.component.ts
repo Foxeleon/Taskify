@@ -8,6 +8,7 @@ import { selectTabIndex } from '../../store/home.selector';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { HomeActions } from '../../store/home.actions';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
+import { selectDailyToDos } from '../../store/weekly-to-do.selector';
 
 @Component({
   selector: 'app-todo-list-done',
@@ -24,7 +25,7 @@ export class TodoListDoneComponent implements OnInit {
 
   ngOnInit() {
     this.tabIndex$ = this.store.select(selectTabIndex);
-    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
+    this.dailyToDos$ = this.store.select(selectDailyToDos);
 
     this.tdService.allTodos = JSON.parse(localStorage.getItem('todoStore'));
     if (this.tdService.allTodos == null) {
