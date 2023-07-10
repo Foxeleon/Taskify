@@ -35,10 +35,10 @@ export class WeeklyTodoService extends TodoService {
   getWeeklyTodosLocalStorage() {
     const weeklyTodosStore = JSON.parse(localStorage.getItem('weeklyTodoStore'));
     (weeklyTodosStore !== null) ? this.updateWeekyTodos(weeklyTodosStore) : this.updateWeekyTodos([]);
-    this.getDailyToDosLastId();
+    this.setDailyToDosLastId();
   }
 
-  getDailyToDosLastId() {
+  setDailyToDosLastId() {
     const maxIdNumber = this.getWeekyTodos().reduce((maxId, dailyToDo) => {
       return dailyToDo.idNumber > maxId ? dailyToDo.idNumber : maxId;
     }, 0);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeeklyTodoService } from './weekly-todo.service';
 import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
-import { map, Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
@@ -125,8 +125,18 @@ export class WeeklyToDoComponent implements OnInit {
     });
   }
 
-  getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
-  getDay = (): string => this.dayNames[this.weeklyTodoService.currDay.getDay()];
+  private getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
+  private getDay = (): string => {
+    let nextDay: string;
+    this.dailyToDos$.pipe(take(1))
+      .subscribe(dailyToDos => {
+      const lastDailyToDo: string = dailyToDos.filter(dailyTodo => {
+        return dailyTodo.idNumber === this.weeklyTodoService.dailyToDosLastIdCacheSubject.getValue() - 1;
+      })[0].weekDay;
+      nextDay = this.dayNames[(this.dayNames.indexOf(lastDailyToDo) - 1)];
+    });
+    return nextDay;
+  }
 
   getTextAreaState(meaning: string): boolean {
     switch (meaning) {
