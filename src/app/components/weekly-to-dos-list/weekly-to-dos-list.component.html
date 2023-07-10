@@ -1,11 +1,11 @@
-<ng-container *ngFor="let dailyTodo of (dailyToDosCompleted$ | async)">
+<ng-container *ngFor="let dailyTodo of (dailyToDos$ | async)">
   <div class="ui card weekly-to-do">
   <form class="ui form">
     <div class="ui segment">
       <div class="two fields">
         <div class="field">
-          <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
-            <input type="checkbox" name="gift" tabindex="0" class="hidden" [checked]="dailyTodo.complete==true">
+          <div class="ui toggle checkbox">
+            <input type="checkbox" name="gift" tabindex="0" class="hidden" [disabled]="siDoneList" [checked]="dailyTodo.complete==true" (click)="completeDailyTodo(dailyTodo.uniqueId)">
             <label>Complete day</label>
           </div>
         </div>

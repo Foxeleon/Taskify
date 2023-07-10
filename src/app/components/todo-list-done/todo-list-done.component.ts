@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../../todo.service';
-import { Todo } from '../../types';
+import { DailyToDo, Todo } from '../../types';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { selectTabIndex } from '../../store/home.selector';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { HomeActions } from '../../store/home.actions';
+import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
 
 @Component({
   selector: 'app-todo-list-done',
@@ -17,11 +18,14 @@ export class TodoListDoneComponent implements OnInit {
 
   public todos = [];
   tabIndex$: Observable<number>;
+  dailyToDos$: Observable<DailyToDo[]>;
 
-  constructor( public tdService: TodoService, private store: Store<AppState> ) { }
+  constructor( public tdService: TodoService, private store: Store<AppState>, private weeklyTodoService: WeeklyTodoService) { }
 
   ngOnInit() {
     this.tabIndex$ = this.store.select(selectTabIndex);
+    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
+
     this.tdService.allTodos = JSON.parse(localStorage.getItem('todoStore'));
     if (this.tdService.allTodos == null) {
       this.tdService.allTodos = [];

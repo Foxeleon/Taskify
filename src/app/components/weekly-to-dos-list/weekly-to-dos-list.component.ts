@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DailyToDo, DailyToDosEntries } from '../../types';
 import { FormBuilder } from '@angular/forms';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
@@ -16,16 +16,14 @@ export class WeeklyToDosListComponent {
 
   constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState> ) {}
 
-  // TODO make this component universal for weekly-todo and weekly-todo-done components
   dailyToDosEntries: DailyToDosEntries;
   dailyToDosEntries$: Observable<DailyToDosEntries>;
   dailyToDos$: Observable<DailyToDo[]>;
-  dailyToDosCompleted$: Observable<DailyToDo[]>;
+  @Input() siDoneList: boolean;
 
   ngOnInit(): void {
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
-    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
-    this.dailyToDosCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => dailyTodo.complete)));
+    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$.pipe(map((dailyTodoArr) => (this.siDoneList) ? dailyTodoArr.filter(dailyTodo => dailyTodo.complete) : dailyTodoArr));
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => this.dailyToDosEntries = dailyToDosEntries);
   }
 

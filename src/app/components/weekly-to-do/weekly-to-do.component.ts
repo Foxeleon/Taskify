@@ -74,10 +74,9 @@ export class WeeklyToDoComponent implements OnInit {
   dailyToDosEntries$: Observable<DailyToDosEntries>;
   dailyToDosEntriesArr: DailyToDoEntries[];
   dailyToDos$: Observable<DailyToDo[]>;
-  dailyToDosUncompleted$: Observable<DailyToDo[]>;
 
   // Observables for different cases in the future ideas implementations
-  // dailyToDosCompleted$: Observable<DailyToDo[]>;
+  // dailyToDosUncompleted$: Observable<DailyToDo[]>;
   // dailyToDosPartlyCompleted$: Observable<DailyToDo[]>;
   // dailyToDosFullyCompleted$: Observable<DailyToDo[]>;
 
@@ -87,15 +86,15 @@ export class WeeklyToDoComponent implements OnInit {
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => {
       this.dailyToDosEntries = dailyToDosEntries;
-      this.dailyToDosEntriesArr = this.getValues(this.dailyToDosEntries);
+      // this.dailyToDosEntriesArr = this.getValues(this.dailyToDosEntries);
+      this.dailyToDosEntriesArr = Object.values(this.dailyToDosEntries);
     });
     // update weeklyTodos from localStorage
     this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
-    this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
-    // this.dailyToDosCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => dailyTodo.complete)));
-    //
+
+    // this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
     // this.dailyToDosPartlyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
            // tslint:disable-next-line:max-line-length
     //     (dailyTodo.complete && (dailyTodo.completePart || dailyTodo.completeTarget || dailyTodo.completeLongBox || dailyTodo.completePersonalGrowth) && (!dailyTodo.completePart || !dailyTodo.completeTarget || !dailyTodo.completeLongBox || !dailyTodo.completePersonalGrowth))))
@@ -103,10 +102,6 @@ export class WeeklyToDoComponent implements OnInit {
     // this.dailyToDosFullyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
     //     (dailyTodo.complete && (dailyTodo.completePart && dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth))))
     // );
-    // this.dailyToDosUncompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    // this.dailyToDosPartlyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    // this.dailyToDosCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    // this.dailyToDosFullyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
 
     this.weeklyTodoForm = this.fb.group({
       titleTarget: this.dailyToDosEntries.target.title,
@@ -133,66 +128,6 @@ export class WeeklyToDoComponent implements OnInit {
   getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
   getDay = (): string => this.dayNames[this.weeklyTodoService.currDay.getDay()];
 
-  completeDailyTodo(uniqueId: string, meaning?: string) {
-    const weeklyTodosArray = this.weeklyTodoService.getWeekyTodos();
-    let updatedWeeklyTodosArray: DailyToDo[];
-
-    switch (meaning) {
-      case this.dailyToDosEntries.target.meaning:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            if (dailyTodo.completePart && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth) {
-              return { ...dailyTodo, complete: true, completeTarget: true };
-            }
-            return { ...dailyTodo, completeTarget: true };
-          }
-          return dailyTodo;
-        });
-        break;
-      case this.dailyToDosEntries.part.meaning:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            if (dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth) {
-              return { ...dailyTodo, complete: true, completePart: true };
-            }
-            return { ...dailyTodo, completePart: true };
-          }
-          return dailyTodo;
-        });
-        break;
-      case this.dailyToDosEntries.longBox.meaning:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            if (dailyTodo.completeTarget && dailyTodo.completePart && dailyTodo.completePersonalGrowth) {
-              return { ...dailyTodo, complete: true, completeLongBox: true };
-            }
-            return { ...dailyTodo, completeLongBox: true };
-          }
-          return dailyTodo;
-        });
-        break;
-      case this.dailyToDosEntries.personalGrowth.meaning:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            if (dailyTodo.completeTarget && dailyTodo.completePart && dailyTodo.completeLongBox) {
-              return { ...dailyTodo, complete: true, completePersonalGrowth: true };
-            }
-            return { ...dailyTodo, completePersonalGrowth: true };
-          }
-          return dailyTodo;
-        });
-        break;
-      default:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            return { ...dailyTodo, complete: !dailyTodo.complete };
-          }
-          return dailyTodo;
-        });
-    }
-    this.weeklyTodoService.updateWeekyTodos(updatedWeeklyTodosArray);
-  }
-
   getTextAreaState(meaning: string): boolean {
     switch (meaning) {
       case this.dailyToDosEntries.target.meaning:
@@ -204,10 +139,6 @@ export class WeeklyToDoComponent implements OnInit {
       case this.dailyToDosEntries.personalGrowth.meaning:
         return this.todoTextArea.personalGrowth;
     }
-  }
-
-  getValues(object: DailyToDosEntries): DailyToDoEntries[] {
-    return Object.values(object);
   }
 
   setTodoTextAreaState(meaning: string) {
