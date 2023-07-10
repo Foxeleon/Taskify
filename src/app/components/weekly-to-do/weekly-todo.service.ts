@@ -3,6 +3,10 @@ import { TodoService } from '../../todo.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DailyToDo } from '../../types';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.state';
+import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
+import { selectDailyToDos, selectDailyToDosLastId } from '../../store/weekly-to-do.selector';
 
 @Injectable({
   providedIn: 'root'
@@ -11,20 +15,16 @@ export class WeeklyTodoService extends TodoService {
 
   dailyTodo: DailyToDo;
 
-  dailyTodoSubject = new BehaviorSubject<DailyToDo[]>([]);
-  dailyToDos$: Observable<DailyToDo[]> = this.dailyTodoSubject.asObservable();
-  dailyToDosLastIdCacheSubject = new BehaviorSubject<number>(0);
-
-  constructor(private httpWeekly: HttpClient) {
+  constructor(private httpWeekly: HttpClient, private store: Store<AppState>) {
     super(httpWeekly);
   }
 
-  getWeekyTodos(): DailyToDo[] {
-    return this.dailyTodoSubject.getValue();
+  getWeekyTodos(): Observable<DailyToDo[]> {
+    return this.store.select(selectDailyToDos);
   }
 
   updateWeekyTodos(DailyToDoArr: DailyToDo[] ) {
-    this.dailyTodoSubject.next(DailyToDoArr);
+    this.store.dispatch(WeeklyTodoActions.setDailyToDos({dailyToDos: DailyToDoArr}));
   }
 
   updateWeekyTodosLocalStorage(arr: DailyToDo[]) {
@@ -33,16 +33,18 @@ export class WeeklyTodoService extends TodoService {
   }
 
   getWeeklyTodosLocalStorage() {
-    const weeklyTodosStore = JSON.parse(localStorage.getItem('weeklyTodoStore'));
+    const weeklyTodosStore: DailyToDo[] = JSON.parse(localStorage.getItem('weeklyTodoStore'));
     (weeklyTodosStore !== null) ? this.updateWeekyTodos(weeklyTodosStore) : this.updateWeekyTodos([]);
     this.getDailyToDosLastId();
   }
 
   getDailyToDosLastId() {
-    const maxIdNumber = this.getWeekyTodos().reduce((maxId, dailyToDo) => {
-      return dailyToDo.idNumber > maxId ? dailyToDo.idNumber : maxId;
-    }, 0);
-    this.dailyToDosLastIdCacheSubject.next(maxIdNumber);
+    this.getWeekyTodos().subscribe(dailyTodosArr => {
+      const maxIdNumber = dailyTodosArr.reduce((maxId, dailyToDo) => {
+        return dailyToDo.idNumber > maxId ? dailyToDo.idNumber : maxId;
+      }, 0);
+      this.store.dispatch(WeeklyTodoActions.setDailyToDosLastId({dailyToDosLastId: maxIdNumber}));
+    });
   }
 
   setUniqueId(): string {
@@ -52,10 +54,13 @@ export class WeeklyTodoService extends TodoService {
   }
 
   setIdNumber(): number {
-    // save new value of dailyToDosLastIdCache
-    const idNumber = this.dailyToDosLastIdCacheSubject.getValue() + 1;
-    // update dailyToDosLastIdCache with new value
-    this.dailyToDosLastIdCacheSubject.next(idNumber);
+    let idNumber: number;
+    this.store.select(selectDailyToDosLastId).subscribe(lastId => {
+      // save new value of dailyToDosLastIdCache
+      idNumber = lastId + 1;
+      // update dailyToDosLastIdCache with new value
+      this.store.dispatch(WeeklyTodoActions.setDailyToDosLastId({dailyToDosLastId: idNumber}));
+    });
     return idNumber;
   }
 }
