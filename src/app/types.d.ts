@@ -21,9 +21,6 @@ export interface User {
 }
 
 export interface DailyToDo {
-  uniqueId: string;
-  idNumber: number;
-
   titleTarget: string;
   todoTextTarget: string;
   completeTarget?: boolean;
@@ -41,9 +38,11 @@ export interface DailyToDo {
   completePersonalGrowth?: boolean;
 
   complete: boolean;
-  weekDay: string;
   creationDate: string;
-  doneDate: string;
+  doneDate: DoneDate;
+
+  uniqueId: string;
+  idNumber: number;
 }
 
 export interface DailyToDoEntries {
@@ -58,4 +57,9 @@ export interface DailyToDosEntries {
   part: DailyToDoEntries;
   longBox: DailyToDoEntries;
   personalGrowth: DailyToDoEntries;
+}
+
+export interface DoneDate {
+  date: Date;
+  dateString: string;
 }

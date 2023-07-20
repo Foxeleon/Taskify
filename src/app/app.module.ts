@@ -32,6 +32,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { WeeklyToDosListComponent } from './components/weekly-to-dos-list/weekly-to-dos-list.component';
 import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './store/weekly-to-do.state';
 import { weeklyTodoReducer } from './store/weekly-to-do.reducer';
+import { MatDividerModule } from '@angular/material/divider';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -72,7 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatExpansionModule,
     MatButtonModule,
     MatCardModule,
-    StoreModule.forRoot({homeReducer}, {})
+    MatDividerModule,
   ],
   providers: [
     provideStore(),

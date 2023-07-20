@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeeklyTodoService } from './weekly-todo.service';
-import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
+import { DailyToDo, DailyToDoEntries, DailyToDosEntries, DoneDate } from '../../types';
 import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
+import { selectDailyToDosEntries, selectDoneDate } from '../../store/weekly-to-do.selector';
+import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -86,13 +87,13 @@ export class WeeklyToDoComponent implements OnInit {
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => {
       this.dailyToDosEntries = dailyToDosEntries;
-      // this.dailyToDosEntriesArr = this.getValues(this.dailyToDosEntries);
       this.dailyToDosEntriesArr = Object.values(this.dailyToDosEntries);
     });
     // update weeklyTodos from localStorage
     this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
+    this.dailyToDos$.subscribe(dailyToDos => console.log(dailyToDos));
 
     // this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
     // this.dailyToDosPartlyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
@@ -123,19 +124,36 @@ export class WeeklyToDoComponent implements OnInit {
     this.dailyToDos$.subscribe(dailyTodos => {
       this.weeklyTodoService.updateWeekyTodosLocalStorage(dailyTodos);
     });
+    this.store.select(selectDoneDate).subscribe(value => console.log(value));
   }
 
   private getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
   private getDay = (): string => {
     let nextDay: string;
-    this.dailyToDos$.pipe(take(1))
-      .subscribe(dailyToDos => {
-      const lastDailyToDo: string = dailyToDos.filter(dailyTodo => {
-        return dailyTodo.idNumber === this.weeklyTodoService.dailyToDosLastIdCacheSubject.getValue() - 1;
-      })[0].weekDay;
-      nextDay = this.dayNames[(this.dayNames.indexOf(lastDailyToDo) - 1)];
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
+      const d = new Date(doneDate.dateString);
+      nextDay = this.dayNames[d.getDay()];
     });
     return nextDay;
+  }
+
+  private getDoneDate = (): DoneDate => {
+    let dDate: DoneDate;
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe(({date, dateString}) => dDate = {date, dateString});
+    return dDate;
+  }
+
+  private setDoneDate = (): DoneDate => {
+    let dDate: DoneDate;
+    const nextDay = new Date();
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
+      nextDay.setDate(doneDate.date.getDate() + 1);
+      dDate = {
+        date: new Date(nextDay),
+        dateString: this.weeklyTodoService.yyyymmdd(new Date(nextDay))
+      };
+    });
+    return dDate;
   }
 
   getTextAreaState(meaning: string): boolean {
@@ -194,6 +212,7 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   setTodo(): void {
+    this.store.dispatch(WeeklyTodoActions.setDoneDate({doneDate: this.setDoneDate()}));
     const newDailyTodo = this.weeklyTodoService.dailyTodo = {
       uniqueId: this.weeklyTodoService.setUniqueId(),
       idNumber: this.weeklyTodoService.setIdNumber(),
@@ -215,12 +234,11 @@ export class WeeklyToDoComponent implements OnInit {
       completePersonalGrowth: false,
 
       complete: false,
-      weekDay: this.getDay(),
       creationDate: this.getDate(),
-      doneDate: ''
+      doneDate: this.getDoneDate(),
     };
     const currentDailyTodos = this.weeklyTodoService.getWeekyTodos();
-    currentDailyTodos.unshift(newDailyTodo);
+    currentDailyTodos.push(newDailyTodo);
     this.weeklyTodoService.updateWeekyTodos(currentDailyTodos);
     this.resetForm();
   }

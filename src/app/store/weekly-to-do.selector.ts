@@ -7,3 +7,8 @@ export const selectDailyToDosEntries = createSelector(
   selectWeeklyToDo,
   state => state.dailyToDosEntries
 );
+
+export const selectDoneDate = createSelector(
+  selectWeeklyToDo,
+  state => state.doneDate
+);

@@ -28,10 +28,12 @@ export const initialState: WeeklyTodoState = {
       icon: 'chess king',
       todoTextPlaceholder: 'Всё что увеличит ваш "личностный рост" сегодня'
     }
-  }
+  },
+  doneDate: {date: new Date(), dateString: ''},
 };
 
 export const weeklyTodoReducer = createReducer(
   initialState,
   on(WeeklyTodoActions.setDailyToDosEntries, (state, {dailyToDosEntries}) => ({...state, dailyToDosEntries})),
+  on(WeeklyTodoActions.setDoneDate, (state, {doneDate}) => ({...state, doneDate})),
 );

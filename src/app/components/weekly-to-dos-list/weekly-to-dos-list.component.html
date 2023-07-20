@@ -1,16 +1,20 @@
 <ng-container *ngFor="let dailyTodo of (dailyToDos$ | async)">
+  <div class="weekly-to-do-title" *ngIf="(dailyTodo.doneDate.date | date: 'EEEE') === 'Monday'">
+    Week of year {{dailyTodo.doneDate.date | date: 'w'}}, Week of month {{dailyTodo.doneDate.date | date: 'W'}}
+    <mat-divider class="todoui-list-divider"></mat-divider>
+  </div>
   <div class="ui card weekly-to-do">
   <form class="ui form">
     <div class="ui segment">
       <div class="two fields">
         <div class="field">
           <div class="ui toggle checkbox">
-            <input type="checkbox" name="gift" tabindex="0" class="hidden" [disabled]="siDoneList" [checked]="dailyTodo.complete==true" (click)="completeDailyTodo(dailyTodo.uniqueId)">
+            <input type="checkbox" name="gift" class="hidden" [disabled]="siDoneList" [checked]="dailyTodo.complete==true" (click)="completeDailyTodo(dailyTodo.uniqueId)">
             <label>Complete day</label>
           </div>
         </div>
         <div class="field">
-          <div style="font-weight: bold; font-size: 1em">{{dailyTodo.weekDay | translate}}, {{dailyTodo.creationDate}}, ID: {{dailyTodo.idNumber}}</div>
+          <div class="weekly-to-do-title">{{((dailyTodo.doneDate.date | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate.dateString}}, ID: {{dailyTodo.idNumber}}, Creation date:{{dailyTodo.creationDate}} </div>
         </div>
       </div>
     </div>

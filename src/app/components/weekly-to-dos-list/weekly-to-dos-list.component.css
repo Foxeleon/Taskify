@@ -17,3 +17,12 @@
 .weekly-to-do-icon-size {
   font-size: 1.2em;
 }
+
+.weekly-to-do-title {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.todoui-list-divider {
+  border-top-width: 2px;
+}
