@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeeklyTodoService } from './weekly-todo.service';
 import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
-import { Observable, take } from 'rxjs';
+import { map, Observable, shareReplay, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { selectDailyToDosEntries, selectDoneDate } from '../../store/weekly-to-do.selector';
 import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -66,14 +67,17 @@ export class WeeklyToDoComponent implements OnInit {
   dailyToDosEntriesArr: DailyToDoEntries[];
   dailyToDos$: Observable<DailyToDo[]>;
 
+  isHandset$: Observable<boolean>;
+
   // Observables for different cases in the future ideas implementations
   // dailyToDosUncompleted$: Observable<DailyToDo[]>;
   // dailyToDosPartlyCompleted$: Observable<DailyToDo[]>;
   // dailyToDosFullyCompleted$: Observable<DailyToDo[]>;
 
-  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState>) {}
+  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => {
       this.dailyToDosEntries = dailyToDosEntries;

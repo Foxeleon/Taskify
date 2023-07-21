@@ -26,11 +26,13 @@ export class WeeklyTodoService extends TodoService {
     return this.dailyTodoSubject.getValue();
   }
 
-  updateWeeklyTodos(DailyToDoArr: DailyToDo[] ) {
+  updateWeeklyTodos(DailyToDoArr: DailyToDo[], fromServer = false ) {
     this.dailyTodoSubject.next(DailyToDoArr.map(dailyToDo => {
-      dailyToDo.doneDate = new Date(dailyToDo.doneDate);
-      // if the doneDate is older than today, than complete dailyToDo
-      if (dailyToDo.doneDate.getTime() < new Date().getTime()) dailyToDo.complete = true;
+      if (fromServer) {
+        dailyToDo.doneDate = new Date(dailyToDo.doneDate);
+        // if the doneDate is older than today, than complete dailyToDo
+        if (dailyToDo.doneDate.getTime() < new Date().getTime()) dailyToDo.complete = true;
+      }
       return dailyToDo;
     }));
   }
@@ -42,7 +44,7 @@ export class WeeklyTodoService extends TodoService {
 
   getWeeklyTodosLocalStorage() {
     const weeklyTodosStore = JSON.parse(localStorage.getItem('weeklyTodoStore'));
-    (weeklyTodosStore !== null) ? this.updateWeeklyTodos(weeklyTodosStore) : this.updateWeeklyTodos([]);
+    (weeklyTodosStore !== null) ? this.updateWeeklyTodos(weeklyTodosStore, true) : this.updateWeeklyTodos([]);
     this.setDailyToDosLastData();
   }
 

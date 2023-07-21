@@ -42,5 +42,7 @@
   "Wednesday": "Wednesday",
   "Thursday": "Thursday",
   "Friday": "Friday",
-  "Saturday": "Saturday"
+  "Saturday": "Saturday",
+  "Complete day": "Complete day",
+  "weeklyTodoForm header": "Create daily todos"
 }

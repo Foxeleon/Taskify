@@ -17,3 +17,13 @@
 .weekly-to-do-icon-size {
   font-size: 1.2em;
 }
+
+.weekly-to-do-forms-buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+}
+
+.mobile-buttons {
+  flex-flow: column wrap!important;
+}

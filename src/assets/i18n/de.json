@@ -31,9 +31,11 @@
   "TableDelete": "Löschen",
   "Complete issue": "Aufgabe fertigstellen",
   "Completed!": "Erledigt!",
-  "Required": "Pflichtsfeld",
+  "Required": "Pflichtfeld",
   "Max25Symbols": "Maximal 25 Zeichen",
   "Max150Symbols": "Maximal 150 Zeichen",
   "todoList-tab-title": "Generelle Aufgaben",
-  "dailyTodos-tab-title": "Tagesaufgaben"
+  "dailyTodos-tab-title": "Tagesaufgaben",
+  "Complete day": "Tag abschließen",
+  "weeklyTodoForm header": "Tagesaufgaben erstellen"
 }

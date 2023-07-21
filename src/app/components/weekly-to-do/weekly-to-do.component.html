@@ -31,7 +31,20 @@
             </div>
           </div>
         </div>
-      <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid && weeklyTodoForm.get('todoTextPart').invalid && weeklyTodoForm.get('todoTextLongBox').invalid && weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
+      <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
+        <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid && weeklyTodoForm.get('todoTextPart').invalid && weeklyTodoForm.get('todoTextLongBox').invalid && weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
+        <div class="ui buttons" *ngIf="(this.dailyToDos$ | async).length > 1">
+          <div class="ui labeled buttons">
+            <button class="ui positive button">{{'Complete all' | translate}}</button>
+            <div class="ui basic label">
+              <i class="sort rotated down icon"></i>
+              <div class="ui centered text">{{ "or" | translate}}</div>
+              <i class="sort rotated up icon"></i>
+            </div>
+            <button class="ui negative button">{{'Delete all' | translate}}</button>
+          </div>
+        </div>
+      </div>
     </form>
   </div>
 </div>
