@@ -22,35 +22,37 @@ export class WeeklyTodoService extends TodoService {
     super(httpWeekly);
   }
 
-  getWeekyTodos(): DailyToDo[] {
+  getWeeklyTodos(): DailyToDo[] {
     return this.dailyTodoSubject.getValue();
   }
 
-  updateWeekyTodos(DailyToDoArr: DailyToDo[] ) {
+  updateWeeklyTodos(DailyToDoArr: DailyToDo[] ) {
     this.dailyTodoSubject.next(DailyToDoArr.map(dailyToDo => {
       dailyToDo.doneDate = new Date(dailyToDo.doneDate);
+      // if the doneDate is older than today, than complete dailyToDo
+      if (dailyToDo.doneDate.getTime() < new Date().getTime()) dailyToDo.complete = true;
       return dailyToDo;
     }));
   }
 
-  updateWeekyTodosLocalStorage(arr: DailyToDo[]) {
+  updateWeeklyTodosLocalStorage(arr: DailyToDo[]) {
     const todoStore = JSON.stringify(arr);
     localStorage.setItem('weeklyTodoStore', todoStore);
   }
 
   getWeeklyTodosLocalStorage() {
     const weeklyTodosStore = JSON.parse(localStorage.getItem('weeklyTodoStore'));
-    (weeklyTodosStore !== null) ? this.updateWeekyTodos(weeklyTodosStore) : this.updateWeekyTodos([]);
+    (weeklyTodosStore !== null) ? this.updateWeeklyTodos(weeklyTodosStore) : this.updateWeeklyTodos([]);
     this.setDailyToDosLastData();
   }
 
   setDailyToDosLastData() {
     let doneDate: Date;
-    const maxIdNumber = this.getWeekyTodos().reduce((maxId, dailyToDo) => {
+    const maxIdNumber = this.getWeeklyTodos().reduce((maxId, dailyToDo) => {
       return dailyToDo.idNumber > maxId ? dailyToDo.idNumber : maxId;
     }, 0);
     // tslint:disable-next-line:max-line-length
-    doneDate = (maxIdNumber === 0) ? new Date() : this.getWeekyTodos().filter(dailyToDo => dailyToDo.idNumber === maxIdNumber)[0].doneDate;
+    doneDate = (maxIdNumber === 0) ? new Date() : this.getWeeklyTodos().filter(dailyToDo => dailyToDo.idNumber === maxIdNumber)[0].doneDate;
     this.dailyToDosLastIdCacheSubject.next(maxIdNumber);
     this.store.dispatch(WeeklyTodoActions.setDoneDate({doneDate}));
   }

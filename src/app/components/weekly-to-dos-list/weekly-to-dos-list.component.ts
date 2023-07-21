@@ -23,13 +23,15 @@ export class WeeklyToDosListComponent {
 
   ngOnInit(): void {
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
-    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$.pipe(map((dailyTodoArr) => ((this.siDoneList) ? dailyTodoArr.filter(dailyTodo => dailyTodo.complete) : dailyTodoArr)));
+    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$.pipe(map((dailyTodoArr) =>
+      (this.siDoneList) ? dailyTodoArr.filter(dailyToDo => dailyToDo.complete) : dailyTodoArr.filter(dailyToDo => dailyToDo.doneDate.getTime() > new Date().getTime())
+    ));
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => this.dailyToDosEntries = dailyToDosEntries);
   }
 
   completeDailyTodo(uniqueId: string, meaning?: string) {
     console.log('completeDailyTodo');
-    const weeklyTodosArray = this.weeklyTodoService.getWeekyTodos();
+    const weeklyTodosArray = this.weeklyTodoService.getWeeklyTodos();
     let updatedWeeklyTodosArray: DailyToDo[];
 
     switch (meaning) {
@@ -85,6 +87,6 @@ export class WeeklyToDosListComponent {
           return dailyTodo;
         });
     }
-    this.weeklyTodoService.updateWeekyTodos(updatedWeeklyTodosArray);
+    this.weeklyTodoService.updateWeeklyTodos(updatedWeeklyTodosArray);
   }
 }

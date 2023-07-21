@@ -112,7 +112,7 @@ export class WeeklyToDoComponent implements OnInit {
     });
 
     this.dailyToDos$.subscribe(dailyTodos => {
-      this.weeklyTodoService.updateWeekyTodosLocalStorage(dailyTodos);
+      this.weeklyTodoService.updateWeeklyTodosLocalStorage(dailyTodos);
     });
     this.store.select(selectDoneDate).subscribe(value => console.log(value));
   }
@@ -215,9 +215,9 @@ export class WeeklyToDoComponent implements OnInit {
       creationDate: this.getDate(),
       doneDate: this.getDoneDate(),
     };
-    const currentDailyTodos = this.weeklyTodoService.getWeekyTodos();
+    const currentDailyTodos = this.weeklyTodoService.getWeeklyTodos();
     currentDailyTodos.push(newDailyTodo);
-    this.weeklyTodoService.updateWeekyTodos(currentDailyTodos);
+    this.weeklyTodoService.updateWeeklyTodos(currentDailyTodos);
     this.resetForm();
   }
 }
