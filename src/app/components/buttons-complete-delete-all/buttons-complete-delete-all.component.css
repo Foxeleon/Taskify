@@ -1,0 +1,5 @@
+.middle-label {
+  display: flex!important;
+  flex-flow: row nowrap!important;
+  align-items: center!important;
+}

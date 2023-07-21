@@ -9,6 +9,7 @@ import { DailyToDo, Todo } from '../../types';
 })
 export class ButtonsCompleteDeleteAllComponent {
 
-  @Input() toDos$: Observable<DailyToDo[] | Todo[]>;
+  @Input() toDos$: Observable<any | null>;
+  // @Input() toDos$: Observable<DailyToDo[] | Todo[]>;
   // isWeekly: boolean = this.toDos$.pipe(map(todosArr => todosArr[0])).subscribe(res => (typeof res === 'DailyToDo'));
 }

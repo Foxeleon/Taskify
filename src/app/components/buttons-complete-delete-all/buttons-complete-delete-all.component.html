@@ -1,7 +1,8 @@
-<div class="ui buttons" *ngIf="(this.toDos$ | async).length > 1">
+<!--<div class="ui buttons" *ngIf="(this.toDos$ | async).length > 1">-->
+<div class="ui buttons">
   <div class="ui labeled buttons">
     <button class="ui positive button">{{'Complete all' | translate}}</button>
-    <div class="ui basic label">
+    <div class="middle-label ui basic label">
       <i class="sort rotated down icon"></i>
       <div class="ui centered text">{{ "or" | translate}}</div>
       <i class="sort rotated up icon"></i>
