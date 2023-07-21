@@ -39,7 +39,7 @@ export interface DailyToDo {
 
   complete: boolean;
   creationDate: string;
-  doneDate: DoneDate;
+  doneDate: Date;
 
   uniqueId: string;
   idNumber: number;
@@ -57,9 +57,4 @@ export interface DailyToDosEntries {
   part: DailyToDoEntries;
   longBox: DailyToDoEntries;
   personalGrowth: DailyToDoEntries;
-}
-
-export interface DoneDate {
-  date: Date;
-  dateString: string;
 }

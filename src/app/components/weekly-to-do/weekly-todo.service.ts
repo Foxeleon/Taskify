@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TodoService } from '../../todo.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DailyToDo, DoneDate } from '../../types';
+import { DailyToDo } from '../../types';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
@@ -27,7 +27,10 @@ export class WeeklyTodoService extends TodoService {
   }
 
   updateWeekyTodos(DailyToDoArr: DailyToDo[] ) {
-    this.dailyTodoSubject.next(DailyToDoArr);
+    this.dailyTodoSubject.next(DailyToDoArr.map(dailyToDo => {
+      dailyToDo.doneDate = new Date(dailyToDo.doneDate);
+      return dailyToDo;
+    }));
   }
 
   updateWeekyTodosLocalStorage(arr: DailyToDo[]) {
@@ -42,12 +45,12 @@ export class WeeklyTodoService extends TodoService {
   }
 
   setDailyToDosLastData() {
-    let doneDate: DoneDate;
+    let doneDate: Date;
     const maxIdNumber = this.getWeekyTodos().reduce((maxId, dailyToDo) => {
       return dailyToDo.idNumber > maxId ? dailyToDo.idNumber : maxId;
     }, 0);
     // tslint:disable-next-line:max-line-length
-    doneDate = (maxIdNumber === 0) ? {date: new Date(), dateString: this.yyyymmdd(new Date())} : this.getWeekyTodos().filter(dailyToDo => dailyToDo.idNumber === maxIdNumber)[0].doneDate;
+    doneDate = (maxIdNumber === 0) ? new Date() : this.getWeekyTodos().filter(dailyToDo => dailyToDo.idNumber === maxIdNumber)[0].doneDate;
     this.dailyToDosLastIdCacheSubject.next(maxIdNumber);
     this.store.dispatch(WeeklyTodoActions.setDoneDate({doneDate}));
   }

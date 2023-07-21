@@ -29,7 +29,7 @@ export const initialState: WeeklyTodoState = {
       todoTextPlaceholder: 'Всё что увеличит ваш "личностный рост" сегодня'
     }
   },
-  doneDate: {date: new Date(), dateString: ''},
+  doneDate: new Date(),
 };
 
 export const weeklyTodoReducer = createReducer(

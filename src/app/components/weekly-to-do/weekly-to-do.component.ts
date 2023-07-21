@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeeklyTodoService } from './weekly-todo.service';
-import { DailyToDo, DailyToDoEntries, DailyToDosEntries, DoneDate } from '../../types';
+import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
 import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
@@ -18,16 +18,6 @@ export class WeeklyToDoComponent implements OnInit {
   panelOpenState = true;
   weeklyTodoForm: FormGroup;
   singleTodoForm: FormGroup;
-
-  dayNames = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday'
-  ];
 
   todoTextArea = {
     target: true,
@@ -128,30 +118,18 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   private getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
-  private getDay = (): string => {
-    let nextDay: string;
-    this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
-      const d = new Date(doneDate.dateString);
-      nextDay = this.dayNames[d.getDay()];
-    });
-    return nextDay;
-  }
 
-  private getDoneDate = (): DoneDate => {
-    let dDate: DoneDate;
-    this.store.select(selectDoneDate).pipe(take(1)).subscribe(({date, dateString}) => dDate = {date, dateString});
+  private getDoneDate = (): Date => {
+    let dDate: Date;
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe((doneDate) => dDate = doneDate);
     return dDate;
   }
 
-  private setDoneDate = (): DoneDate => {
-    let dDate: DoneDate;
-    const nextDay = new Date();
+  private setDoneDate = (): Date => {
+    let dDate: Date;
     this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
-      nextDay.setDate(doneDate.date.getDate() + 1);
-      dDate = {
-        date: new Date(nextDay),
-        dateString: this.weeklyTodoService.yyyymmdd(new Date(nextDay))
-      };
+      // (milliseconds of given date + 24h*60minutes*60seconds*10^3=86400000) = next day
+      dDate = new Date(doneDate.getTime() + 86400000);
     });
     return dDate;
   }
