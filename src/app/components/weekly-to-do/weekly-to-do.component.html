@@ -31,8 +31,7 @@
             </div>
           </div>
         </div>
-<!--      <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid || weeklyTodoForm.get('todoTextPart').invalid || weeklyTodoForm.get('todoTextLongBox').invalid || weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>-->
-      <button class="ui primary button" type="submit" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
+      <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid && weeklyTodoForm.get('todoTextPart').invalid && weeklyTodoForm.get('todoTextLongBox').invalid && weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
     </form>
   </div>
 </div>
