@@ -9,7 +9,7 @@
       <div class="two fields">
         <div class="field">
           <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
-            <input type="checkbox" name="gift" class="hidden" [disabled]="siDoneList" [checked]="dailyTodo.complete==true">
+            <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
             <label>{{'Complete day' | translate}}</label>
           </div>
         </div>

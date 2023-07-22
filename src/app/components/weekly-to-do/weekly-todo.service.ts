@@ -22,6 +22,18 @@ export class WeeklyTodoService extends TodoService {
     super(httpWeekly);
   }
 
+  completeAllWeeklyTodos() {
+    const allWeeklyTodosCompleted = this.getWeeklyTodos().map(dailyTodo => {
+      dailyTodo.complete = true;
+      return dailyTodo;
+    });
+    this.updateWeeklyTodos(allWeeklyTodosCompleted);
+  }
+
+  deleteAllWeeklyTodos() {
+    this.updateWeeklyTodos([]);
+  }
+
   getWeeklyTodos(): DailyToDo[] {
     return this.dailyTodoSubject.getValue();
   }

@@ -24,6 +24,6 @@
   flex-flow: row nowrap;
 }
 
-.mobile-buttons {
+.weekly-to-do-forms-buttons.mobile-buttons {
   flex-flow: column wrap!important;
 }

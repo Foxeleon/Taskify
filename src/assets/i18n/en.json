@@ -6,7 +6,7 @@
   "newToDoPlaceholder": "Write your TODO here",
   "ToDotitlePlaceholder": "TODO Title (Optional)",
   "ToDotitleForm": "Title",
-  "ToDoTextForm": "TODO text",
+  "ToDoTextForm": "Description",
   "todoForm header": "Create TODO",
   "todoList header": "Your TODO's",
   "todoDoneList header": "Your completed TODO's",

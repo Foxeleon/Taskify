@@ -34,6 +34,7 @@ import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './store/weekly-to-do.s
 import { weeklyTodoReducer } from './store/weekly-to-do.reducer';
 import { MatDividerModule } from '@angular/material/divider';
 import { ButtonsCompleteDeleteAllComponent } from './components/buttons-complete-delete-all/buttons-complete-delete-all.component';
+import { NoListLoadingAnimationComponent } from './components/no-list-loading-animation/no-list-loading-animation.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -51,7 +52,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserComponent,
     WeeklyToDoComponent,
     WeeklyToDosListComponent,
-    ButtonsCompleteDeleteAllComponent
+    ButtonsCompleteDeleteAllComponent,
+    NoListLoadingAnimationComponent
   ],
   imports: [
     MatTabsModule,

@@ -19,12 +19,12 @@ export class WeeklyToDosListComponent {
   dailyToDosEntries: DailyToDosEntries;
   dailyToDosEntries$: Observable<DailyToDosEntries>;
   dailyToDos$: Observable<DailyToDo[]>;
-  @Input() siDoneList: boolean;
+  @Input() isDoneList: boolean;
 
   ngOnInit(): void {
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$.pipe(map((dailyTodoArr) =>
-      (this.siDoneList) ? dailyTodoArr.filter(dailyToDo => dailyToDo.complete) :
+      (this.isDoneList) ? dailyTodoArr.filter(dailyToDo => dailyToDo.complete) :
         dailyTodoArr.filter(dailyToDo => (dailyToDo.doneDate.getTime() > new Date().getTime()) && !dailyToDo.complete)
     ));
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => this.dailyToDosEntries = dailyToDosEntries);

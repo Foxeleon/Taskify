@@ -1,0 +1,17 @@
+<div class="ui centered header" translate>{{(isDoneList) ? 'No completed tasks!' : 'No tasks!'}}</div>
+<div class="ui big segment">
+  <div class="ui grid">
+    <div class="row"></div>
+    <div class="three column row">
+      <div class="column"></div>
+      <div class="column">
+        <div class="ui active inverted dimmer">
+          <div class="ui text loader" translate>{{(isDoneList) ? 'NoCompletedTasksLoader' : 'NoTasksLoader'}}</div>
+        </div>
+      </div>
+      <div class="column"></div>
+    </div>
+    <div class="row"></div>
+    <div class="row"></div>
+  </div>
+</div>

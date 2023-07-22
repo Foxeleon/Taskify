@@ -39,29 +39,13 @@
     </ng-template>
   </mat-tab>
   <mat-tab label="{{'dailyTodosDone-tab-title' | translate}}">
-    <ng-template *ngIf="dailyToDos$ | async; then weekDoneList; else noList"></ng-template>
+    <ng-template *ngIf="(dailyToDos$ | async).length; then weekDoneList; else noList"></ng-template>
     <ng-template #weekDoneList>
-      <app-weekly-to-dos-list [siDoneList]="true"></app-weekly-to-dos-list>
+      <app-weekly-to-dos-list [isDoneList]="true"></app-weekly-to-dos-list>
     </ng-template>
   </mat-tab>
 </mat-tab-group>
 <ng-template #noList>
-  <div class="ui centered header" translate>{{'No completed tasks!'}}</div>
-  <div class="ui big segment">
-    <div class="ui grid">
-      <div class="row"></div>
-      <div class="three column row">
-        <div class="column"></div>
-        <div class="column">
-          <div class="ui active inverted dimmer">
-            <div class="ui text loader" translate>{{'NoCompletedTasksLoader'}}</div>
-          </div>
-        </div>
-        <div class="column"></div>
-      </div>
-      <div class="row"></div>
-      <div class="row"></div>
-    </div>
-  </div>
+  <app-no-list-loading-animation [isDoneList]="true"/>
 </ng-template>
 

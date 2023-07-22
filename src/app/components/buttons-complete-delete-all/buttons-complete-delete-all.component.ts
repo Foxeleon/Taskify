@@ -1,15 +1,30 @@
-import { Component, Input } from '@angular/core';
-import { map, Observable, Subscription } from 'rxjs';
-import { DailyToDo, Todo } from '../../types';
+import { Component, Input, OnInit } from '@angular/core';
+import { Todo } from '../../types';
+import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
+import { TodoService } from '../../todo.service';
 
 @Component({
   selector: 'app-buttons-complete-delete-all',
   templateUrl: './buttons-complete-delete-all.component.html',
   styleUrls: ['./buttons-complete-delete-all.component.css']
 })
-export class ButtonsCompleteDeleteAllComponent {
+export class ButtonsCompleteDeleteAllComponent implements OnInit {
+  // TODO convert todos to observable and use toDos$ for both cases, weekly nad usually todos -> get async update of buttons
+  @Input() data: {isWeekly: boolean, toDos?: Todo[]};
+  toDosArrLength: number;
 
-  @Input() toDos$: Observable<any | null>;
-  // @Input() toDos$: Observable<DailyToDo[] | Todo[]>;
-  // isWeekly: boolean = this.toDos$.pipe(map(todosArr => todosArr[0])).subscribe(res => (typeof res === 'DailyToDo'));
+  constructor(private weeklyTodoService: WeeklyTodoService, private todoService: TodoService) {}
+
+  ngOnInit(): void {
+    this.toDosArrLength = this.data.isWeekly ? this.weeklyTodoService.getWeeklyTodos().length : this.data.toDos.length;
+  }
+
+  completeAll() {
+    (this.data.isWeekly) ? this.weeklyTodoService.completeAllWeeklyTodos() : this.todoService.completeAll(this.data.toDos);
+  }
+
+  clearToDoList() {
+    (this.data.isWeekly) ? this.weeklyTodoService.deleteAllWeeklyTodos() : this.todoService.clearToDoList(this.data.toDos);
+  }
+
 }

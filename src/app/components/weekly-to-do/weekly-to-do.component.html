@@ -33,20 +33,16 @@
         </div>
       <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
         <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid && weeklyTodoForm.get('todoTextPart').invalid && weeklyTodoForm.get('todoTextLongBox').invalid && weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
-        <app-buttons-complete-delete-all [toDos$]="(this.dailyToDos$ | async)"></app-buttons-complete-delete-all>
-<!--        <div class="ui buttons" *ngIf="(this.dailyToDos$ | async).length > 1">-->
-<!--          <div class="ui labeled buttons">-->
-<!--            <button class="ui positive button">{{'Complete all' | translate}}</button>-->
-<!--            <div class="ui basic label">-->
-<!--              <i class="sort rotated down icon"></i>-->
-<!--              <div class="ui centered text">{{ "or" | translate}}</div>-->
-<!--              <i class="sort rotated up icon"></i>-->
-<!--            </div>-->
-<!--            <button class="ui negative button">{{'Delete all' | translate}}</button>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div style="margin: 3px 0"></div>
+        <app-buttons-complete-delete-all [data]="{isWeekly: true}"  style="align-self: center"></app-buttons-complete-delete-all>
       </div>
     </form>
   </div>
 </div>
-<app-weekly-to-dos-list [siDoneList]="false"></app-weekly-to-dos-list>
+<ng-template *ngIf="(dailyToDos$ | async).length; then weekTodosList; else noList"></ng-template>
+<ng-template #weekTodosList>
+  <app-weekly-to-dos-list [isDoneList]="false"></app-weekly-to-dos-list>
+</ng-template>
+<ng-template #noList>
+  <app-no-list-loading-animation [isDoneList]="false"/>
+</ng-template>

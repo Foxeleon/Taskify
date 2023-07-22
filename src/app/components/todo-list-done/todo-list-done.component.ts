@@ -11,8 +11,7 @@ import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
 
 @Component({
   selector: 'app-todo-list-done',
-  templateUrl: './todo-list-done.component.html',
-  styleUrls: ['./todo-list-done.component.css']
+  templateUrl: './todo-list-done.component.html'
 })
 export class TodoListDoneComponent implements OnInit {
 
@@ -47,6 +46,5 @@ export class TodoListDoneComponent implements OnInit {
 
   createDoneList(value: any, index: number, arr: Todo[]) {
     return (arr[index].complete !== false);
-    }
-
+  }
 }
