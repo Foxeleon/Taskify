@@ -6,8 +6,9 @@ import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { HomeActions } from '../../store/home.actions';
 import { selectTabIndex } from '../../store/home.selector';
-import { Observable } from 'rxjs';
+import { map, Observable, shareReplay } from 'rxjs';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-home',
@@ -33,10 +34,12 @@ export class HomeComponent implements OnInit {
   todoForm: FormGroup;
 
   tabIndex$: Observable<number>;
+  isHandset$: Observable<boolean>;
 
-  constructor( private fb: FormBuilder, private tdService: TodoService, private store: Store<AppState>) {}
+  constructor( private fb: FormBuilder, private tdService: TodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit() {
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
     this.tabIndex$ = this.store.select(selectTabIndex);
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(25)] ],

@@ -39,7 +39,7 @@
     </ng-template>
   </mat-tab>
   <mat-tab label="{{'dailyTodosDone-tab-title' | translate}}">
-    <ng-template *ngIf="(dailyToDos$ | async).length; then weekDoneList; else noList"></ng-template>
+    <ng-template *ngIf="(dailyToDosCompleted$ | async).length; then weekDoneList; else noList"></ng-template>
     <ng-template #weekDoneList>
       <app-weekly-to-dos-list [isDoneList]="true"></app-weekly-to-dos-list>
     </ng-template>

@@ -44,5 +44,18 @@
   "Friday": "Пятница",
   "Saturday": "Суббота",
   "Complete day": "Завершить день",
-  "weeklyTodoForm header": "Создать задачи на день"
+  "weeklyTodoForm header": "Создать задачи на день",
+  "dailyToDosEntries": {
+    "target-title": "ЦЕЛЬ",
+    "target-todoTextPlaceholder": "Главная задача на день",
+
+    "part-title": "ЧАСТЬ ЗАДАЧИ",
+    "part-todoTextPlaceholder": "Часть длительного дела, которые решается в несколько этапов",
+
+    "longBox-title": "ДОЛГИЙ ЯЩИК",
+    "longBox-todoTextPlaceholder": "Не срочное дело, которое давно надо бы сделать",
+
+    "personalGrowth-title": "РОСТ",
+    "personalGrowth-todoTextPlaceholder": "Всё что увеличит ваш \"личностный рост\" сегодня"
+  }
 }

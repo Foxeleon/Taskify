@@ -8,6 +8,7 @@ import { AppState } from '../../store/app.state';
 import { selectDailyToDosEntries, selectDoneDate } from '../../store/weekly-to-do.selector';
 import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -74,7 +75,10 @@ export class WeeklyToDoComponent implements OnInit {
   // dailyToDosPartlyCompleted$: Observable<DailyToDo[]>;
   // dailyToDosFullyCompleted$: Observable<DailyToDo[]>;
 
-  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
+  constructor( private fb: FormBuilder,
+               private weeklyTodoService: WeeklyTodoService,
+               private store: Store<AppState>,
+               private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
@@ -97,6 +101,8 @@ export class WeeklyToDoComponent implements OnInit {
     // this.dailyToDosFullyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
     //     (dailyTodo.complete && (dailyTodo.completePart && dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth))))
     // );
+
+    // TODO translate titles somehow using TranslateService
 
     this.weeklyTodoForm = this.fb.group({
       titleTarget: this.dailyToDosEntries.target.title,

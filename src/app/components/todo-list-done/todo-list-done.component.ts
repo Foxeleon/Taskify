@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../../todo.service';
 import { DailyToDo, Todo } from '../../types';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { selectTabIndex } from '../../store/home.selector';
@@ -17,13 +17,13 @@ export class TodoListDoneComponent implements OnInit {
 
   public todos = [];
   tabIndex$: Observable<number>;
-  dailyToDos$: Observable<DailyToDo[]>;
+  dailyToDosCompleted$: Observable<DailyToDo[]>;
 
   constructor( public tdService: TodoService, private store: Store<AppState>, private weeklyTodoService: WeeklyTodoService) { }
 
   ngOnInit() {
     this.tabIndex$ = this.store.select(selectTabIndex);
-    this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
+    this.dailyToDosCompleted$ = this.weeklyTodoService.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => dailyTodo.complete)));
 
     this.tdService.allTodos = JSON.parse(localStorage.getItem('todoStore'));
     if (this.tdService.allTodos == null) {

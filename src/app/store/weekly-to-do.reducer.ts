@@ -6,27 +6,27 @@ export const initialState: WeeklyTodoState = {
   dailyToDosEntries: {
     target: {
       meaning: 'Target',
-      title: 'ЦЕЛЬ',
+      title: 'dailyToDosEntries.target-title',
       icon: 'crosshairs',
-      todoTextPlaceholder: 'Главная задача на день'
+      todoTextPlaceholder: 'dailyToDosEntries.target-todoTextPlaceholder'
     },
     part: {
       meaning: 'Part',
-      title: 'ЧАСТЬ ЗАДАЧИ',
+      title: 'dailyToDosEntries.part-title',
       icon: 'tasks',
-      todoTextPlaceholder: 'Часть длительного дела, которые решается в несколько этапов'
+      todoTextPlaceholder: 'dailyToDosEntries.part-todoTextPlaceholder'
     },
     longBox: {
       meaning: 'LongBox',
-      title: 'ДОЛГИЙ ЯЩИК',
+      title: 'dailyToDosEntries.longBox-title',
       icon: 'clock',
-      todoTextPlaceholder: 'Не срочное дело, которое давно надо бы сделать'
+      todoTextPlaceholder: 'dailyToDosEntries.longBox-todoTextPlaceholder'
     },
     personalGrowth: {
       meaning: 'PersonalGrowth',
-      title: 'РОСТ',
+      title: 'dailyToDosEntries.personalGrowth-title',
       icon: 'chess king',
-      todoTextPlaceholder: 'Всё что увеличит ваш "личностный рост" сегодня'
+      todoTextPlaceholder: 'dailyToDosEntries.personalGrowth-todoTextPlaceholder'
     }
   },
   doneDate: new Date(),
