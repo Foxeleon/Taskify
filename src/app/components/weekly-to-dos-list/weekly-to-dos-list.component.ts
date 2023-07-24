@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DailyToDo, DailyToDosEntries } from '../../types';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
 import { map, Observable } from 'rxjs';
 import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
@@ -20,6 +20,7 @@ export class WeeklyToDosListComponent {
   dailyToDosEntries$: Observable<DailyToDosEntries>;
   dailyToDos$: Observable<DailyToDo[]>;
   @Input() isDoneList: boolean;
+  singleTodoForm: FormGroup;
 
   ngOnInit(): void {
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
@@ -28,6 +29,15 @@ export class WeeklyToDosListComponent {
         dailyTodoArr.filter(dailyToDo => (dailyToDo.doneDate.getTime() > new Date().getTime()) && !dailyToDo.complete)
     ));
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => this.dailyToDosEntries = dailyToDosEntries);
+
+    this.singleTodoForm = this.fb.group({
+      todoTextTarget: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextPart: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextLongBox: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(75)] ],
+    });
+    this.singleTodoForm.valueChanges.subscribe(value => console.log(value));
+    // this.singleTodoForm.get('todoTextPersonalGrowth').patchValue('set');
   }
 
   completeDailyTodo(uniqueId: string, meaning?: string) {
