@@ -44,6 +44,18 @@
   "Thursday": "Thursday",
   "Friday": "Friday",
   "Saturday": "Saturday",
+  "Week of year": "Week of year",
+  "Week of month": "Week of month",
   "Complete day": "Complete day",
-  "weeklyTodoForm header": "Create daily todos"
+  "weeklyTodoForm header": "Create daily todos",
+  "dailyToDosEntries": {
+    "target-title": "TARGET",
+    "target-todoTextPlaceholder": "Main task of the day",
+    "part-title": "LONG-TERM TASK",
+    "part-todoTextPlaceholder": "Part of a long-term case that is solved in several stages",
+    "longBox-title": "COLD STORAGE",
+    "longBox-todoTextPlaceholder": "Not an urgent task that should have been done a long time ago",
+    "personalGrowth-title": "GROWTH",
+    "personalGrowth-todoTextPlaceholder": "Everything that will increase your \"personal growth\" today"
+  }
 }

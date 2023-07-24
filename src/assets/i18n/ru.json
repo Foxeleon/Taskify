@@ -44,6 +44,8 @@
   "Thursday": "Четверг",
   "Friday": "Пятница",
   "Saturday": "Суббота",
+  "Week of year": "Неделя года",
+  "Week of month": "Неделя месяца",
   "Complete day": "Завершить день",
   "weeklyTodoForm header": "Создать задачи на день",
   "dailyToDosEntries": {

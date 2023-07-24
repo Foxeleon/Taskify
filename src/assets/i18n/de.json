@@ -37,6 +37,28 @@
   "Max75Symbols": "Maximal 75 Zeichen",
   "todoList-tab-title": "Generelle Aufgaben",
   "dailyTodos-tab-title": "Tagesaufgaben",
+  "Sunday": "Sonntag",
+  "Monday": "Montag",
+  "Tuesday": "Dienstag",
+  "Wednesday": "Mittwoch",
+  "Thursday": "Donnerstag",
+  "Friday": "Freitag",
+  "Saturday": "Samstag",
+  "Week of year": "Jahreswoche",
+  "Week of month": "Monatswoche",
   "Complete day": "Tag abschließen",
-  "weeklyTodoForm header": "Tagesaufgaben erstellen"
+  "weeklyTodoForm header": "Tagesaufgaben erstellen",
+  "dailyToDosEntries": {
+    "target-title": "ZIEL",
+    "target-todoTextPlaceholder": "Tageshauptaufgabe",
+
+    "part-title": "STAPELAUFGABE",
+    "part-todoTextPlaceholder": "Ein Teil einer Aufgabe, die in mehreren Stufen gelöst wird",
+
+    "longBox-title": "LANGE BANK",
+    "longBox-todoTextPlaceholder": "Keine dringende Aufgabe, die aber schon seit lange erledigt werden könnte",
+
+    "personalGrowth-title": "WACHSTUM",
+    "personalGrowth-todoTextPlaceholder": "Alles, was Ihr \"persönliches Wachstum\" heute entwickelt"
+  }
 }

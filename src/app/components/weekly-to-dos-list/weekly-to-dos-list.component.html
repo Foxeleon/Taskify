@@ -1,6 +1,6 @@
 <ng-container *ngFor="let dailyTodo of (dailyToDos$ | async)">
   <div class="weekly-to-do-title" *ngIf="(dailyTodo.doneDate | date: 'EEEE') === 'Monday'">
-    Week of year {{dailyTodo.doneDate | date: 'w'}}, Week of month {{dailyTodo.doneDate | date: 'W'}}
+    {{'Week of year' | translate}}: {{dailyTodo.doneDate | date: 'w'}}, {{'Week of month' | translate}}: {{dailyTodo.doneDate | date: 'W'}}
     <mat-divider class="todoui-list-divider"></mat-divider>
   </div>
   <div class="ui card weekly-to-do">
