@@ -18,7 +18,6 @@ export class WeeklyToDoComponent implements OnInit {
 
   panelOpenState = true;
   weeklyTodoForm: FormGroup;
-  singleTodoForm: FormGroup;
 
   todoTextArea = {
     target: true,
@@ -113,9 +112,6 @@ export class WeeklyToDoComponent implements OnInit {
 
       titlePersonalGrowth: '',
       todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(75)] ],
-    });
-
-    this.singleTodoForm = this.fb.group({
     });
 
     this.dailyToDos$.subscribe(dailyTodos => {

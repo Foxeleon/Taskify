@@ -1,11 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { DailyToDo, DailyToDosEntries } from '../../types';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
 import { map, Observable } from 'rxjs';
 import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
+// import { debounce } from 'lodash';
+
+export interface WeeklyTodoListForm {
+  todoTextTarget: string;
+  todoTextPart: string;
+  todoTextLongBox: string;
+  todoTextPersonalGrowth: string;
+}
 
 @Component({
   selector: 'app-weekly-to-dos-list',
@@ -20,6 +28,10 @@ export class WeeklyToDosListComponent {
   dailyToDosEntries$: Observable<DailyToDosEntries>;
   dailyToDos$: Observable<DailyToDo[]>;
   @Input() isDoneList: boolean;
+  weeklyTodoListForm: FormGroup;
+  // onTodoTextChange = debounce((value: WeeklyTodoListForm) => {
+  //   console.log(value);
+  // }, 500);
 
   ngOnInit(): void {
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
@@ -28,6 +40,17 @@ export class WeeklyToDosListComponent {
         dailyTodoArr.filter(dailyToDo => (dailyToDo.doneDate.getTime() > new Date().getTime()) && !dailyToDo.complete)
     ));
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => this.dailyToDosEntries = dailyToDosEntries);
+
+    this.weeklyTodoListForm = this.fb.group({
+        todoTextTarget: ['', [Validators.required, Validators.maxLength(75)]],
+        todoTextPart: ['', [Validators.required, Validators.maxLength(75)]],
+        todoTextLongBox: ['', [Validators.required, Validators.maxLength(75)]],
+        todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(75)]],
+    });
+    // tslint:disable-next-line:max-line-length
+    // this.todoTexts$ = this.weeklyTodoListForm.valueChanges.pipe(map(({todoTextTarget, todoTextPart, todoTextLongBox, todoTextPersonalGrowth}) => {todoTextTarget, todoTextPart, todoTextLongBox, todoTextPersonalGrowth}));
+    // tap(value => (this.onTodoTextChange(value)))
+    // this.weeklyTodoListForm.valueChanges.subscribe(value => (this.onTodoTextChange(value)));
   }
 
   completeDailyTodo(uniqueId: string, meaning?: string) {
