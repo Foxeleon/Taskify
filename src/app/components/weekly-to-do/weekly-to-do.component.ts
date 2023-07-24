@@ -198,20 +198,20 @@ export class WeeklyToDoComponent implements OnInit {
       uniqueId: this.weeklyTodoService.setUniqueId(),
       idNumber: this.weeklyTodoService.setIdNumber(),
 
-      titleTarget: this.weeklyTodoForm.value.titleTarget,
-      titleLongBox: this.weeklyTodoForm.value.titleLongBox,
+      titleTarget: (this.weeklyTodoForm.value.titleTarget === '') ? this.dailyToDosEntries.target.title : this.weeklyTodoForm.value.titleTarget,
+      todoTextTarget: this.weeklyTodoForm.value.todoTextTarget,
       completeTarget: false,
 
-      titlePart: this.weeklyTodoForm.value.titlePart,
-      titlePersonalGrowth: this.weeklyTodoForm.value.titlePersonalGrowth,
+      titlePart: (this.weeklyTodoForm.value.titlePart === '') ? this.dailyToDosEntries.part.title : this.weeklyTodoForm.value.titlePart,
+      todoTextPart: this.weeklyTodoForm.value.todoTextPart,
       completePart: false,
 
+      titleLongBox: (this.weeklyTodoForm.value.titleLongBox === '') ? this.dailyToDosEntries.longBox.title : this.weeklyTodoForm.value.titleLongBox,
       todoTextLongBox: this.weeklyTodoForm.value.todoTextLongBox,
-      todoTextPart: this.weeklyTodoForm.value.todoTextPart,
       completeLongBox: false,
 
+      titlePersonalGrowth: (this.weeklyTodoForm.value.titlePersonalGrowth === '') ? this.dailyToDosEntries.personalGrowth.title : this.weeklyTodoForm.value.titlePersonalGrowth,
       todoTextPersonalGrowth: this.weeklyTodoForm.value.todoTextPersonalGrowth,
-      todoTextTarget: this.weeklyTodoForm.value.todoTextTarget,
       completePersonalGrowth: false,
 
       complete: false,
