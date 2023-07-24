@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { TodoListDoneComponent } from './todo-list-done/todo-list-done.component';
-import { NotfoundComponent } from './notfound/notfound.component';
-import { UserAccountComponent } from './user-account/user-account.component';
-import { DetailsComponent } from './details/details.component';
+import { HomeComponent } from './components/home/home.component';
+import { TodoListDoneComponent } from './components/todo-list-done/todo-list-done.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { UserAccountComponent } from './components/user-account/user-account.component';
+import { DetailsComponent } from './components/details/details.component';
 
 
 const routes: Routes = [

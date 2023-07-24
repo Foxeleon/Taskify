@@ -5,8 +5,8 @@
   "UserProfile": "Аккаунт пользователя",
   "newToDoPlaceholder": "Написать задачу",
   "ToDotitlePlaceholder": "Заголовок задачи (Опционально)",
-  "ToDotitleForm": "Название задачи",
-  "ToDoTextForm": "Описание задачи",
+  "to-do-title": "Название задачи",
+  "ToDoTextForm": "Описание",
   "todoForm header": "Создать задачу",
   "todoDoneList header": "Ваши выполненные задачи",
   "todoList header": "Ваши задачи",
@@ -31,9 +31,35 @@
   "TableDelete": "Удалить",
   "Complete issue": "Завершить задачу",
   "Completed!": "Выполнено!",
-  "Required": "обязательное поле",
+  "Required": "обязательно не менее одной задачи",
   "Max25Symbols": "Максимум 25 символов",
   "Max150Symbols": "Максимум 150 символов",
+  "Max75Symbols": "Максимум 75 символов",
   "todoList-tab-title": "Общий список дел",
-  "dailyTodos-tab-title": "Дела на день"
+  "dailyTodos-tab-title": "Дела на день",
+  "Sunday": "Воскресенье",
+  "Monday": "Понедельник",
+  "Tuesday": "Вторник",
+  "Wednesday": "Среда",
+  "Thursday": "Четверг",
+  "Friday": "Пятница",
+  "Saturday": "Суббота",
+  "Week of year": "Неделя года",
+  "Week of month": "Неделя месяца",
+  "Complete day": "Завершить день",
+  "weeklyTodoForm header": "Создать задачи на день",
+  "dailyToDosEntries": {
+    "target-title": "ЦЕЛЬ",
+    "target-todoTextPlaceholder": "Главная задача на день",
+
+    "part-title": "ЧАСТЬ ЗАДАЧИ",
+    "part-todoTextPlaceholder": "Часть длительного дела, которые решается в несколько этапов",
+
+    "longBox-title": "ДОЛГИЙ ЯЩИК",
+    "longBox-todoTextPlaceholder": "Не срочное дело, которое давно надо бы сделать",
+
+    "personalGrowth-title": "РОСТ",
+    "personalGrowth-todoTextPlaceholder": "Всё что увеличит ваш \"личностный рост\" сегодня"
+  },
+  "tap-to-change": "нажмите для редактирования"
 }

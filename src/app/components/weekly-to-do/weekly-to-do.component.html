@@ -1,0 +1,51 @@
+<div class="ui accordion">
+  <div class="title ui dividing header" [class.active]="panelOpenState" (click)="this.panelOpenState = !this.panelOpenState;">
+    <i class="icon dropdown"></i>
+    {{'weeklyTodoForm header' | translate}}
+  </div>
+  <div class="content" [class.active]="panelOpenState">
+    <form [formGroup]="weeklyTodoForm" class="ui form" style="padding-bottom: 10px;">
+<!--      TODO Add toggle create todo from today or from tomorrow -->
+        <div class="form-group two fields" *ngFor="let dailyToDosEntry of dailyToDosEntriesArr">
+          <div class="ui labeled input field">
+            <label class="ui label"><i class="{{dailyToDosEntry.icon}} circle icon"></i>{{dailyToDosEntry.title | translate}}</label>
+            <input class="ui labeled input form-control weekly-to-do-input" type="text" formControlName="{{'title' + dailyToDosEntry.meaning}}" placeholder="{{(isHandset$ | async) ? (dailyToDosEntry.title | translate) : (('to-do-title' | translate) + ': ' + (dailyToDosEntry.title | translate) + ' (' + ('tap-to-change' | translate) + ')')}}">
+          </div>
+          <div class="ui labeled input field" [class.error]="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched">
+            <label class="ui label{{(isHandset$ | async) ? ' mobile-label' : ''}}">
+              <i class="write icon"></i>
+<!--              TODO refactor translation string -->
+              {{((isHandset$ | async) ? '' : 'ToDoTextForm') | translate}}
+              <a class="detail">
+                <i [ngClass]="this.todoTextIconClass[(dailyToDosEntry.meaning).toLowerCase()]" (click)="setTodoTextAreaState(dailyToDosEntry.meaning)"></i>
+              </a>
+            </label>
+            <ng-template *ngIf="getTextAreaState(dailyToDosEntry.meaning); then inputBlock; else textAreaBlock"></ng-template>
+            <ng-template #textAreaBlock>
+              <textarea  rows="3" class="ui labeled input form-control" type="text" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder | translate}}"></textarea>
+            </ng-template>
+            <ng-template #inputBlock>
+              <input class="ui labeled input form-control" type="text" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder | translate}}">
+            </ng-template>
+            <ng-container  *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid">
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.required && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Required'|translate}}</small>
+<!--              TODO use "Max150Symbols" translation string after refactoring of weekly-to-dos-list.component.html, todo line 23 -->
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.maxlength" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Max75Symbols'|translate}}</small>
+            </ng-container>
+          </div>
+        </div>
+      <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
+        <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid && weeklyTodoForm.get('todoTextPart').invalid && weeklyTodoForm.get('todoTextLongBox').invalid && weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
+        <div style="margin: 3px 0"></div>
+        <app-buttons-complete-delete-all [data]="{isWeekly: true}"  style="align-self: center"></app-buttons-complete-delete-all>
+      </div>
+    </form>
+  </div>
+</div>
+<ng-template *ngIf="(dailyToDos$ | async).length; then weekTodosList; else noList"></ng-template>
+<ng-template #weekTodosList>
+  <app-weekly-to-dos-list [isDoneList]="false"></app-weekly-to-dos-list>
+</ng-template>
+<ng-template #noList>
+  <app-no-list-loading-animation [isDoneList]="false"/>
+</ng-template>

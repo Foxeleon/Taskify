@@ -5,8 +5,8 @@
   "UserProfile": "User Account",
   "newToDoPlaceholder": "Write your TODO here",
   "ToDotitlePlaceholder": "TODO Title (Optional)",
-  "ToDotitleForm": "Title",
-  "ToDoTextForm": "TODO text",
+  "to-do-title": "Title",
+  "ToDoTextForm": "Description",
   "todoForm header": "Create TODO",
   "todoList header": "Your TODO's",
   "todoDoneList header": "Your completed TODO's",
@@ -31,9 +31,35 @@
   "TableDelete": "Delete",
   "Complete issue": "Complete task",
   "Completed!": "Completed!",
-  "Required": "Required",
+  "Required": "At least one field is required",
   "Max25Symbols": "Max 25 symbols",
   "Max150Symbols": "Max 150 symbols",
+  "Max75Symbols": "Max 75 symbols",
   "todoList-tab-title": "General Todos",
-  "dailyTodos-tab-title": "Dayly Todos"
+  "dailyTodos-tab-title": "Daily Todos",
+  "Sunday": "Sunday",
+  "Monday": "Monday",
+  "Tuesday": "Tuesday",
+  "Wednesday": "Wednesday",
+  "Thursday": "Thursday",
+  "Friday": "Friday",
+  "Saturday": "Saturday",
+  "Week of year": "Week of year",
+  "Week of month": "Week of month",
+  "Complete day": "Complete day",
+  "weeklyTodoForm header": "Create daily todos",
+  "dailyToDosEntries": {
+    "target-title": "TARGET",
+    "target-todoTextPlaceholder": "Main task of the day",
+
+    "part-title": "LONG-TERM TASK",
+    "part-todoTextPlaceholder": "Part of a long-term case that is solved in several stages",
+
+    "longBox-title": "COLD STORAGE",
+    "longBox-todoTextPlaceholder": "Not an urgent task that should have been done a long time ago",
+
+    "personalGrowth-title": "GROWTH",
+    "personalGrowth-todoTextPlaceholder": "Everything that will increase your \"personal growth\" today"
+  },
+  "tap-to-change": " tap to change"
 }

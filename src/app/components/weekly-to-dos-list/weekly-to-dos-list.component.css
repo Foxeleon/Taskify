@@ -1,0 +1,28 @@
+/deep/ .mat-mdc-tab-body-content {  /* Removing the scrollbar from the Tabs card */
+  overflow: hidden !important;
+}
+.ui.card.weekly-to-do {
+  width: auto;
+  margin: 0.5em 1px;
+  padding: 0.1em 0.5em;
+}
+.weekly-to-do-input::placeholder {
+  color: black!important;
+  font-weight: bold!important;
+}
+.weekly-to-do-two-fields {
+  margin: 1em -0.5em!important;
+  align-items: center;
+}
+.weekly-to-do-icon-size {
+  font-size: 1.2em;
+}
+
+.weekly-to-do-title {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.todoui-list-divider {
+  border-top-width: 2px;
+}
