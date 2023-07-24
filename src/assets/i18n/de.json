@@ -5,7 +5,7 @@
   "UserProfile": "Benutzer Account",
   "newToDoPlaceholder": "TODO schreiben",
   "ToDotitlePlaceholder": "TODO Titel (Optional)",
-  "ToDotitleForm": "Aufgabentitel",
+  "to-do-title": "Aufgabentitel",
   "ToDoTextForm": "Beschreibung",
   "todoForm header": "Erstelle ein TODO",
   "todoList header": "Deine TODO-Liste",
@@ -60,5 +60,6 @@
 
     "personalGrowth-title": "WACHSTUM",
     "personalGrowth-todoTextPlaceholder": "Alles, was Ihr \"persönliches Wachstum\" heute entwickelt"
-  }
+  },
+  "tap-to-change": "zum Ändern antippen"
 }

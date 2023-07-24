@@ -9,7 +9,7 @@
         <form [formGroup]="todoForm" class="ui form">
           <div class="form-group two fields">
             <div class="ui labeled input field" [class.error]="todoForm.get('title').errors?.maxlength && todoForm.get('title').touched">
-              <label class="ui label button" [class.yellow]="this.holdTitle" (click)="setTitleState()" translate><i class="plus circle icon"></i>{{'ToDotitleForm'}}</label>
+              <label class="ui label button" [class.yellow]="this.holdTitle" (click)="setTitleState()" translate><i class="plus circle icon"></i>{{'to-do-title'}}</label>
               <input class="ui labeled input" type="text" class="form-control" formControlName="title" placeholder="{{'ToDotitlePlaceholder'|translate}}">
               <small *ngIf="todoForm.get('title').errors?.maxlength" class="ui left pointing red basic label">{{'Max25Symbols'|translate}}</small>
             </div>

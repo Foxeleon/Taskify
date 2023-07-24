@@ -5,7 +5,7 @@
   "UserProfile": "Аккаунт пользователя",
   "newToDoPlaceholder": "Написать задачу",
   "ToDotitlePlaceholder": "Заголовок задачи (Опционально)",
-  "ToDotitleForm": "Название задачи",
+  "to-do-title": "Название задачи",
   "ToDoTextForm": "Описание",
   "todoForm header": "Создать задачу",
   "todoDoneList header": "Ваши выполненные задачи",
@@ -60,5 +60,6 @@
 
     "personalGrowth-title": "РОСТ",
     "personalGrowth-todoTextPlaceholder": "Всё что увеличит ваш \"личностный рост\" сегодня"
-  }
+  },
+  "tap-to-change": "нажмите лдя редактирования"
 }

@@ -5,7 +5,7 @@
   "UserProfile": "User Account",
   "newToDoPlaceholder": "Write your TODO here",
   "ToDotitlePlaceholder": "TODO Title (Optional)",
-  "ToDotitleForm": "Title",
+  "to-do-title": "Title",
   "ToDoTextForm": "Description",
   "todoForm header": "Create TODO",
   "todoList header": "Your TODO's",
@@ -51,11 +51,15 @@
   "dailyToDosEntries": {
     "target-title": "TARGET",
     "target-todoTextPlaceholder": "Main task of the day",
+
     "part-title": "LONG-TERM TASK",
     "part-todoTextPlaceholder": "Part of a long-term case that is solved in several stages",
+
     "longBox-title": "COLD STORAGE",
     "longBox-todoTextPlaceholder": "Not an urgent task that should have been done a long time ago",
+
     "personalGrowth-title": "GROWTH",
     "personalGrowth-todoTextPlaceholder": "Everything that will increase your \"personal growth\" today"
-  }
+  },
+  "tap-to-change": " tap to change"
 }

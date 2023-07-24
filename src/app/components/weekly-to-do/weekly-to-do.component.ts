@@ -8,7 +8,6 @@ import { AppState } from '../../store/app.state';
 import { selectDailyToDosEntries, selectDoneDate } from '../../store/weekly-to-do.selector';
 import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -102,19 +101,17 @@ export class WeeklyToDoComponent implements OnInit {
     //     (dailyTodo.complete && (dailyTodo.completePart && dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth))))
     // );
 
-    // TODO translate titles somehow using TranslateService
-
     this.weeklyTodoForm = this.fb.group({
-      titleTarget: this.dailyToDosEntries.target.title,
+      titleTarget: '',
       todoTextTarget: ['', [Validators.required, Validators.maxLength(75)] ],
 
-      titlePart: this.dailyToDosEntries.part.title,
+      titlePart: '',
       todoTextPart: ['', [Validators.required, Validators.maxLength(75)] ],
 
-      titleLongBox: this.dailyToDosEntries.longBox.title,
+      titleLongBox: '',
       todoTextLongBox: ['', [Validators.required, Validators.maxLength(75)] ],
 
-      titlePersonalGrowth: this.dailyToDosEntries.personalGrowth.title,
+      titlePersonalGrowth: '',
       todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(75)] ],
     });
 
