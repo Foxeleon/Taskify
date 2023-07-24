@@ -4,7 +4,7 @@
     <mat-divider class="todoui-list-divider"></mat-divider>
   </div>
   <div class="ui card weekly-to-do">
-  <form class="ui form" [formGroup]="singleTodoForm">
+  <form class="ui form" [formGroup]="weeklyTodoListForm">
     <div class="ui segment">
       <div class="two fields">
         <div class="field">
@@ -22,7 +22,7 @@
       <div class="ui labeled input field">
 <!--         TODO create alternative textarea field to read/edit todos similar to templates logic of weeklyTodoForm, weekly-to-do.component.html lines 13-28 -->
         <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{dailyTodo.titleTarget | translate}}</label>
-        <input formControlName="todoTextTarget" class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget || isDoneList">
+        <input formControlName="todoTextTarget" class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget || isDoneList">
         <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completeTarget) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
       </div>
       <div class="ui labeled input field">
