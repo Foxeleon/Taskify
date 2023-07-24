@@ -34,22 +34,8 @@
           <button class="ui button">
             <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
           </button>
-          <button class="ui button" *ngIf="false">
-            <i class="edit green large link icon right" (click)="this.tdService.updateTodo(todos, i)"></i>
-          </button>
         </div>
       </td>
     </tr>
   </tbody>
 </table>
-<div class="ui buttons" *ngIf="this.todos.length > 1">
-  <div class="ui labeled button" tabindex="0">
-    <button class="ui positive button" (click)="this.tdService.completeAll(todos)">{{'Complete all' | translate}}</button>
-    <div class="ui basic label">
-      <i class="sort rotated down icon"></i>
-      <div class="ui centered text">{{ "or" | translate}}</div>
-      <i class="sort rotated up icon"></i>
-    </div>
-    <button class="ui red button" (click)="this.tdService.clearToDoList(todos)">{{'Delete all' | translate}}</button>
-  </div>
-</div>

@@ -1,36 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeeklyTodoService } from './weekly-todo.service';
 import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
-import { map, Observable } from 'rxjs';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { map, Observable, shareReplay, take } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.state';
+import { selectDailyToDosEntries, selectDoneDate } from '../../store/weekly-to-do.selector';
+import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-weekly-to-do',
   templateUrl: './weekly-to-do.component.html',
-  styleUrls: ['./weekly-to-do.component.css'],
-  animations: [
-    trigger('animateDestroy', [
-      state('void', style({ opacity: '0' })),
-      transition('* => void', animate('500ms ease')),
-    ])
-  ]
+  styleUrls: ['./weekly-to-do.component.css']
 })
 export class WeeklyToDoComponent implements OnInit {
 
   panelOpenState = true;
-  weeklyTodoForm: any;
-  singleTodoForm: any;
-
-  dayNames = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday'
-  ];
+  weeklyTodoForm: FormGroup;
+  singleTodoForm: FormGroup;
 
   todoTextArea = {
     target: true,
@@ -73,145 +61,84 @@ export class WeeklyToDoComponent implements OnInit {
     },
   };
 
-  dailyToDosEntries: DailyToDosEntries = {
-    target: {
-      meaning: 'Target',
-      title: 'ЦЕЛЬ',
-      icon: 'crosshairs',
-      todoTextPlaceholder: 'Главная задача на день'
-    },
-    part: {
-      meaning: 'Part',
-      title: 'ЧАСТЬ ЗАДАЧИ',
-      icon: 'tasks',
-      todoTextPlaceholder: 'Часть длительного дела, которые решается в несколько этапов'
-    },
-    longBox: {
-      meaning: 'LongBox',
-      title: 'ДОЛГИЙ ЯЩИК',
-      icon: 'clock',
-      todoTextPlaceholder: 'Не срочное дело, которое давно надо бы сделать'
-    },
-    personalGrowth: {
-      meaning: 'PersonalGrowth',
-      title: 'РОСТ',
-      icon: 'chess king',
-      todoTextPlaceholder: 'Всё что увеличит ваш "личностный рост" сегодня'
-    }
-  };
-  dailyToDosEntriesArr: DailyToDoEntries[] = this.getValues(this.dailyToDosEntries);
+  // TODO refactor to get all(or almost all) with observable
+  dailyToDosEntries: DailyToDosEntries;
+  dailyToDosEntries$: Observable<DailyToDosEntries>;
+  dailyToDosEntriesArr: DailyToDoEntries[];
   dailyToDos$: Observable<DailyToDo[]>;
-  dailyToDosUncompleted$: Observable<DailyToDo[]>;
-  dailyToDosCompleted$: Observable<DailyToDo[]>;
-  dailyToDosPartlyCompleted$: Observable<DailyToDo[]>;
-  dailyToDosFullyCompleted$: Observable<DailyToDo[]>;
 
-  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService ) {}
+  isHandset$: Observable<boolean>;
+
+  // Observables for different cases in the future ideas implementations
+  // dailyToDosUncompleted$: Observable<DailyToDo[]>;
+  // dailyToDosPartlyCompleted$: Observable<DailyToDo[]>;
+  // dailyToDosFullyCompleted$: Observable<DailyToDo[]>;
+
+  constructor( private fb: FormBuilder,
+               private weeklyTodoService: WeeklyTodoService,
+               private store: Store<AppState>,
+               private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit(): void {
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
+    this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
+    this.dailyToDosEntries$.subscribe(dailyToDosEntries => {
+      this.dailyToDosEntries = dailyToDosEntries;
+      this.dailyToDosEntriesArr = Object.values(this.dailyToDosEntries);
+    });
     // update weeklyTodos from localStorage
     this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
-    this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
-    this.dailyToDosCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => dailyTodo.complete)));
+    this.dailyToDos$.subscribe(dailyToDos => console.log(dailyToDos));
 
-    this.dailyToDosPartlyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
-        // tslint:disable-next-line:max-line-length
-        (dailyTodo.complete && (dailyTodo.completePart || dailyTodo.completeTarget || dailyTodo.completeLongBox || dailyTodo.completePersonalGrowth) && (!dailyTodo.completePart || !dailyTodo.completeTarget || !dailyTodo.completeLongBox || !dailyTodo.completePersonalGrowth))))
-    );
-    this.dailyToDosFullyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
-        (dailyTodo.complete && (dailyTodo.completePart && dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth))))
-    );
-    this.dailyToDosUncompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    this.dailyToDosPartlyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    this.dailyToDosCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
-    this.dailyToDosFullyCompleted$.subscribe(dailyTodoArr => console.log(dailyTodoArr));
+    // this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
+    // this.dailyToDosPartlyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
+           // tslint:disable-next-line:max-line-length
+    //     (dailyTodo.complete && (dailyTodo.completePart || dailyTodo.completeTarget || dailyTodo.completeLongBox || dailyTodo.completePersonalGrowth) && (!dailyTodo.completePart || !dailyTodo.completeTarget || !dailyTodo.completeLongBox || !dailyTodo.completePersonalGrowth))))
+    // );
+    // this.dailyToDosFullyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
+    //     (dailyTodo.complete && (dailyTodo.completePart && dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth))))
+    // );
 
     this.weeklyTodoForm = this.fb.group({
-      titleTarget: this.dailyToDosEntries.target.title,
-      todoTextTarget: ['', [Validators.required, Validators.maxLength(150)] ],
+      titleTarget: '',
+      todoTextTarget: ['', [Validators.required, Validators.maxLength(75)] ],
 
-      titlePart: this.dailyToDosEntries.part.title,
-      todoTextPart: ['', [Validators.required, Validators.maxLength(150)] ],
+      titlePart: '',
+      todoTextPart: ['', [Validators.required, Validators.maxLength(75)] ],
 
-      titleLongBox: this.dailyToDosEntries.longBox.title,
-      todoTextLongBox: ['', [Validators.required, Validators.maxLength(150)] ],
+      titleLongBox: '',
+      todoTextLongBox: ['', [Validators.required, Validators.maxLength(75)] ],
 
-      titlePersonalGrowth: this.dailyToDosEntries.personalGrowth.title,
-      todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(150)] ],
+      titlePersonalGrowth: '',
+      todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(75)] ],
     });
 
     this.singleTodoForm = this.fb.group({
     });
 
     this.dailyToDos$.subscribe(dailyTodos => {
-      this.weeklyTodoService.updateWeekyTodosLocalStorage(dailyTodos);
-      console.log(dailyTodos);
+      this.weeklyTodoService.updateWeeklyTodosLocalStorage(dailyTodos);
     });
+    this.store.select(selectDoneDate).subscribe(value => console.log(value));
   }
 
-  getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
-  getDay = (): string => this.dayNames[this.weeklyTodoService.currDay.getDay()];
+  private getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
 
-  completeDailyTodo(uniqueId: string, meaning?: string) {
-    const weeklyTodosArray = this.weeklyTodoService.getWeekyTodos();
-    let updatedWeeklyTodosArray: DailyToDo[];
+  private getDoneDate = (): Date => {
+    let dDate: Date;
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe((doneDate) => dDate = doneDate);
+    return dDate;
+  }
 
-    switch (meaning) {
-      case this.dailyToDosEntries.target.meaning:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            if (dailyTodo.completePart && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth) {
-              return { ...dailyTodo, complete: true, completeTarget: true };
-            }
-            return { ...dailyTodo, completeTarget: true };
-          }
-          return dailyTodo;
-        });
-        break;
-      case this.dailyToDosEntries.part.meaning:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            if (dailyTodo.completeTarget && dailyTodo.completeLongBox && dailyTodo.completePersonalGrowth) {
-              return { ...dailyTodo, complete: true, completePart: true };
-            }
-            return { ...dailyTodo, completePart: true };
-          }
-          return dailyTodo;
-        });
-        break;
-      case this.dailyToDosEntries.longBox.meaning:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            if (dailyTodo.completeTarget && dailyTodo.completePart && dailyTodo.completePersonalGrowth) {
-              return { ...dailyTodo, complete: true, completeLongBox: true };
-            }
-            return { ...dailyTodo, completeLongBox: true };
-          }
-          return dailyTodo;
-        });
-        break;
-      case this.dailyToDosEntries.personalGrowth.meaning:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            if (dailyTodo.completeTarget && dailyTodo.completePart && dailyTodo.completeLongBox) {
-              return { ...dailyTodo, complete: true, completePersonalGrowth: true };
-            }
-            return { ...dailyTodo, completePersonalGrowth: true };
-          }
-          return dailyTodo;
-        });
-        break;
-      default:
-        updatedWeeklyTodosArray = weeklyTodosArray.map(dailyTodo => {
-          if (dailyTodo.uniqueId === uniqueId) {
-            return { ...dailyTodo, complete: !dailyTodo.complete };
-          }
-          return dailyTodo;
-        });
-    }
-    this.weeklyTodoService.updateWeekyTodos(updatedWeeklyTodosArray);
+  private setDoneDate = (): Date => {
+    let dDate: Date;
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
+      // (milliseconds of given date + 24h*60minutes*60seconds*10^3=86400000) = next day
+      dDate = new Date(doneDate.getTime() + 86400000);
+    });
+    return dDate;
   }
 
   getTextAreaState(meaning: string): boolean {
@@ -225,10 +152,6 @@ export class WeeklyToDoComponent implements OnInit {
       case this.dailyToDosEntries.personalGrowth.meaning:
         return this.todoTextArea.personalGrowth;
     }
-  }
-
-  getValues(object: DailyToDosEntries): DailyToDoEntries[] {
-    return Object.values(object);
   }
 
   setTodoTextAreaState(meaning: string) {
@@ -274,34 +197,34 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   setTodo(): void {
+    this.store.dispatch(WeeklyTodoActions.setDoneDate({doneDate: this.setDoneDate()}));
     const newDailyTodo = this.weeklyTodoService.dailyTodo = {
       uniqueId: this.weeklyTodoService.setUniqueId(),
       idNumber: this.weeklyTodoService.setIdNumber(),
 
-      titleTarget: this.weeklyTodoForm.value.titleTarget,
-      titleLongBox: this.weeklyTodoForm.value.titleLongBox,
+      titleTarget: (this.weeklyTodoForm.value.titleTarget === '') ? this.dailyToDosEntries.target.title : this.weeklyTodoForm.value.titleTarget,
+      todoTextTarget: this.weeklyTodoForm.value.todoTextTarget,
       completeTarget: false,
 
-      titlePart: this.weeklyTodoForm.value.titlePart,
-      titlePersonalGrowth: this.weeklyTodoForm.value.titlePersonalGrowth,
+      titlePart: (this.weeklyTodoForm.value.titlePart === '') ? this.dailyToDosEntries.part.title : this.weeklyTodoForm.value.titlePart,
+      todoTextPart: this.weeklyTodoForm.value.todoTextPart,
       completePart: false,
 
+      titleLongBox: (this.weeklyTodoForm.value.titleLongBox === '') ? this.dailyToDosEntries.longBox.title : this.weeklyTodoForm.value.titleLongBox,
       todoTextLongBox: this.weeklyTodoForm.value.todoTextLongBox,
-      todoTextPart: this.weeklyTodoForm.value.todoTextPart,
       completeLongBox: false,
 
+      titlePersonalGrowth: (this.weeklyTodoForm.value.titlePersonalGrowth === '') ? this.dailyToDosEntries.personalGrowth.title : this.weeklyTodoForm.value.titlePersonalGrowth,
       todoTextPersonalGrowth: this.weeklyTodoForm.value.todoTextPersonalGrowth,
-      todoTextTarget: this.weeklyTodoForm.value.todoTextTarget,
       completePersonalGrowth: false,
 
       complete: false,
-      weekDay: this.getDay(),
       creationDate: this.getDate(),
-      doneDate: ''
+      doneDate: this.getDoneDate(),
     };
-    const currentDailyTodos = this.weeklyTodoService.getWeekyTodos();
-    currentDailyTodos.unshift(newDailyTodo);
-    this.weeklyTodoService.updateWeekyTodos(currentDailyTodos);
+    const currentDailyTodos = this.weeklyTodoService.getWeeklyTodos();
+    currentDailyTodos.push(newDailyTodo);
+    this.weeklyTodoService.updateWeeklyTodos(currentDailyTodos);
     this.resetForm();
   }
 }

@@ -8,13 +8,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TodolistComponent } from './todolist/todolist.component';
-import { HomeComponent } from './home/home.component';
-import { NotfoundComponent } from './notfound/notfound.component';
-import { TodoListDoneComponent } from './todo-list-done/todo-list-done.component';
-import { UserAccountComponent } from './user-account/user-account.component';
-import { DetailsComponent } from './details/details.component';
-import { UserComponent } from './user/user.component';
+import { TodolistComponent } from './components/todolist/todolist.component';
+import { HomeComponent } from './components/home/home.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { TodoListDoneComponent } from './components/todo-list-done/todo-list-done.component';
+import { UserAccountComponent } from './components/user-account/user-account.component';
+import { DetailsComponent } from './components/details/details.component';
+import { UserComponent } from './components/user/user.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WeeklyToDoComponent } from './components/weekly-to-do/weekly-to-do.component';
@@ -25,6 +25,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { provideState, provideStore } from '@ngrx/store';
+import { homeReducer } from './store/home.reducer';
+import { HOME_FEATURE_KEY, HomeState } from './store/home.state';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { WeeklyToDosListComponent } from './components/weekly-to-dos-list/weekly-to-dos-list.component';
+import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './store/weekly-to-do.state';
+import { weeklyTodoReducer } from './store/weekly-to-do.reducer';
+import { MatDividerModule } from '@angular/material/divider';
+import { ButtonsCompleteDeleteAllComponent } from './components/buttons-complete-delete-all/buttons-complete-delete-all.component';
+import { NoListLoadingAnimationComponent } from './components/no-list-loading-animation/no-list-loading-animation.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -40,7 +50,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserAccountComponent,
     DetailsComponent,
     UserComponent,
-    WeeklyToDoComponent
+    WeeklyToDoComponent,
+    WeeklyToDosListComponent,
+    ButtonsCompleteDeleteAllComponent,
+    NoListLoadingAnimationComponent
   ],
   imports: [
     MatTabsModule,
@@ -63,9 +76,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatExpansionModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatDividerModule,
   ],
-  providers: [],
+  providers: [
+    provideStore(),
+    provideState<HomeState>(HOME_FEATURE_KEY, homeReducer),
+    provideState<WeeklyTodoState>(WEEKLY_TODO_FEATURE_KEY, weeklyTodoReducer),
+    provideStoreDevtools(),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

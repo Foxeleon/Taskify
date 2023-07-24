@@ -1,4 +1,4 @@
-<mat-tab-group [selectedIndex]="1">
+<mat-tab-group (selectedTabChange)="tabChanged($event)" [selectedIndex]="this.tabIndex$ | async">
   <mat-tab label="{{'todoList-tab-title' | translate}}">
     <div class="ui accordion">
       <div class="title ui dividing header" [class.active]="accordeonActive" (click)="setAccordeonState()">
@@ -9,7 +9,7 @@
         <form [formGroup]="todoForm" class="ui form">
           <div class="form-group two fields">
             <div class="ui labeled input field" [class.error]="todoForm.get('title').errors?.maxlength && todoForm.get('title').touched">
-              <label class="ui label button" [class.yellow]="this.holdTitle" (click)="setTitleState()" translate><i class="plus circle icon"></i>{{'ToDotitleForm'}}</label>
+              <label class="ui label button" [class.yellow]="this.holdTitle" (click)="setTitleState()" translate><i class="plus circle icon"></i>{{'to-do-title'}}</label>
               <input class="ui labeled input" type="text" class="form-control" formControlName="title" placeholder="{{'ToDotitlePlaceholder'|translate}}">
               <small *ngIf="todoForm.get('title').errors?.maxlength" class="ui left pointing red basic label">{{'Max25Symbols'|translate}}</small>
             </div>
@@ -45,30 +45,19 @@
               </div>
             </div>
           </div>
-          <button class="ui primary button" type="submit" [disabled]="todoForm.get('todoText').invalid || todoForm.get('deadline').invalid || todoForm.get('title').errors?.maxlength" (click)="setTodo(); resetForm()">{{'TodoSubmit'|translate}}</button>
+<!--          TODO complete app-buttons-complete-delete-all component with submit button, add wrapper to the component as below-->
+          <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
+            <button class="ui primary button" type="submit" [disabled]="todoForm.get('todoText').invalid || todoForm.get('deadline').invalid || todoForm.get('title').errors?.maxlength" (click)="setTodo(); resetForm()">{{'TodoSubmit'|translate}}</button>
+            <div style="margin: 3px 0"></div>
+            <app-buttons-complete-delete-all *ngIf="this.todos.length > 0" [data]="{isWeekly: false, toDos: this.todos}"></app-buttons-complete-delete-all>
+          </div>
         </form>
       </div>
     </div>
     <br>
     <app-todolist *ngIf="this.todos.length > 0" [todos]="this.todos"></app-todolist>
     <ng-container *ngIf="this.todos.length === 0">
-      <div class="ui centered header" translate>{{'No tasks!'}}</div>
-      <div class="ui big segment">
-        <div class="ui grid">
-          <div class="row"></div>
-          <div class="three column row">
-            <div class="column"></div>
-            <div class="column">
-              <div class="ui active inverted dimmer">
-                <div class="ui text loader" translate>{{'NoTasksLoader'}}</div>
-              </div>
-            </div>
-            <div class="column"></div>
-          </div>
-          <div class="row"></div>
-          <div class="row"></div>
-        </div>
-      </div>
+      <app-no-list-loading-animation [isDoneList]="false"/>
     </ng-container>
   </mat-tab>
   <mat-tab label="{{'dailyTodos-tab-title' | translate}}">

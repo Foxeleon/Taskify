@@ -18,20 +18,11 @@
   font-size: 1.2em;
 }
 
-.weekly-to-do-forms-buttons {
-  display: flex;
-  justify-content: space-between;
-  flex-flow: row nowrap;
+.weekly-to-do-title {
+  font-weight: bold;
+  font-size: 1em;
 }
 
-.weekly-to-do-forms-buttons.mobile-buttons {
-  flex-flow: column wrap!important;
-}
-
-.ui.label.mobile-label {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-evenly;
-  max-width: 25%;
+.todoui-list-divider {
+  border-top-width: 2px;
 }

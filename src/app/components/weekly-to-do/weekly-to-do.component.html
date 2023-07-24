@@ -5,76 +5,47 @@
   </div>
   <div class="content" [class.active]="panelOpenState">
     <form [formGroup]="weeklyTodoForm" class="ui form" style="padding-bottom: 10px;">
+<!--      TODO Add toggle create todo from today or from tomorrow -->
         <div class="form-group two fields" *ngFor="let dailyToDosEntry of dailyToDosEntriesArr">
           <div class="ui labeled input field">
-            <label class="ui label"><i class="{{dailyToDosEntry.icon}} circle icon"></i>{{dailyToDosEntry.title}}</label>
-            <input class="ui labeled input" type="text" class="form-control" formControlName="{{'title' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.title}}">
+            <label class="ui label"><i class="{{dailyToDosEntry.icon}} circle icon"></i>{{dailyToDosEntry.title | translate}}</label>
+            <input class="ui labeled input form-control weekly-to-do-input" type="text" formControlName="{{'title' + dailyToDosEntry.meaning}}" placeholder="{{(isHandset$ | async) ? (dailyToDosEntry.title | translate) : (('to-do-title' | translate) + ': ' + (dailyToDosEntry.title | translate) + ' (' + ('tap-to-change' | translate) + ')')}}">
           </div>
           <div class="ui labeled input field" [class.error]="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched">
-            <label class="ui label">
+            <label class="ui label{{(isHandset$ | async) ? ' mobile-label' : ''}}">
               <i class="write icon"></i>
-              {{'ToDoTextForm'|translate}}
+<!--              TODO refactor translation string -->
+              {{((isHandset$ | async) ? '' : 'ToDoTextForm') | translate}}
               <a class="detail">
                 <i [ngClass]="this.todoTextIconClass[(dailyToDosEntry.meaning).toLowerCase()]" (click)="setTodoTextAreaState(dailyToDosEntry.meaning)"></i>
               </a>
             </label>
             <ng-template *ngIf="getTextAreaState(dailyToDosEntry.meaning); then inputBlock; else textAreaBlock"></ng-template>
             <ng-template #textAreaBlock>
-              <textarea  rows="3" class="ui labeled input" type="text" class="form-control" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder}}"></textarea>
+              <textarea  rows="3" class="ui labeled input form-control" type="text" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder | translate}}"></textarea>
             </ng-template>
             <ng-template #inputBlock>
-              <input class="ui labeled input" type="text" class="form-control" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder}}">
+              <input class="ui labeled input form-control" type="text" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder | translate}}">
             </ng-template>
-            <div *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid">
-              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.required && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
-              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
-            </div>
+            <ng-container  *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid">
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.required && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Required'|translate}}</small>
+<!--              TODO use "Max150Symbols" translation string after refactoring of weekly-to-dos-list.component.html, todo line 23 -->
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.maxlength" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Max75Symbols'|translate}}</small>
+            </ng-container>
           </div>
         </div>
-      <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid || weeklyTodoForm.get('todoTextPart').invalid || weeklyTodoForm.get('todoTextLongBox').invalid || weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
+      <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
+        <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid && weeklyTodoForm.get('todoTextPart').invalid && weeklyTodoForm.get('todoTextLongBox').invalid && weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
+        <div style="margin: 3px 0"></div>
+        <app-buttons-complete-delete-all [data]="{isWeekly: true}"  style="align-self: center"></app-buttons-complete-delete-all>
+      </div>
     </form>
   </div>
 </div>
-<ng-container *ngFor="let dailyTodo of (dailyToDosUncompleted$ | async)">
-  <div class="ui card weekly-to-do">
-    <form class="ui form">
-      <div class="ui segment">
-        <div class="two fields">
-          <div class="field">
-            <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
-              <input type="checkbox" name="gift" tabindex="0" class="hidden" [checked]="dailyTodo.complete==true">
-              <label>Complete day</label>
-            </div>
-          </div>
-          <div class="field">
-            <div style="font-weight: bold; font-size: 1em">{{dailyTodo.weekDay | translate}}, {{dailyTodo.creationDate}}, ID: {{dailyTodo.idNumber}}</div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group two fields weekly-to-do-two-fields">
-        <div class="ui labeled input field">
-          <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{this.dailyToDosEntries.target.title}}</label>
-          <input class="weekly-to-do-input ui labeled input" type="text" (click)="$event.target.select()" value="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget">
-          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)"><i class="check circle {{(dailyTodo.completeTarget) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
-        </div>
-        <div class="ui labeled input field">
-          <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{this.dailyToDosEntries.part.title}}</label>
-          <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextPart}}" [disabled]="dailyTodo.completePart">
-          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)"><i class="check circle {{(dailyTodo.completePart) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
-        </div>
-      </div>
-      <div class="form-group two fields weekly-to-do-two-fields">
-        <div class="ui labeled input field">
-          <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{this.dailyToDosEntries.longBox.title}}</label>
-          <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextLongBox}}" [disabled]="dailyTodo.completeLongBox">
-          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)"><i class="check circle {{(dailyTodo.completeLongBox) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
-        </div>
-        <div class="ui labeled input field">
-          <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{this.dailyToDosEntries.personalGrowth.title}}</label>
-          <input class="weekly-to-do-input ui labeled input" type="text" placeholder="{{dailyTodo.todoTextPersonalGrowth}}" [disabled]="dailyTodo.completePersonalGrowth">
-          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)"><i class="check circle {{(dailyTodo.completePersonalGrowth) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
-        </div>
-      </div>
-    </form>
-  </div>
-</ng-container>
+<ng-template *ngIf="(dailyToDos$ | async).length; then weekTodosList; else noList"></ng-template>
+<ng-template #weekTodosList>
+  <app-weekly-to-dos-list [isDoneList]="false"></app-weekly-to-dos-list>
+</ng-template>
+<ng-template #noList>
+  <app-no-list-loading-animation [isDoneList]="false"/>
+</ng-template>

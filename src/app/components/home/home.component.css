@@ -1,0 +1,9 @@
+.weekly-to-do-forms-buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+}
+
+.weekly-to-do-forms-buttons.mobile-buttons {
+  flex-flow: column wrap!important;
+}

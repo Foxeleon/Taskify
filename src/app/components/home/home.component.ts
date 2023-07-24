@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { TodoService } from '../todo.service';
-import { Todo } from '../types';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TodoService } from '../../todo.service';
+import { Todo } from '../../types';
+import { AppState } from '../../store/app.state';
+import { Store } from '@ngrx/store';
+import { HomeActions } from '../../store/home.actions';
+import { selectTabIndex } from '../../store/home.selector';
+import { map, Observable, shareReplay } from 'rxjs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-home',
@@ -24,13 +31,16 @@ export class HomeComponent implements OnInit {
     icon: true,
     ui: true
   };
-  todoForm: any;
+  todoForm: FormGroup;
 
-  constructor( private fb: FormBuilder, private tdService: TodoService ) {}
+  tabIndex$: Observable<number>;
+  isHandset$: Observable<boolean>;
 
-  // TODO make selectedIndex of mat-tab-group globally shared using ngrx
+  constructor( private fb: FormBuilder, private tdService: TodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit() {
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
+    this.tabIndex$ = this.store.select(selectTabIndex);
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(25)] ],
       todoText: ['', [Validators.required, Validators.maxLength(150)] ],
@@ -76,9 +86,16 @@ export class HomeComponent implements OnInit {
           this.todos = this.tdService.allTodos;
         }
       },
-      (error) => console.log(error),
-      () => console.log('Done')
+      (error) => console.log(error)
       );
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.store.dispatch(HomeActions.setTabIndex({appTabIndex: tabChangeEvent.index}));
+  }
+
+  setTab(appTabIndex: number) {
+    this.store.dispatch(HomeActions.setTabIndex({appTabIndex}));
   }
 
   setTodo(): void {
