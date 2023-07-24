@@ -11,9 +11,10 @@
             <input class="ui labeled input form-control" type="text" formControlName="{{'title' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.title | translate}}">
           </div>
           <div class="ui labeled input field" [class.error]="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched">
-            <label class="ui label">
+            <label class="ui label{{(isHandset$ | async) ? ' mobile-label' : ''}}">
               <i class="write icon"></i>
-              {{'ToDoTextForm'|translate}}
+<!--              TODO refactor translation string -->
+              {{((isHandset$ | async) ? '' : 'ToDoTextForm') | translate}}
               <a class="detail">
                 <i [ngClass]="this.todoTextIconClass[(dailyToDosEntry.meaning).toLowerCase()]" (click)="setTodoTextAreaState(dailyToDosEntry.meaning)"></i>
               </a>
@@ -25,10 +26,11 @@
             <ng-template #inputBlock>
               <input class="ui labeled input form-control" type="text" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder | translate}}">
             </ng-template>
-            <div *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid">
-              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.required && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched" class="ui left pointing red basic label">{{'Required'|translate}}</small>
-              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.maxlength" class="ui left pointing red basic label">{{'Max150Symbols'|translate}}</small>
-            </div>
+            <ng-container  *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid">
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.required && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Required'|translate}}</small>
+<!--              TODO use "Max150Symbols" translation string after refactoring of weekly-to-dos-list.component.html, todo line 23 -->
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.maxlength" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Max75Symbols'|translate}}</small>
+            </ng-container>
           </div>
         </div>
       <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">

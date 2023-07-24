@@ -45,16 +45,16 @@ export interface DailyToDo {
   idNumber: number;
 }
 
-export interface DailyToDoEntries {
-  meaning: string;
-  title: string;
-  icon: string;
-  todoTextPlaceholder: string;
-}
-
 export interface DailyToDosEntries {
   target: DailyToDoEntries;
   part: DailyToDoEntries;
   longBox: DailyToDoEntries;
   personalGrowth: DailyToDoEntries;
+}
+
+export interface DailyToDoEntries {
+  meaning: string;
+  title: string;
+  icon: string;
+  todoTextPlaceholder: string;
 }

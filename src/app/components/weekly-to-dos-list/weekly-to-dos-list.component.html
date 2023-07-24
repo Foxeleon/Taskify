@@ -20,6 +20,7 @@
     </div>
     <div class="form-group two fields weekly-to-do-two-fields">
       <div class="ui labeled input field">
+<!--         TODO create alternative textarea field to read/edit todos similar to templates logic of weeklyTodoForm, weekly-to-do.component.html lines 13-28 -->
         <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{dailyTodo.titleTarget | translate}}</label>
         <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget">
         <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)"><i class="check circle {{(dailyTodo.completeTarget) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
