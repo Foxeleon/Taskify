@@ -28,7 +28,7 @@
   "TableTODO": "Описание",
   "TableDeadline": "Срок завершения",
   "TableComplete": "Завершить",
-  "TableDelete": "Удалить",
+  "Delete": "Удалить",
   "Complete issue": "Завершить задачу",
   "Completed!": "Выполнено!",
   "Required": "обязательно не менее одной задачи",

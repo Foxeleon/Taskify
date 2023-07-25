@@ -28,7 +28,7 @@
   "TableTODO": "Aufgabenbeschreibung",
   "TableDeadline": "Stichtag",
   "TableComplete": "Erledigen",
-  "TableDelete": "Löschen",
+  "Delete": "Löschen",
   "Complete issue": "Aufgabe fertigstellen",
   "Completed!": "Erledigt!",
   "Required": "Mindestens eine Aufgabe",
