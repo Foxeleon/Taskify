@@ -35,7 +35,7 @@ export class WeeklyToDosListComponent {
   }
 
   deleteDailyTodo(uniqueId: string) {
-    this.weeklyTodoService.deleteAllWeeklyTodo(uniqueId);
+    this.weeklyTodoService.deleteWeeklyTodo(uniqueId);
   }
 
   completeDailyTodo(uniqueId: string, meaning?: string) {
