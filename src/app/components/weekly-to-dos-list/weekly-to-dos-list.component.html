@@ -17,7 +17,7 @@
         <div class="two fields" style="display: flex; flex-flow: row nowrap">
           <div class="field">
             <div class="field" style="display: flex; justify-content: flex-start;" *ngIf="(isHandset$ | async)">
-              <button class="ui right labeled icon button">
+              <button class="ui right labeled icon button" (click)="completeDailyTodo(dailyTodo.uniqueId)">
                 <i class="check green link icon"></i>
                 {{'Complete day' | translate}}
               </button>
