@@ -28,7 +28,7 @@
   "TableTODO": "Task",
   "TableDeadline": "Deadline",
   "TableComplete": "Complete",
-  "TableDelete": "Delete",
+  "Delete": "Delete",
   "Complete issue": "Complete task",
   "Completed!": "Completed!",
   "Required": "At least one field is required",

@@ -2,10 +2,11 @@ import { Component, Input } from '@angular/core';
 import { DailyToDo, DailyToDosEntries } from '../../types';
 import { FormBuilder } from '@angular/forms';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
-import { map, Observable } from 'rxjs';
+import { map, Observable, shareReplay } from 'rxjs';
 import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-weekly-to-dos-list',
@@ -14,20 +15,27 @@ import { AppState } from '../../store/app.state';
 })
 export class WeeklyToDosListComponent {
 
-  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState> ) {}
+  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver ) {}
 
   dailyToDosEntries: DailyToDosEntries;
   dailyToDosEntries$: Observable<DailyToDosEntries>;
   dailyToDos$: Observable<DailyToDo[]>;
   @Input() isDoneList: boolean;
+  isHandset$: Observable<boolean>;
 
   ngOnInit(): void {
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$.pipe(map((dailyTodoArr) =>
-      (this.isDoneList) ? dailyTodoArr.filter(dailyToDo => dailyToDo.complete) :
+      (this.isDoneList) ? dailyTodoArr.filter(dailyToDo => dailyToDo.complete)
+          .sort((dailyToDoOne, dailyToDoTwo) => (dailyToDoTwo.doneDate.getTime() - dailyToDoOne.doneDate.getTime())) :
         dailyTodoArr.filter(dailyToDo => (dailyToDo.doneDate.getTime() > new Date().getTime()) && !dailyToDo.complete)
     ));
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => this.dailyToDosEntries = dailyToDosEntries);
+  }
+
+  deleteDailyTodo(uniqueId: string) {
+    this.weeklyTodoService.deleteWeeklyTodo(uniqueId);
   }
 
   completeDailyTodo(uniqueId: string, meaning?: string) {

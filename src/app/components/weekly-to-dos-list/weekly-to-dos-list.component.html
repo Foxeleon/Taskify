@@ -6,7 +6,33 @@
   <div class="ui card weekly-to-do">
   <form class="ui form">
     <div class="ui segment">
-      <div class="two fields">
+      <div class="two fields" *ngIf="!isDoneList">
+        <div class="field">
+          <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)" *ngIf="!(isHandset$ | async)">
+            <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
+            <label>{{'Complete day' | translate}}</label>
+          </div>
+          <a class="ui large label" *ngIf="(isHandset$ | async)">{{((dailyTodo.doneDate | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate | date: 'd-M-yyyy'}}, ID: {{dailyTodo.idNumber}}</a>
+        </div>
+        <div class="two fields" style="display: flex; flex-flow: row nowrap">
+          <div class="field">
+            <div class="field" style="display: flex; justify-content: flex-start;" *ngIf="(isHandset$ | async)">
+              <button class="ui right labeled icon button">
+                <i class="check green link icon"></i>
+                {{'Complete day' | translate}}
+              </button>
+            </div>
+            <a class="ui large label" *ngIf="!(isHandset$ | async)">{{((dailyTodo.doneDate | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate | date: 'd-M-yyyy'}}, ID: {{dailyTodo.idNumber}}</a>
+          </div>
+          <div class="field" style="display: flex; justify-content: flex-end;">
+            <button class="ui right labeled icon button" (click)="deleteDailyTodo(dailyTodo.uniqueId)">
+              <i class="delete red link icon"></i>
+              {{'Delete' | translate}}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="two fields" *ngIf="isDoneList">
         <div class="field">
           <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
             <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
