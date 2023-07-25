@@ -1,5 +1,5 @@
-<mat-tab-group (selectedTabChange)="tabChanged($event)" [selectedIndex]="this.tabIndex$ | async">
-  <mat-tab label="{{'todoList-tab-title' | translate}}">
+<mat-tab-group class="clearfix ui two item menu" (selectedTabChange)="tabChanged($event)" [selectedIndex]="this.tabIndex$ | async">
+  <mat-tab  class="item" label="{{'todoList-tab-title' | translate}}">
     <div class="ui accordion">
       <div class="title ui dividing header" [class.active]="accordeonActive" (click)="setAccordeonState()">
         <i class="icon dropdown"></i>
@@ -60,7 +60,7 @@
       <app-no-list-loading-animation [isDoneList]="false"/>
     </ng-container>
   </mat-tab>
-  <mat-tab label="{{'dailyTodos-tab-title' | translate}}">
+  <mat-tab  class="item" label="{{'dailyTodos-tab-title' | translate}}">
     <app-weekly-to-do></app-weekly-to-do>
   </mat-tab>
 </mat-tab-group>

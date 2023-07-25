@@ -26,3 +26,7 @@
 .todoui-list-divider {
   border-top-width: 2px;
 }
+
+.ui.form .fields {
+  align-items: center;
+}

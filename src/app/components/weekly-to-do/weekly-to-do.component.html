@@ -9,7 +9,7 @@
         <div class="form-group two fields" *ngFor="let dailyToDosEntry of dailyToDosEntriesArr">
           <div class="ui labeled input field">
             <label class="ui label"><i class="{{dailyToDosEntry.icon}} circle icon"></i>{{dailyToDosEntry.title | translate}}</label>
-            <input class="ui labeled input form-control weekly-to-do-input" type="text" formControlName="{{'title' + dailyToDosEntry.meaning}}" placeholder="{{(isHandset$ | async) ? (dailyToDosEntry.title | translate) : (('to-do-title' | translate) + ': ' + (dailyToDosEntry.title | translate) + ' (' + ('tap-to-change' | translate) + ')')}}">
+            <input class="ui labeled input form-control weekly-to-do-input" type="text" formControlName="{{'title' + dailyToDosEntry.meaning}}" placeholder="{{(dailyToDosEntry.title | translate)}}">
           </div>
           <div class="ui labeled input field" [class.error]="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched">
             <label class="ui label{{(isHandset$ | async) ? ' mobile-label' : ''}}">
