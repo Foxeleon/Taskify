@@ -43,9 +43,15 @@
             <mat-icon>cogs</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <div class="ui toggle checkbox" (click)="setFirstTodoTodayOrTomorrow()">
-          <input type="checkbox" name="gift" class="hidden" [checked]="(this.selectFirstTodoIsToday$ | async)">
-          <label>{{ 'First todo is' | translate}} {{((this.selectFirstTodoIsToday$ | async) ? 'today' : 'tomorrow') | translate}}</label>
+        <div class="panel-content">
+          <div class="ui toggle checkbox" (click)="setFirstTodoTodayOrTomorrow()">
+            <input type="checkbox" name="gift" class="hidden" [checked]="(this.selectFirstTodoIsToday$ | async)">
+            <label>{{ 'First todo is' | translate}} {{((this.selectFirstTodoIsToday$ | async) ? 'today' : 'tomorrow') | translate}}</label>
+          </div>
+          <button class="ui right labeled icon button" (click)="deleteAllTodos()">
+            <i class="recycle red link icon"></i>
+            {{'Delete all todos' | translate}}
+          </button>
         </div>
       </mat-expansion-panel>
       <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">

@@ -131,6 +131,10 @@ export class WeeklyToDoComponent implements OnInit {
     this.store.dispatch(WeeklyTodoActions.setFirstTodoTodayOrTomorrow());
   }
 
+  deleteAllTodos () {
+    this.weeklyTodoService.deleteAllWeeklyTodos();
+  }
+
   private getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
 
   private getDoneDate = (): Date => {

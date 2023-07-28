@@ -34,6 +34,10 @@ export class WeeklyTodoService extends TodoService {
     this.updateWeeklyTodos(this.getWeeklyTodos().filter(dailyTodo => dailyTodo.complete));
   }
 
+  deleteAllWeeklyTodos() {
+    this.updateWeeklyTodos([]);
+  }
+
   deleteWeeklyTodo(uniqueId: string) {
     const patchedWeeklyTodosArray = this.getWeeklyTodos().filter(dailyTodo => dailyTodo.uniqueId !== uniqueId);
     this.updateWeeklyTodos(patchedWeeklyTodosArray);

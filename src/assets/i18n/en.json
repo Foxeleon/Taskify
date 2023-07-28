@@ -29,6 +29,7 @@
   "TableDeadline": "Deadline",
   "TableComplete": "Complete",
   "Delete": "Delete",
+  "Delete all todos": "Delete all todos",
   "Complete issue": "Complete task",
   "Completed!": "Completed!",
   "Required": "At least one field is required",
