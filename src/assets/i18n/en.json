@@ -61,5 +61,9 @@
     "personalGrowth-title": "GROWTH",
     "personalGrowth-todoTextPlaceholder": "Everything that will increase your \"personal growth\" today"
   },
-  "tap-to-change": " tap to change"
+  "tap-to-change": " tap to change",
+  "additional settings": "Additional settings",
+  "First todo is": "First todo is",
+  "today": "today",
+  "tomorrow": "tomorrow"
 }

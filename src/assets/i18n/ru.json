@@ -61,5 +61,9 @@
     "personalGrowth-title": "РОСТ",
     "personalGrowth-todoTextPlaceholder": "Всё что увеличит ваш \"личностный рост\" сегодня"
   },
-  "tap-to-change": "нажмите для редактирования"
+  "tap-to-change": "нажмите для редактирования",
+  "additional settings": "Дополнительные настройки",
+  "First todo is": "Первый день",
+  "today": "сегодня",
+  "tomorrow": "завтра"
 }

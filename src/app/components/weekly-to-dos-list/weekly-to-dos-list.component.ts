@@ -29,7 +29,7 @@ export class WeeklyToDosListComponent {
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$.pipe(map((dailyTodoArr) =>
       (this.isDoneList) ? dailyTodoArr.filter(dailyToDo => dailyToDo.complete)
           .sort((dailyToDoOne, dailyToDoTwo) => (dailyToDoTwo.doneDate.getTime() - dailyToDoOne.doneDate.getTime())) :
-        dailyTodoArr.filter(dailyToDo => (dailyToDo.doneDate.getTime() > new Date().getTime()) && !dailyToDo.complete)
+        dailyTodoArr.filter(dailyToDo => !dailyToDo.complete)
     ));
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => this.dailyToDosEntries = dailyToDosEntries);
   }

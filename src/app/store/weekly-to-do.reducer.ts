@@ -29,11 +29,15 @@ export const initialState: WeeklyTodoState = {
       todoTextPlaceholder: 'dailyToDosEntries.personalGrowth-todoTextPlaceholder'
     }
   },
-  doneDate: new Date(),
+  dates: {
+    doneDate: new Date(),
+    firstDoneDateToday: false
+  },
 };
 
 export const weeklyTodoReducer = createReducer(
   initialState,
   on(WeeklyTodoActions.setDailyToDosEntries, (state, {dailyToDosEntries}) => ({...state, dailyToDosEntries})),
-  on(WeeklyTodoActions.setDoneDate, (state, {doneDate}) => ({...state, doneDate})),
+  on(WeeklyTodoActions.setDoneDate, (state, {doneDate}) => ({...state, dates: {firstDoneDateToday: state.dates.firstDoneDateToday, doneDate}})),
+  on(WeeklyTodoActions.setFirstTodoTodayOrTomorrow, (state) => ({...state, dates: {firstDoneDateToday: !state.dates.firstDoneDateToday, doneDate: state.dates.doneDate}})),
 );

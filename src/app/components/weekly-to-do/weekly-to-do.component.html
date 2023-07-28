@@ -34,6 +34,20 @@
             </ng-container>
           </div>
         </div>
+      <mat-expansion-panel  class="ui container" style="margin: 5px 0;">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{'additional settings' | translate}}
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon>cogs</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="ui toggle checkbox" (click)="setFirstTodoTodayOrTomorrow()">
+          <input type="checkbox" name="gift" class="hidden" [checked]="(this.selectFirstTodoIsToday$ | async)">
+          <label>{{ 'First todo is' | translate}} {{((this.selectFirstTodoIsToday$ | async) ? 'today' : 'tomorrow') | translate}}</label>
+        </div>
+      </mat-expansion-panel>
       <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
         <button class="ui primary button" type="submit" [disabled]="weeklyTodoForm.get('todoTextTarget').invalid && weeklyTodoForm.get('todoTextPart').invalid && weeklyTodoForm.get('todoTextLongBox').invalid && weeklyTodoForm.get('todoTextPersonalGrowth').invalid" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
         <div style="margin: 3px 0"></div>
@@ -42,7 +56,7 @@
     </form>
   </div>
 </div>
-<ng-template *ngIf="(dailyToDos$ | async).length; then weekTodosList; else noList"></ng-template>
+<ng-template *ngIf="(dailyToDosUncompleted$ | async).length; then weekTodosList; else noList"></ng-template>
 <ng-template #weekTodosList>
   <app-weekly-to-dos-list [isDoneList]="false"></app-weekly-to-dos-list>
 </ng-template>

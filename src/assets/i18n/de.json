@@ -61,5 +61,9 @@
     "personalGrowth-title": "WACHSTUM",
     "personalGrowth-todoTextPlaceholder": "Alles, was Ihr \"persönliches Wachstum\" heute entwickelt"
   },
-  "tap-to-change": "zum Ändern antippen"
+  "tap-to-change": "zum Ändern antippen",
+  "additional settings": "Zusätzliche Tools",
+  "First todo is": "Die erste Aufgabe ist für",
+  "today": "heute",
+  "tomorrow": "morgen"
 }
