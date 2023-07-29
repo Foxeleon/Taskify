@@ -24,7 +24,7 @@ export class ButtonsCompleteDeleteAllComponent implements OnInit {
   }
 
   clearToDoList() {
-    (this.data.isWeekly) ? this.weeklyTodoService.deleteAllWeeklyTodos() : this.todoService.clearToDoList(this.data.toDos);
+    (this.data.isWeekly) ? this.weeklyTodoService.deleteAllUncompletedWeeklyTodos() : this.todoService.clearToDoList(this.data.toDos);
   }
 
 }

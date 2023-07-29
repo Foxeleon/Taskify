@@ -5,7 +5,7 @@ import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
 import { map, Observable, shareReplay, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { selectDailyToDosEntries, selectDoneDate } from '../../store/weekly-to-do.selector';
+import { selectDailyToDosEntries, selectDoneDate, selectFirstTodoIsToday } from '../../store/weekly-to-do.selector';
 import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
@@ -70,7 +70,7 @@ export class WeeklyToDoComponent implements OnInit {
   isHandset$: Observable<boolean>;
 
   // Observables for different cases in the future ideas implementations
-  // dailyToDosUncompleted$: Observable<DailyToDo[]>;
+  dailyToDosUncompleted$: Observable<DailyToDo[]>;
   // dailyToDosPartlyCompleted$: Observable<DailyToDo[]>;
   // dailyToDosFullyCompleted$: Observable<DailyToDo[]>;
 
@@ -79,7 +79,10 @@ export class WeeklyToDoComponent implements OnInit {
                private store: Store<AppState>,
                private breakpointObserver: BreakpointObserver) {}
 
+  selectFirstTodoIsToday$: Observable<boolean>;
+
   ngOnInit(): void {
+    this.selectFirstTodoIsToday$ = this.store.select(selectFirstTodoIsToday);
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => {
@@ -92,7 +95,7 @@ export class WeeklyToDoComponent implements OnInit {
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
     this.dailyToDos$.subscribe(dailyToDos => console.log(dailyToDos));
 
-    // this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
+    this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
     // this.dailyToDosPartlyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
            // tslint:disable-next-line:max-line-length
     //     (dailyTodo.complete && (dailyTodo.completePart || dailyTodo.completeTarget || dailyTodo.completeLongBox || dailyTodo.completePersonalGrowth) && (!dailyTodo.completePart || !dailyTodo.completeTarget || !dailyTodo.completeLongBox || !dailyTodo.completePersonalGrowth))))
@@ -124,6 +127,14 @@ export class WeeklyToDoComponent implements OnInit {
     this.store.select(selectDoneDate).subscribe(value => console.log(value));
   }
 
+  setFirstTodoTodayOrTomorrow() {
+    this.store.dispatch(WeeklyTodoActions.setFirstTodoTodayOrTomorrow());
+  }
+
+  deleteAllTodos () {
+    this.weeklyTodoService.deleteAllWeeklyTodos();
+  }
+
   private getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
 
   private getDoneDate = (): Date => {
@@ -134,9 +145,21 @@ export class WeeklyToDoComponent implements OnInit {
 
   private setDoneDate = (): Date => {
     let dDate: Date;
+    let uncompletedTodosLength;
+    let firstTodoIsToday;
+    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => uncompletedTodosLength = dailyTodoArr.length);
+    this.selectFirstTodoIsToday$.pipe(take(1)).subscribe(isToday => firstTodoIsToday = isToday);
     this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
-      // (milliseconds of given date + 24h*60minutes*60seconds*10^3=86400000) = next day
-      dDate = new Date(doneDate.getTime() + 86400000);
+      if (uncompletedTodosLength === 0) {
+        if (firstTodoIsToday) {
+          dDate = new Date();
+        } else {
+          dDate = new Date(new Date().getTime() + 86400000);
+        }
+      } else {
+        // (milliseconds of given date + 24h*60minutes*60seconds*10^3=86400000) = next day
+        dDate = new Date(doneDate.getTime() + 86400000);
+      }
     });
     return dDate;
   }

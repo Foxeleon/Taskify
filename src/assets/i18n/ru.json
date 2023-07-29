@@ -29,6 +29,7 @@
   "TableDeadline": "Срок завершения",
   "TableComplete": "Завершить",
   "Delete": "Удалить",
+  "Delete all todos": "Удалить все задачи",
   "Complete issue": "Завершить задачу",
   "Completed!": "Выполнено!",
   "Required": "обязательно не менее одной задачи",
@@ -61,5 +62,9 @@
     "personalGrowth-title": "РОСТ",
     "personalGrowth-todoTextPlaceholder": "Всё что увеличит ваш \"личностный рост\" сегодня"
   },
-  "tap-to-change": "нажмите для редактирования"
+  "tap-to-change": "нажмите для редактирования",
+  "additional settings": "Дополнительные настройки",
+  "First todo is": "Первый день",
+  "today": "сегодня",
+  "tomorrow": "завтра"
 }

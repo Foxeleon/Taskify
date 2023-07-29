@@ -10,5 +10,10 @@ export const selectDailyToDosEntries = createSelector(
 
 export const selectDoneDate = createSelector(
   selectWeeklyToDo,
-  state => state.doneDate
+  state => state.dates.doneDate
+);
+
+export const selectFirstTodoIsToday = createSelector(
+  selectWeeklyToDo,
+  state => state.dates.firstDoneDateToday
 );
