@@ -35,6 +35,7 @@ export class WeeklyTodoService extends TodoService {
   }
 
   deleteAllWeeklyTodos() {
+    this.dailyToDosLastIdCacheSubject.next(0);
     this.updateWeeklyTodos([]);
   }
 
@@ -51,8 +52,10 @@ export class WeeklyTodoService extends TodoService {
     this.dailyTodoSubject.next(DailyToDoArr.map(dailyToDo => {
       if (fromServer) {
         dailyToDo.doneDate = new Date(dailyToDo.doneDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
         // if the doneDate is older than today, than complete dailyToDo
-        if (new Date().getTime() > dailyToDo.doneDate.getTime()) dailyToDo.complete = true;
+        if (dailyToDo.doneDate.getTime() < today.getTime()) dailyToDo.complete = true;
       }
       return dailyToDo;
     }));
