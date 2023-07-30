@@ -48,23 +48,40 @@
       <div class="ui labeled input field">
 <!--         TODO create alternative textarea field to read/edit todos similar to templates logic of weeklyTodoForm, weekly-to-do.component.html lines 13-28 -->
         <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{dailyTodo.titleTarget | translate}}</label>
+        <div class="ui small basic icon buttons">
+          <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)">
+            <i class="edit green large link icon left"></i>
+          </button>
+        </div>
         <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget || isDoneList">
         <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completeTarget) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
       </div>
       <div class="ui labeled input field">
-        <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{dailyTodo.titlePart | translate}}</label>
+        <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{dailyTodo.titlePart | translate}}</label>        <div class="ui small basic icon buttons">
+        <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)">
+          <i class="edit green large link icon left"></i>
+        </button>
+      </div>
         <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextPart}}" [disabled]="dailyTodo.completePart || isDoneList">
         <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completePart) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
       </div>
     </div>
     <div class="form-group two fields weekly-to-do-two-fields">
       <div class="ui labeled input field">
-        <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{dailyTodo.titleLongBox | translate}}</label>
+        <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{dailyTodo.titleLongBox | translate}}</label>        <div class="ui small basic icon buttons">
+        <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)">
+          <i class="edit green large link icon left"></i>
+        </button>
+      </div>
         <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextLongBox}}" [disabled]="dailyTodo.completeLongBox || isDoneList">
         <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completeLongBox) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
       </div>
       <div class="ui labeled input field">
-        <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{dailyTodo.titlePersonalGrowth | translate}}</label>
+        <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{dailyTodo.titlePersonalGrowth | translate}}</label>        <div class="ui small basic icon buttons">
+        <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)">
+          <i class="edit green large link icon left"></i>
+        </button>
+      </div>
         <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextPersonalGrowth}}" [disabled]="dailyTodo.completePersonalGrowth || isDoneList">
         <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completePersonalGrowth) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
       </div>

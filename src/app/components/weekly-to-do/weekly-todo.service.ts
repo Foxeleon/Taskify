@@ -44,6 +44,29 @@ export class WeeklyTodoService extends TodoService {
     this.updateWeeklyTodos(patchedWeeklyTodosArray);
   }
 
+  editWeeklyTodo(uniqueId: string, meaning: string) {
+    const patchedWeeklyTodosArray = this.getWeeklyTodos().map(dailyTodo => {
+      if (dailyTodo.uniqueId === uniqueId) {
+        switch (meaning) {
+          case 'Target':
+            console.log(dailyTodo.todoTextTarget);
+            break;
+          case 'Part':
+            console.log(dailyTodo.todoTextPart);
+            break;
+          case 'LongBox':
+            console.log(dailyTodo.todoTextLongBox);
+            break;
+          case 'PersonalGrowth':
+            console.log(dailyTodo.todoTextPersonalGrowth);
+            break;
+        }
+      }
+      return dailyTodo;
+    });
+    this.updateWeeklyTodos(patchedWeeklyTodosArray);
+  }
+
   getWeeklyTodos(): DailyToDo[] {
     return this.dailyTodoSubject.getValue();
   }

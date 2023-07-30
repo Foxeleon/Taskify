@@ -131,7 +131,7 @@ export class WeeklyToDoComponent implements OnInit {
     this.store.dispatch(WeeklyTodoActions.setFirstTodoTodayOrTomorrow());
   }
 
-  deleteAllTodos () {
+  deleteAllTodos() {
     this.weeklyTodoService.deleteAllWeeklyTodos();
   }
 

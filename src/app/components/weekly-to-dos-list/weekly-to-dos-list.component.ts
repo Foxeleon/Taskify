@@ -38,6 +38,10 @@ export class WeeklyToDosListComponent {
     this.weeklyTodoService.deleteWeeklyTodo(uniqueId);
   }
 
+  editDailyTodo(uniqueId: string, meaning: string) {
+    this.weeklyTodoService.editWeeklyTodo(uniqueId, meaning);
+  }
+
   completeDailyTodo(uniqueId: string, meaning?: string) {
     const weeklyTodosArray = this.weeklyTodoService.getWeeklyTodos();
     let updatedWeeklyTodosArray: DailyToDo[];
