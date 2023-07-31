@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { TodoService } from '../../todo.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DailyToDo } from '../../types';
+import { DailyToDo, EditDialogData } from '../../types';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,7 @@ export class WeeklyTodoService extends TodoService {
   dailyToDos$: Observable<DailyToDo[]> = this.dailyTodoSubject.asObservable();
   dailyToDosLastIdCacheSubject = new BehaviorSubject<number>(0);
 
-  constructor(private httpWeekly: HttpClient, private store: Store<AppState>) {
+  constructor(private httpWeekly: HttpClient, private store: Store<AppState>, public matDialog: MatDialog) {
     super(httpWeekly);
   }
 
@@ -44,7 +46,40 @@ export class WeeklyTodoService extends TodoService {
     this.updateWeeklyTodos(patchedWeeklyTodosArray);
   }
 
+  getTitleAndTextOfTodo = (todo: DailyToDo, meaning: string): EditDialogData => {
+    let editDialogData: EditDialogData;
+    switch (meaning) {
+      case 'Target':
+        editDialogData = {title: todo.titleTarget, text: todo.todoTextTarget};
+        break;
+      case 'Part':
+        editDialogData = {title: todo.titlePart, text: todo.todoTextPart};
+        break;
+      case 'LongBox':
+        editDialogData = {title: todo.titleLongBox, text: todo.todoTextLongBox};
+        break;
+      case 'PersonalGrowth':
+        editDialogData = {title: todo.titlePersonalGrowth, text: todo.todoTextPersonalGrowth};
+        break;
+      default:
+        editDialogData = {title: '', text: ''};
+    }
+    return editDialogData;
+  }
+
   editWeeklyTodo(uniqueId: string, meaning: string) {
+    const weeklyTodosArray = this.getWeeklyTodos();
+    const TodoToEdit = weeklyTodosArray.find(dailyTodo => dailyTodo.uniqueId === uniqueId);
+    const editDialogData: EditDialogData = this.getTitleAndTextOfTodo(TodoToEdit, meaning);
+    const dialogRef = this.matDialog.open(EditDialogComponent, {
+      width: 'auto',
+      data: { title: editDialogData.title, text: editDialogData.text },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+
     const patchedWeeklyTodosArray = this.getWeeklyTodos().map(dailyTodo => {
       if (dailyTodo.uniqueId === uniqueId) {
         switch (meaning) {
