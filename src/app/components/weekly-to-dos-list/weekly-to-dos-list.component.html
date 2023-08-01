@@ -48,7 +48,7 @@
       <div class="ui labeled input field">
 <!--         TODO create alternative textarea field to read/edit todos similar to templates logic of weeklyTodoForm, weekly-to-do.component.html lines 13-28 -->
         <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{dailyTodo.titleTarget | translate}}</label>
-        <div class="ui small basic icon buttons" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)">
+        <div class="ui small basic icon buttons" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)" *ngIf="!isDoneList">
           <button class="ui button">
             <i class="edit green large link icon left"></i>
           </button>
@@ -58,7 +58,7 @@
       </div>
       <div class="ui labeled input field">
         <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{dailyTodo.titlePart | translate}}</label>
-        <div class="ui small basic icon buttons" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)">
+        <div class="ui small basic icon buttons" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)" *ngIf="!isDoneList">
           <button class="ui button">
             <i class="edit green large link icon left"></i>
           </button>
@@ -71,7 +71,7 @@
 
       <div class="ui labeled input field">
         <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{dailyTodo.titleLongBox | translate}}</label>
-        <div class="ui small basic icon buttons" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)">
+        <div class="ui small basic icon buttons" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)" *ngIf="!isDoneList">
         <button class="ui button">
           <i class="edit green large link icon left"></i>
         </button>
@@ -81,7 +81,7 @@
       </div>
       <div class="ui labeled input field">
         <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{dailyTodo.titlePersonalGrowth | translate}}</label>
-        <div class="ui small basic icon buttons" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)">
+        <div class="ui small basic icon buttons" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)" *ngIf="!isDoneList">
           <button class="ui button">
             <i class="edit green large link icon left"></i>
           </button>
