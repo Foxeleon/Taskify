@@ -67,39 +67,48 @@ export class WeeklyTodoService extends TodoService {
     return editDialogData;
   }
 
+  patchTodo = (todo: DailyToDo, meaning: string, result: EditDialogData): DailyToDo => {
+    let patchedTodo: DailyToDo;
+    switch (meaning) {
+      case 'Target':
+        patchedTodo = { ...todo, titleTarget: result.title, todoTextTarget: result.text };
+        break;
+      case 'Part':
+        patchedTodo = { ...todo, titlePart: result.title, todoTextPart: result.text };
+        break;
+      case 'LongBox':
+        patchedTodo = { ...todo, titleLongBox: result.title, todoTextLongBox: result.text };
+        break;
+      case 'PersonalGrowth':
+        patchedTodo = { ...todo, titlePersonalGrowth: result.title, todoTextPersonalGrowth: result.text };
+        break;
+      default:
+        console.error('an error occurred. Todo was not updated. function params: ', {todo, meaning, result});
+        patchedTodo = todo;
+    }
+    return patchedTodo;
+  }
+
   editWeeklyTodo(uniqueId: string, meaning: string) {
     const weeklyTodosArray = this.getWeeklyTodos();
-    const TodoToEdit = weeklyTodosArray.find(dailyTodo => dailyTodo.uniqueId === uniqueId);
-    const editDialogData: EditDialogData = this.getTitleAndTextOfTodo(TodoToEdit, meaning);
+    const todoToEdit = weeklyTodosArray.find(dailyTodo => dailyTodo.uniqueId === uniqueId);
+    const editDialogData: EditDialogData = this.getTitleAndTextOfTodo(todoToEdit, meaning);
     const dialogRef = this.matDialog.open(EditDialogComponent, {
-      width: 'auto',
+      width: '350px',
+      enterAnimationDuration: '350ms',
+      exitAnimationDuration: '150ms',
+      disableClose: true,
       data: { title: editDialogData.title, text: editDialogData.text },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-    });
-
-    const patchedWeeklyTodosArray = this.getWeeklyTodos().map(dailyTodo => {
-      if (dailyTodo.uniqueId === uniqueId) {
-        switch (meaning) {
-          case 'Target':
-            console.log(dailyTodo.todoTextTarget);
-            break;
-          case 'Part':
-            console.log(dailyTodo.todoTextPart);
-            break;
-          case 'LongBox':
-            console.log(dailyTodo.todoTextLongBox);
-            break;
-          case 'PersonalGrowth':
-            console.log(dailyTodo.todoTextPersonalGrowth);
-            break;
-        }
+      if (result) {
+        const patchedTodo = this.patchTodo(todoToEdit, meaning, result);
+        const dailyTodoIndex = weeklyTodosArray.findIndex(dailyTodo => dailyTodo.uniqueId === uniqueId);
+        weeklyTodosArray[dailyTodoIndex] = patchedTodo;
+        this.updateWeeklyTodos(weeklyTodosArray);
       }
-      return dailyTodo;
     });
-    this.updateWeeklyTodos(patchedWeeklyTodosArray);
   }
 
   getWeeklyTodos(): DailyToDo[] {
