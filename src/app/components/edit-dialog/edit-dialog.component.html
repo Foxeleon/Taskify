@@ -1,6 +1,6 @@
 <div class="ui container" style="overflow: hidden;">
   <h4 class="ui dividing header" style="text-align: center;" mat-dialog-title>{{'EditDialog.Edit' | translate}} {{this.title}}</h4>
-  <div mat-dialog-content>
+  <div style="display: flex; flex-flow: column;" mat-dialog-content>
     <p>{{ 'EditDialog.titleFieldDescription' | translate }}</p>
     <mat-form-field class="ui input">
       <input matInput [(ngModel)]="this.title" />
