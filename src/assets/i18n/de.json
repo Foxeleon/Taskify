@@ -66,5 +66,11 @@
   "additional settings": "Zusätzliche Tools",
   "First todo is": "Die erste Aufgabe ist für",
   "today": "heute",
-  "tomorrow": "morgen"
+  "tomorrow": "morgen",
+  "EditDialog": {
+    "Update": "Aktualisieren",
+    "Edit": "Bearbeiten",
+    "titleFieldDescription": "Titel bearbeiten",
+    "textFieldDescription": "Beschreibung bearbeiten"
+  }
 }

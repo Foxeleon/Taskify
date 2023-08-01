@@ -66,5 +66,11 @@
   "additional settings": "Additional settings",
   "First todo is": "First todo is",
   "today": "today",
-  "tomorrow": "tomorrow"
+  "tomorrow": "tomorrow",
+  "EditDialog": {
+    "Update": "Update",
+    "Edit": "Edit",
+    "titleFieldDescription": "Change title",
+    "textFieldDescription": "Change description"
+  }
 }

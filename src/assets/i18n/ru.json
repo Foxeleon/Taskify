@@ -66,5 +66,11 @@
   "additional settings": "Дополнительные настройки",
   "First todo is": "Первый день",
   "today": "сегодня",
-  "tomorrow": "завтра"
+  "tomorrow": "завтра",
+  "EditDialog": {
+    "Update": "Обновить",
+    "Edit": "Редактировать",
+    "titleFieldDescription": "Обновить заголовок",
+    "textFieldDescription": "Обновить описание"
+  }
 }

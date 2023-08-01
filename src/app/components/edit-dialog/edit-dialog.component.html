@@ -1,0 +1,17 @@
+<div class="ui container" style="overflow: hidden;">
+  <h4 class="ui dividing header" style="text-align: center;" mat-dialog-title>{{'EditDialog.Edit' | translate}} {{this.title}}</h4>
+  <div mat-dialog-content>
+    <p>{{ 'EditDialog.titleFieldDescription' | translate }}</p>
+    <mat-form-field class="ui input">
+      <input matInput [(ngModel)]="this.title" />
+    </mat-form-field>
+    <p>{{ 'EditDialog.textFieldDescription' | translate }}</p>
+    <mat-form-field>
+      <input matInput [(ngModel)]="this.text" />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button class="ui button" mat-button (click)="onCancel()">{{'Cancel' | translate}}</button>
+    <button class="ui button" mat-button [mat-dialog-close]="getUpdatedData()" cdkFocusInitial>{{'EditDialog.Update' | translate}}</button>
+  </div>
+</div>

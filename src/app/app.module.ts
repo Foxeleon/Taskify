@@ -35,6 +35,8 @@ import { weeklyTodoReducer } from './store/weekly-to-do.reducer';
 import { MatDividerModule } from '@angular/material/divider';
 import { ButtonsCompleteDeleteAllComponent } from './components/buttons-complete-delete-all/buttons-complete-delete-all.component';
 import { NoListLoadingAnimationComponent } from './components/no-list-loading-animation/no-list-loading-animation.component';
+import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -53,32 +55,34 @@ export function HttpLoaderFactory(http: HttpClient) {
     WeeklyToDoComponent,
     WeeklyToDosListComponent,
     ButtonsCompleteDeleteAllComponent,
-    NoListLoadingAnimationComponent
+    NoListLoadingAnimationComponent,
+    EditDialogComponent,
   ],
-  imports: [
-    MatTabsModule,
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
-    BrowserAnimationsModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDividerModule,
-  ],
+    imports: [
+        MatTabsModule,
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        BrowserAnimationsModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatExpansionModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDividerModule,
+        MatDialogModule,
+    ],
   providers: [
     provideStore(),
     provideState<HomeState>(HOME_FEATURE_KEY, homeReducer),

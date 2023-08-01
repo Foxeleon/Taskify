@@ -58,3 +58,8 @@ export interface DailyToDoEntries {
   icon: string;
   todoTextPlaceholder: string;
 }
+
+export interface EditDialogData {
+  title: string;
+  text: string;
+}
