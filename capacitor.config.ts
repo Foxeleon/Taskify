@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.devaw.ptodolist',
-  appName: 'productivity_to-do_list',
+  appName: 'Taskifier',
   webDir: 'dist/ToDoUI',
   server: {
     androidScheme: 'https'
