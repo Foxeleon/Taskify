@@ -1,6 +1,6 @@
 <mat-tab-group class="clearfix ui two item menu" (selectedTabChange)="tabChanged($event)" [selectedIndex]="this.tabIndex$ | async">
   <mat-tab  class="item" label="{{'todoList-tab-title' | translate}}">
-    <div class="ui accordion">
+    <div class="ui accordion ui-accordion-input-form">
       <div class="title ui dividing header" [class.active]="accordeonActive" (click)="setAccordeonState()">
         <i class="icon dropdown"></i>
         {{'todoForm header' | translate}}
