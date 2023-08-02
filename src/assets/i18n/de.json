@@ -49,6 +49,8 @@
   "Week of month": "Monatswoche",
   "Complete day": "Tag abschließen",
   "weeklyTodoForm header": "Tagesaufgaben erstellen",
+  "Backup": "Datensicherung",
+  "Restore": "Wiederherstellen",
   "dailyToDosEntries": {
     "target-title": "ZIEL",
     "target-todoTextPlaceholder": "Tageshauptaufgabe",

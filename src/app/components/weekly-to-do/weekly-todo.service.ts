@@ -8,6 +8,7 @@ import { AppState } from '../../store/app.state';
 import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,27 @@ export class WeeklyTodoService extends TodoService {
   dailyToDos$: Observable<DailyToDo[]> = this.dailyTodoSubject.asObservable();
   dailyToDosLastIdCacheSubject = new BehaviorSubject<number>(0);
 
-  constructor(private httpWeekly: HttpClient, private store: Store<AppState>, public matDialog: MatDialog) {
-    super(httpWeekly);
+  constructor(private httpWeekly: HttpClient,
+              private store: Store<AppState>,
+              public matDialog: MatDialog) {
+                super(httpWeekly);
+              }
+
+  backupWeeklyTodosToFile() {
+    const backupData = btoa(JSON.stringify(this.getWeeklyTodos()));
+    const date = new Date();
+    const fileName = 'Taskify' + '-backup-' + this.yyyymmdd(date) + ('_') + date.getHours() + (':') + date.getMinutes();
+    const blob = new Blob([backupData], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, fileName);
+  }
+
+  restoreWeeklyTodosFromFile(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.updateWeeklyTodos(JSON.parse(atob(e.target.result)), true);
+    };
+    reader.readAsText(file);
   }
 
   completeAllWeeklyTodos() {

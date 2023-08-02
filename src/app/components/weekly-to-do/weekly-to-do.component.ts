@@ -127,6 +127,13 @@ export class WeeklyToDoComponent implements OnInit {
     this.store.select(selectDoneDate).subscribe(value => console.log(value));
   }
 
+  backupWeeklyTodosToFile() {
+    this.weeklyTodoService.backupWeeklyTodosToFile();
+  }
+  restoreWeeklyTodosFromFile(event: any) {
+    this.weeklyTodoService.restoreWeeklyTodosFromFile(event);
+  }
+
   setFirstTodoTodayOrTomorrow() {
     this.store.dispatch(WeeklyTodoActions.setFirstTodoTodayOrTomorrow());
   }

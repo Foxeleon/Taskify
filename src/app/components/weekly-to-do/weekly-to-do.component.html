@@ -44,14 +44,29 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="panel-content">
-          <div class="ui toggle checkbox" (click)="setFirstTodoTodayOrTomorrow()">
+          <div class="ui toggle checkbox" style="margin: 2px;" (click)="setFirstTodoTodayOrTomorrow()">
             <input type="checkbox" name="gift" class="hidden" [checked]="(this.selectFirstTodoIsToday$ | async)">
             <label>{{ 'First todo is' | translate}} {{((this.selectFirstTodoIsToday$ | async) ? 'today' : 'tomorrow') | translate}}</label>
           </div>
-          <button class="ui right labeled icon button" (click)="deleteAllTodos()">
+          <button class="ui right labeled icon button" style="margin: 2px;" (click)="deleteAllTodos()">
             <i class="recycle red link icon"></i>
             {{'Delete all todos' | translate}}
           </button>
+          <div style="margin: 2px;">
+            <div class="ui vertical animated button" tabindex="0" (click)="this.backupWeeklyTodosToFile()">
+                <div class="hidden content" style="font-size: xx-small;">{{'Backup' | translate}}</div>
+                <div class="visible content">
+                  <i class="save icon"></i>
+                </div>
+            </div>
+            <div class="ui vertical animated button" tabindex="0" (click)="restorefileInput.click()">
+              <div class="hidden content" style="font-size: xx-small;">{{'Restore' | translate}}</div>
+              <div class="visible content">
+                <i class="sync icon"></i>
+              </div>
+            </div>
+            <input type="file"  style="display:none" #restorefileInput (change)="this.restoreWeeklyTodosFromFile($event)">
+          </div>
         </div>
       </mat-expansion-panel>
       <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
