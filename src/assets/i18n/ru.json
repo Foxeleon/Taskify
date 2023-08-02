@@ -49,6 +49,8 @@
   "Week of month": "Неделя месяца",
   "Complete day": "Завершить день",
   "weeklyTodoForm header": "Создать задачи на день",
+  "Backup": "Бэкап",
+  "Restore": "Восстановить",
   "dailyToDosEntries": {
     "target-title": "ЦЕЛЬ",
     "target-todoTextPlaceholder": "Главная задача на день",

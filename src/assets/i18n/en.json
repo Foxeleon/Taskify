@@ -49,6 +49,8 @@
   "Week of month": "Week of month",
   "Complete day": "Complete day",
   "weeklyTodoForm header": "Create daily todos",
+  "Backup": "Backup",
+  "Restore": "Restore",
   "dailyToDosEntries": {
     "target-title": "TARGET",
     "target-todoTextPlaceholder": "Main task of the day",
