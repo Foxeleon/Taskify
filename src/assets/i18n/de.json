@@ -51,6 +51,10 @@
   "weeklyTodoForm header": "Tagesaufgaben erstellen",
   "Backup": "Datensicherung",
   "Restore": "Wiederherstellen",
+  "Yes": "Ja",
+  "Cancel": "Abbrechen",
+  "DeleteAllWeeklyTodosTitle": "Sind Sie sicher, dass Sie alle Aufgaben vollständig löschen möchten?",
+  "DeleteDailyTodoTitle": "Sind Sie sicher, dass Sie todo löschen möchten?",
   "dailyToDosEntries": {
     "target-title": "ZIEL",
     "target-todoTextPlaceholder": "Tageshauptaufgabe",

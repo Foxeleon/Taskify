@@ -51,6 +51,10 @@
   "weeklyTodoForm header": "Create daily todos",
   "Backup": "Backup",
   "Restore": "Restore",
+  "Yes": "Yes",
+  "Cancel": "Cancel",
+  "DeleteAllWeeklyTodosTitle": "Are you sure want to delete completely all todos?",
+  "DeleteDailyTodoTitle": "Are you sure want to delete todo?",
   "dailyToDosEntries": {
     "target-title": "TARGET",
     "target-todoTextPlaceholder": "Main task of the day",

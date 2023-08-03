@@ -5,7 +5,6 @@
   </div>
   <div class="content" [class.active]="panelOpenState">
     <form [formGroup]="weeklyTodoForm" class="ui form" style="padding-bottom: 10px;">
-<!--      TODO Add toggle create todo from today or from tomorrow -->
         <div class="form-group two fields" *ngFor="let dailyToDosEntry of dailyToDosEntriesArr">
           <div class="ui labeled input field">
             <label class="ui label"><i class="{{dailyToDosEntry.icon}} circle icon"></i>{{dailyToDosEntry.title | translate}}</label>
