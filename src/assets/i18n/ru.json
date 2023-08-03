@@ -51,6 +51,10 @@
   "weeklyTodoForm header": "Создать задачи на день",
   "Backup": "Бэкап",
   "Restore": "Восстановить",
+  "Yes": "Да",
+  "Cancel": "Отмена",
+  "DeleteAllWeeklyTodosTitle": "Вы уверены, что хотите полностью удалить все задачи?",
+  "DeleteDailyTodoTitle": "Вы уверены, что хотите удалить задачу?",
   "dailyToDosEntries": {
     "target-title": "ЦЕЛЬ",
     "target-todoTextPlaceholder": "Главная задача на день",

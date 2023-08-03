@@ -1,0 +1,7 @@
+<div class="ui container" style="overflow: hidden;">
+  <h4 class="ui dividing header" style="text-align: center;" mat-dialog-title>{{this.titleMessage}}</h4>
+  <div mat-dialog-actions style="display: flex">
+    <button class="ui button" mat-button (click)="onCancel()">{{'Cancel' | translate}}</button>
+    <button class="ui button" mat-button [mat-dialog-close]="sendPositiveResponse()" cdkFocusInitial>{{'Yes' | translate}}</button>
+  </div>
+</div>

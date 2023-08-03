@@ -9,6 +9,7 @@ import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { saveAs } from 'file-saver';
+import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -57,13 +58,35 @@ export class WeeklyTodoService extends TodoService {
   }
 
   deleteAllWeeklyTodos() {
-    this.dailyToDosLastIdCacheSubject.next(0);
-    this.updateWeeklyTodos([]);
+    const dialogRef = this.matDialog.open(DeleteWarningDialogComponent, {
+      width: '350px',
+      enterAnimationDuration: '350ms',
+      exitAnimationDuration: '150ms',
+      data: { titleMessageData: 'DeleteAllWeeklyTodosTitle' },
+    });
+
+    dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
+      if (deleteAllWeeklyTodos) {
+        this.dailyToDosLastIdCacheSubject.next(0);
+        this.updateWeeklyTodos([]);
+      }
+    });
   }
 
   deleteWeeklyTodo(uniqueId: string) {
-    const patchedWeeklyTodosArray = this.getWeeklyTodos().filter(dailyTodo => dailyTodo.uniqueId !== uniqueId);
-    this.updateWeeklyTodos(patchedWeeklyTodosArray);
+    const dialogRef = this.matDialog.open(DeleteWarningDialogComponent, {
+      width: '350px',
+      enterAnimationDuration: '350ms',
+      exitAnimationDuration: '150ms',
+      data: { titleMessageData: 'DeleteDailyTodoTitle' },
+    });
+
+    dialogRef.afterClosed().subscribe(deleteTodo => {
+      if (deleteTodo) {
+        const patchedWeeklyTodosArray = this.getWeeklyTodos().filter(dailyTodo => dailyTodo.uniqueId !== uniqueId);
+        this.updateWeeklyTodos(patchedWeeklyTodosArray);
+      }
+    });
   }
 
   getTitleAndTextOfTodo = (todo: DailyToDo, meaning: string): EditDialogData => {
