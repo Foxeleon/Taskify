@@ -57,13 +57,17 @@ export class WeeklyTodoService extends TodoService {
     this.updateWeeklyTodos(this.getWeeklyTodos().filter(dailyTodo => dailyTodo.complete));
   }
 
-  deleteAllWeeklyTodos() {
-    const dialogRef = this.matDialog.open(DeleteWarningDialogComponent, {
+  openDleteDialog(titleMessage: string) {
+    return this.matDialog.open(DeleteWarningDialogComponent, {
       width: '350px',
       enterAnimationDuration: '350ms',
       exitAnimationDuration: '150ms',
-      data: { titleMessageData: 'DeleteAllWeeklyTodosTitle' },
+      data: { titleMessageData: titleMessage },
     });
+  }
+
+  deleteAllWeeklyTodos() {
+    const dialogRef = this.openDleteDialog('DeleteAllWeeklyTodosTitle');
 
     dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
       if (deleteAllWeeklyTodos) {
@@ -74,12 +78,7 @@ export class WeeklyTodoService extends TodoService {
   }
 
   deleteWeeklyTodo(uniqueId: string) {
-    const dialogRef = this.matDialog.open(DeleteWarningDialogComponent, {
-      width: '350px',
-      enterAnimationDuration: '350ms',
-      exitAnimationDuration: '150ms',
-      data: { titleMessageData: 'DeleteDailyTodoTitle' },
-    });
+    const dialogRef = this.openDleteDialog('DeleteDailyTodoTitle');
 
     dialogRef.afterClosed().subscribe(deleteTodo => {
       if (deleteTodo) {

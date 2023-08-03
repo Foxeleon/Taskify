@@ -19,7 +19,6 @@ export class DeleteWarningDialogComponent implements OnInit {
   }
 
   getTranslation(key: string): string {
-    console.log(key);
     return (key) ? this.translateService.instant(key) : '';
   }
 
