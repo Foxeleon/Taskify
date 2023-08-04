@@ -8,7 +8,6 @@ import { AppState } from '../../store/app.state';
 import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { saveAs } from 'file-saver';
 import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
 
 @Injectable({
@@ -31,9 +30,12 @@ export class WeeklyTodoService extends TodoService {
   backupWeeklyTodosToFile() {
     const backupData = btoa(JSON.stringify(this.getWeeklyTodos()));
     const date = new Date();
-    const fileName = 'Taskify' + '-backup-' + this.yyyymmdd(date) + ('_') + date.getHours() + (':') + date.getMinutes();
-    const blob = new Blob([backupData], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, fileName);
+    const fileName = 'Taskify' + '-backup-' + this.yyyymmdd(date) + ('_') + date.getHours() + ('_') + date.getMinutes();
+    const file = new Blob([backupData], { type: 'text/plain;charset=utf-8' });
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(file);
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 
   restoreWeeklyTodosFromFile(event: any) {
@@ -57,7 +59,7 @@ export class WeeklyTodoService extends TodoService {
     this.updateWeeklyTodos(this.getWeeklyTodos().filter(dailyTodo => dailyTodo.complete));
   }
 
-  openDleteDialog(titleMessage: string) {
+  openDeleteDialog(titleMessage: string) {
     return this.matDialog.open(DeleteWarningDialogComponent, {
       width: '350px',
       enterAnimationDuration: '350ms',
@@ -67,7 +69,7 @@ export class WeeklyTodoService extends TodoService {
   }
 
   deleteAllWeeklyTodos() {
-    const dialogRef = this.openDleteDialog('DeleteAllWeeklyTodosTitle');
+    const dialogRef = this.openDeleteDialog('DeleteAllWeeklyTodosTitle');
 
     dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
       if (deleteAllWeeklyTodos) {
@@ -78,7 +80,7 @@ export class WeeklyTodoService extends TodoService {
   }
 
   deleteWeeklyTodo(uniqueId: string) {
-    const dialogRef = this.openDleteDialog('DeleteDailyTodoTitle');
+    const dialogRef = this.openDeleteDialog('DeleteDailyTodoTitle');
 
     dialogRef.afterClosed().subscribe(deleteTodo => {
       if (deleteTodo) {
