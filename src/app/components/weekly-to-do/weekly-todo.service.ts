@@ -9,6 +9,9 @@ import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Capacitor } from '@capacitor/core';
+import { Http, HttpDownloadFileResult } from '@capacitor-community/http';
 
 @Injectable({
   providedIn: 'root'
@@ -27,15 +30,84 @@ export class WeeklyTodoService extends TodoService {
                 super(httpWeekly);
               }
 
-  backupWeeklyTodosToFile() {
+  downloadFile = async () => {
+    const options = {
+      url: 'https://example.com/path/to/download.pdf',
+      filePath: 'document.pdf',
+      fileDirectory: Directory.ExternalStorage,
+      // Optional
+      method: 'GET',
+    };
+
+    // Writes to local filesystem
+    const response: HttpDownloadFileResult = await Http.downloadFile(options);
+
+    // Then read the file
+    if (response.path) {
+      const read = await Filesystem.readFile({
+        path: 'download.pdf',
+        directory: Directory.ExternalStorage,
+      });
+    }
+  }
+
+  async backupWeeklyTodosToFile() {
     const backupData = btoa(JSON.stringify(this.getWeeklyTodos()));
     const date = new Date();
     const fileName = 'Taskify' + '-backup-' + this.yyyymmdd(date) + ('_') + date.getHours() + ('_') + date.getMinutes();
     const file = new Blob([backupData], { type: 'text/plain;charset=utf-8' });
-    const downloadLink = document.createElement('a');
-    downloadLink.href = URL.createObjectURL(file);
-    downloadLink.download = fileName;
-    downloadLink.click();
+    const backupLink = document.createElement('a');
+    backupLink.href = URL.createObjectURL(file);
+    backupLink.download = fileName;
+    const url = backupLink.href;
+    try {
+      if (Capacitor.getPlatform() !== 'web') {
+        // const response = await Filesystem.downloadFile({
+        //   url,
+        //   method: 'GET',
+        //   path: 'downloads/' + fileName,
+        //   directory: Directory.ExternalStorage,
+        //   headers: {},
+        // });
+
+        const options = {
+          url: backupLink.href,
+          filePath: 'downloads/\' + fileName',
+          fileDirectory: Directory.ExternalStorage,
+          // Optional
+          method: 'GET',
+        };
+
+        // Writes to local filesystem
+        const response: HttpDownloadFileResult = await Http.downloadFile(options);
+
+        // Then read the file
+        if (response.path) {
+          const read = await Filesystem.readFile({
+            path: 'downloads/\' + fileName',
+            directory: Directory.ExternalStorage,
+          });
+        }
+        URL.revokeObjectURL(backupLink.href);
+
+        // File downloaded successfully
+        console.log('File downloaded:', response.path);
+
+        // const result = await Filesystem.writeFile({
+        //   path,
+        //   data,
+        //   directory: Directory.ExternalStorage,
+        //   encoding: Encoding.UTF8,
+        // });
+        // // File written successfully
+        // console.log('File written:', result.uri);
+      } else {
+        backupLink.click();
+        URL.revokeObjectURL(backupLink.href);
+      }
+    } catch (error) {
+      console.error('Error writing file:', error);
+    }
   }
 
   restoreWeeklyTodosFromFile(event: any) {
