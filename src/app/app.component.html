@@ -9,7 +9,7 @@
 <!--            TODO if activate this route, than change class of the nav element from two to three-->
 <!--            <a routerLink="/account" routerLinkActive="active" class="item">{{'UserProfile'|translate}}</a>-->
           </nav>
-          <select class="ui dropdown button" #langSelect (change)="translateService.use(langSelect.value)" style="margin: 0 0 0 10px;">
+          <select class="ui dropdown button" #langSelect (change)="changeLanguage(langSelect.value)" style="margin: 0 0 0 10px;">
             <option class="item" *ngFor="let lang of translateService.getLangs()" value="{{lang}}">{{lang}}</option>
           </select>
     </div>
