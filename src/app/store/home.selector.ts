@@ -7,3 +7,8 @@ export const selectTabIndex = createSelector(
   selectHomeState,
   state => state.appTabIndex
 );
+
+export const selectLanguage = createSelector(
+  selectHomeState,
+  state => state.appLanguage
+);
