@@ -8,4 +8,5 @@ export interface WeeklyTodoState {
     doneDate: Date;
     firstDoneDateToday: boolean;
   };
+  isMobilePlatform: boolean;
 }

@@ -38,6 +38,8 @@ import { NoListLoadingAnimationComponent } from './components/no-list-loading-an
 import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteWarningDialogComponent } from './components/delete-warning-dialog/delete-warning-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { WeeklyTodoAnnotatedComponent } from './components/weekly-todo-annotated/weekly-todo-annotated.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -59,6 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NoListLoadingAnimationComponent,
     EditDialogComponent,
     DeleteWarningDialogComponent,
+    WeeklyTodoAnnotatedComponent,
   ],
     imports: [
         MatTabsModule,
@@ -84,6 +87,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatCardModule,
         MatDividerModule,
         MatDialogModule,
+        MatSnackBarModule,
     ],
   providers: [
     provideStore(),

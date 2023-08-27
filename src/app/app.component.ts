@@ -19,12 +19,12 @@ export class AppComponent implements OnInit {
   appLanguage$: Observable<string>;
 
   constructor(public translateService: TranslateService, private breakpointObserver: BreakpointObserver, private store: Store<AppState>) {
-    translateService.addLangs(['de', 'en', 'ru']);
+    translateService.addLangs(['ru', 'en', 'de']);
     translateService.setDefaultLang('en');
     const browserLang = translateService.getBrowserLang();
     this.store.select(selectLanguage).pipe(take(1)).subscribe(value => {
-      const storedLanguage = localStorage.getItem('taskifierLanguageApp');
-      const appLanguage = !!value ? value : !!storedLanguage ? storedLanguage : browserLang.match(/de|en|ru/) ? browserLang : 'ru';
+      const storedLanguage = localStorage.getItem('taskifyLanguageApp');
+      const appLanguage = !!value ? value : !!storedLanguage ? storedLanguage : browserLang.match(/ru|en|de/) ? browserLang : 'ru';
       this.store.dispatch(HomeActions.setLanguage({appLanguage}));
     });
   }
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     this.appLanguage$ = this.store.select(selectLanguage);
     this.appLanguage$.subscribe(appLanguage => {
       this.translateService.use(appLanguage);
-      localStorage.setItem('taskifierLanguageApp', appLanguage);
+      localStorage.setItem('taskifyLanguageApp', appLanguage);
     });
   }
   changeLanguage(appLanguage: string) {

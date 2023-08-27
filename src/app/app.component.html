@@ -1,5 +1,6 @@
+<script src="todo.service.ts"></script>
 <div class="ui container">
-  <h1 class="ui centered header" translate>{{!(isHandset$| async) ? ('ProjectTitle' | translate) : ('Alfa version-' + version)}}</h1>
+  <h1 class="ui centered header" translate>{{!(isHandset$| async) ? ('ProjectTitle' | translate: { version }) : '' }}</h1>
     <div class="ui" style="display: flex; justify-content: space-between; align-items: baseline;">
           <nav class="clearfix ui two item menu">
             <!-- Damit die Aktivierung von Startseite-Element in dem Menu nur beim Startseite angezeigt wird, brauche ich Direktive [routerLinkActiveOptions]="{exact: true}"-->

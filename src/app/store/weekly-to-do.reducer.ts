@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { WeeklyTodoState } from './weekly-to-do.state';
 import { WeeklyTodoActions } from './weekly-to-do.actions';
+import { Capacitor } from '@capacitor/core';
 
 export const initialState: WeeklyTodoState = {
   dailyToDosEntries: {
@@ -33,6 +34,7 @@ export const initialState: WeeklyTodoState = {
     doneDate: new Date(),
     firstDoneDateToday: false
   },
+  isMobilePlatform: Capacitor.getPlatform() !== 'web'
 };
 
 export const weeklyTodoReducer = createReducer(
