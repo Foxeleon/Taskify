@@ -7,6 +7,7 @@ import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { UtilsService } from '../../utils.service';
 
 @Component({
   selector: 'app-weekly-to-dos-list',
@@ -15,7 +16,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class WeeklyToDosListComponent {
 
-  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver ) {}
+  constructor( private fb: FormBuilder,
+               private weeklyTodoService: WeeklyTodoService,
+               private store: Store<AppState>,
+               private breakpointObserver: BreakpointObserver,
+               private utilsService: UtilsService) {}
 
   dailyToDosEntries: DailyToDosEntries;
   dailyToDosEntries$: Observable<DailyToDosEntries>;
@@ -40,6 +45,10 @@ export class WeeklyToDosListComponent {
 
   editDailyTodo(uniqueId: string, meaning: string) {
     this.weeklyTodoService.editWeeklyTodo(uniqueId, meaning);
+  }
+
+  copyText = async (text: string) => {
+    await this.utilsService.copyText(text);
   }
 
   completeDailyTodo(uniqueId: string, meaning?: string) {

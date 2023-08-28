@@ -33,8 +33,8 @@ import { WeeklyToDosListComponent } from './components/weekly-to-dos-list/weekly
 import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './store/weekly-to-do.state';
 import { weeklyTodoReducer } from './store/weekly-to-do.reducer';
 import { MatDividerModule } from '@angular/material/divider';
-import { ButtonsCompleteDeleteAllComponent } from './components/buttons-complete-delete-all/buttons-complete-delete-all.component';
-import { NoListLoadingAnimationComponent } from './components/no-list-loading-animation/no-list-loading-animation.component';
+import { ButtonsCompleteDeleteAllComponent } from './components/shared-components/buttons-complete-delete-all/buttons-complete-delete-all.component';
+import { NoListLoadingAnimationComponent } from './components/shared-components/no-list-loading-animation/no-list-loading-animation.component';
 import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteWarningDialogComponent } from './components/delete-warning-dialog/delete-warning-dialog.component';
