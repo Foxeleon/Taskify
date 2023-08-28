@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Todo, User } from './types';
+import { Todo, User } from '../types';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,10 +15,14 @@ export class TodoService {
   todo: Todo;
   user: User;
   allUsers: User[];
-  private url = '../assets/testTodos.json';
+  private url = '../assets/initTodos.json';
   private users = '../assets/users.json';
 
   constructor( private http: HttpClient ) { }
+
+  checkTodosCompletion(arr: Todo[], checkCompletes: boolean): boolean {
+    return checkCompletes ? arr.some(todo => todo.complete) : arr.some(todo => !todo.complete);
+  }
 
   getTodos() {
     return this.http.get(this.url);

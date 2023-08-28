@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TodoService } from '../../todo.service';
+import { TodoService } from '../../services/todo.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DailyToDo, EditDialogData } from '../../types';

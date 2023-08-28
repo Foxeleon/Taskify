@@ -8,7 +8,6 @@
     "doneDate": "",
     "deadline": "2019-12-09"
   },
-
   {
     "id": 22,
     "title": "4",
@@ -18,7 +17,6 @@
     "doneDate": "",
     "deadline": "2019-12-09"
   },
-
   {
     "id": 21,
     "title": "3",
@@ -28,7 +26,6 @@
     "doneDate": "",
     "deadline": "2019-12-09"
   },
-
   {
     "id": 20,
     "title": "2",
@@ -38,7 +35,6 @@
     "doneDate": "",
     "deadline": "2019-12-09"
   },
-
   {
     "id": 19,
     "title": "1",
@@ -48,7 +44,6 @@
     "doneDate": "",
     "deadline": "2019-12-09"
   },
-
   {
     "id": 18,
     "title": "asdasd",
@@ -58,7 +53,6 @@
     "doneDate": "",
     "deadline": "2019-11-19"
   },
-
   {
     "id": 17,
     "title": "asdasd",
@@ -68,7 +62,6 @@
     "doneDate": "",
     "deadline": "2019-11-19"
   },
-
   {
     "id": -2,
     "title": "Example Todo",
@@ -78,7 +71,6 @@
     "doneDate": "12-10-2019",
     "deadline": "12-12-2019"
   },
-
   {
     "id": -3,
     "title": "My first Todo",
@@ -88,7 +80,6 @@
     "doneDate": "10-10-1990",
     "deadline": "12-12-2002"
   },
-
   {
     "id": 0,
     "title": "My second Todo",
@@ -98,7 +89,6 @@
     "doneDate": "01-11-2019",
     "deadline": "12-12-2020"
   },
-
   {
     "id": -1,
     "title": "My first Todo",

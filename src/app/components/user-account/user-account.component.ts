@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { TodoService } from '../../todo.service';
+import { TodoService } from '../../services/todo.service';
 import { User } from '../../types';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TodoService } from '../../todo.service';
+import { TodoService } from '../../services/todo.service';
 import { DailyToDo, Todo } from '../../types';
 import { map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import { selectTabIndex } from '../../store/home.selector';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { HomeActions } from '../../store/home.actions';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-todo-list-done',
@@ -18,10 +19,12 @@ export class TodoListDoneComponent implements OnInit {
   public todos = [];
   tabIndex$: Observable<number>;
   dailyToDosCompleted$: Observable<DailyToDo[]>;
+  isHandset$: Observable<boolean>;
 
-  constructor( public tdService: TodoService, private store: Store<AppState>, private weeklyTodoService: WeeklyTodoService) { }
+  constructor( public tdService: TodoService, private store: Store<AppState>, private weeklyTodoService: WeeklyTodoService, private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit() {
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches));
     this.tabIndex$ = this.store.select(selectTabIndex);
     this.dailyToDosCompleted$ = this.weeklyTodoService.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => dailyTodo.complete)));
 
@@ -36,12 +39,8 @@ export class TodoListDoneComponent implements OnInit {
     this.store.dispatch(HomeActions.setTabIndex({appTabIndex: tabChangeEvent.index}));
   }
 
-  checkCompletedTodos(arr: Todo[]) {
-    for (const i in arr) {
-      if (arr[i].complete !== false) {
-        return true;
-        }
-    }
+  checkCompletedTodos(arr: Todo[]): boolean {
+    return this.tdService.checkTodosCompletion(arr, true);
   }
 
   createDoneList(value: any, index: number, arr: Todo[]) {

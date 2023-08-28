@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TodoService } from '../../todo.service';
+import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../types';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';

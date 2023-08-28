@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map, Observable, shareReplay } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Clipboard } from '@capacitor/clipboard';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class UtilsService {
   constructor(private breakpointObserver: BreakpointObserver) { }
   ngOnInit(): void {
     // TODO how to use it? Maybe need to hold value in store?
-    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches));
   }
 
   copyText = async (text: string) => {

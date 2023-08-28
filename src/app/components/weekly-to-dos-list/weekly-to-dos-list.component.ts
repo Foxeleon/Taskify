@@ -7,7 +7,7 @@ import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { UtilsService } from '../../utils.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-weekly-to-dos-list',
