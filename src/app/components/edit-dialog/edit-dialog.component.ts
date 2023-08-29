@@ -34,5 +34,6 @@ export class EditDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.inputTitle = this.originalTranslatedTitle = this.getTranslation(this.data.title);
+    this.inputText = this.getTranslation(this.data.text);
   }
 }
