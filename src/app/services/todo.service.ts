@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Todo, User } from '../types';
 import { Observable } from 'rxjs';
+import { DeleteWarningDialogComponent } from '../components/delete-warning-dialog/delete-warning-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,7 @@ export class TodoService {
   private url = '../assets/initTodos.json';
   private users = '../assets/users.json';
 
-  constructor( private http: HttpClient ) { }
+  constructor( private http: HttpClient, public matDialog: MatDialog ) { }
 
   checkTodosCompletion(arr: Todo[], checkCompletes: boolean): boolean {
     return checkCompletes ? arr.some(todo => todo.complete) : arr.some(todo => !todo.complete);
@@ -57,9 +59,24 @@ export class TodoService {
     this.updateTodoStore(arr);
   }
 
+  openDeleteDialog(titleMessage: string) {
+    return this.matDialog.open(DeleteWarningDialogComponent, {
+      width: '350px',
+      enterAnimationDuration: '350ms',
+      exitAnimationDuration: '150ms',
+      data: { titleMessageData: titleMessage },
+    });
+  }
+
   deleteTodo(arr: Todo[], i: number) {
-      arr.splice(i, 1);
-      this.updateTodoStore(arr);
+    const dialogRef = this.openDeleteDialog('DeleteDailyTodoTitle');
+
+    dialogRef.afterClosed().subscribe(deleteTodo => {
+      if (deleteTodo) {
+        arr.splice(i, 1);
+        this.updateTodoStore(arr);
+      }
+    });
   }
 
   updateTodo(arr: Todo[], i: number) {

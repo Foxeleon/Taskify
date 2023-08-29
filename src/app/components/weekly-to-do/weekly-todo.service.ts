@@ -23,8 +23,8 @@ export class WeeklyTodoService extends TodoService {
 
   constructor(private httpWeekly: HttpClient,
               private store: Store<AppState>,
-              public matDialog: MatDialog) {
-                super(httpWeekly);
+              public matDialogWeekly: MatDialog) {
+                super(httpWeekly, matDialogWeekly);
               }
 
   backupWeeklyTodosToFile() {
@@ -57,15 +57,6 @@ export class WeeklyTodoService extends TodoService {
 
   deleteAllUncompletedWeeklyTodos() {
     this.updateWeeklyTodos(this.getWeeklyTodos().filter(dailyTodo => dailyTodo.complete));
-  }
-
-  openDeleteDialog(titleMessage: string) {
-    return this.matDialog.open(DeleteWarningDialogComponent, {
-      width: '350px',
-      enterAnimationDuration: '350ms',
-      exitAnimationDuration: '150ms',
-      data: { titleMessageData: titleMessage },
-    });
   }
 
   deleteAllWeeklyTodos() {
@@ -137,7 +128,7 @@ export class WeeklyTodoService extends TodoService {
     const weeklyTodosArray = this.getWeeklyTodos();
     const todoToEdit = weeklyTodosArray.find(dailyTodo => dailyTodo.uniqueId === uniqueId);
     const editDialogData: EditDialogData = this.getTitleAndTextOfTodo(todoToEdit, meaning);
-    const dialogRef = this.matDialog.open(EditDialogComponent, {
+    const dialogRef = this.matDialogWeekly.open(EditDialogComponent, {
       width: '350px',
       enterAnimationDuration: '350ms',
       exitAnimationDuration: '150ms',

@@ -6,7 +6,7 @@
   <div class="ui card weekly-to-do">
     <form class="ui form">
       <div class="ui segment">
-        <div class="two fields daily-todo-card" *ngIf="!isDoneList">
+        <div class="two fields" *ngIf="!isDoneList">
           <div class="field" style="display: flex; {{(isHandset$ | async) ? 'justify-content: center' : 'justify-content: flex-start'}};">
             <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)" *ngIf="!(isHandset$ | async)">
               <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">

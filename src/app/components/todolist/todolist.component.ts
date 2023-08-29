@@ -7,7 +7,12 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-todolist',
-  templateUrl: './todolist.component.html'
+  templateUrl: './todolist.component.html',
+  styles: [`
+    .todo-mobile-card-body {
+      display: flex;
+    }
+  `]
 })
 export class TodolistComponent implements OnInit {
 

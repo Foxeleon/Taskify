@@ -1,3 +1,9 @@
+.ui.card.weekly-to-do {
+  width: auto;
+  margin: 0.5em 1px;
+  padding: 0.1em 0.5em;
+}
+
 .ui-accordion-input-form {
   margin-top: 5px;
 }

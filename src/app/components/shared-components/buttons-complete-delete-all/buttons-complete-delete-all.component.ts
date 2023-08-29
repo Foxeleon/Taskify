@@ -24,7 +24,13 @@ export class ButtonsCompleteDeleteAllComponent implements OnInit {
   }
 
   clearToDoList() {
-    (this.data.isWeekly) ? this.weeklyTodoService.deleteAllUncompletedWeeklyTodos() : this.todoService.clearToDoList(this.data.toDos);
+    const dialogRef = this.todoService.openDeleteDialog('DeleteAllWeeklyTodosTitle');
+
+    dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
+      if (deleteAllWeeklyTodos) {
+        (this.data.isWeekly) ? this.weeklyTodoService.deleteAllUncompletedWeeklyTodos() : this.todoService.clearToDoList(this.data.toDos);
+      }
+    });
   }
 
 }
