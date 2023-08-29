@@ -4,104 +4,103 @@
     <mat-divider class="todoui-list-divider"></mat-divider>
   </div>
   <div class="ui card weekly-to-do">
-  <form class="ui form">
-    <div class="ui segment">
-      <div class="two fields daily-todo-card" *ngIf="!isDoneList">
-        <div class="field" style="display: flex; {{(isHandset$ | async) ? 'justify-content: center' : 'justify-content: flex-start'}};">
-          <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)" *ngIf="!(isHandset$ | async)">
-            <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
-            <label>{{'Complete day' | translate}}</label>
+    <form class="ui form">
+      <div class="ui segment">
+        <div class="two fields daily-todo-card" *ngIf="!isDoneList">
+          <div class="field" style="display: flex; {{(isHandset$ | async) ? 'justify-content: center' : 'justify-content: flex-start'}};">
+            <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)" *ngIf="!(isHandset$ | async)">
+              <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
+              <label>{{'Complete day' | translate}}</label>
+            </div>
+            <a class="ui large label" *ngIf="(isHandset$ | async)">{{((dailyTodo.doneDate | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate | date: 'd-M-yyyy'}}, ID: {{dailyTodo.idNumber}}</a>
           </div>
-          <a class="ui large label" *ngIf="(isHandset$ | async)">{{((dailyTodo.doneDate | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate | date: 'd-M-yyyy'}}, ID: {{dailyTodo.idNumber}}</a>
-        </div>
-        <div class="two fields" style="flex-flow: row nowrap; margin: 0!important; align-items: stretch;">
-          <div class="field">
-            <div class="field" style="display: flex; justify-content: flex-start;" *ngIf="(isHandset$ | async)">
-              <button class="ui right labeled icon button" (click)="completeDailyTodo(dailyTodo.uniqueId)">
-                <i class="check green link icon"></i>
-                {{'Complete day' | translate}}
+          <div class="two fields" style="flex-flow: row nowrap; margin: 0!important; align-items: stretch;">
+            <div class="field">
+              <div class="field" style="display: flex; justify-content: flex-start;" *ngIf="(isHandset$ | async)">
+                <button class="ui right labeled icon button" (click)="completeDailyTodo(dailyTodo.uniqueId)">
+                  <i class="check green link icon"></i>
+                  {{'Complete day' | translate}}
+                </button>
+              </div>
+              <a class="ui large label" *ngIf="!(isHandset$ | async)">{{((dailyTodo.doneDate | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate | date: 'd-M-yyyy'}}, ID: {{dailyTodo.idNumber}}</a>
+            </div>
+            <div class="field" style="display: flex; justify-content: flex-end;">
+              <button class="ui right labeled icon button" (click)="deleteDailyTodo(dailyTodo.uniqueId)">
+                <i class="delete red link icon"></i>
+                {{'Delete' | translate}}
               </button>
             </div>
-            <a class="ui large label" *ngIf="!(isHandset$ | async)">{{((dailyTodo.doneDate | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate | date: 'd-M-yyyy'}}, ID: {{dailyTodo.idNumber}}</a>
           </div>
-          <div class="field" style="display: flex; justify-content: flex-end;">
-            <button class="ui right labeled icon button" (click)="deleteDailyTodo(dailyTodo.uniqueId)">
-              <i class="delete red link icon"></i>
-              {{'Delete' | translate}}
+        </div>
+        <div class="two fields" *ngIf="isDoneList">
+          <div class="field">
+            <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
+              <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
+              <label>{{'Complete day' | translate}}</label>
+            </div>
+          </div>
+          <div class="field">
+            <a class="ui large label">{{((dailyTodo.doneDate | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate | date: 'd-M-yyyy'}}, ID: {{dailyTodo.idNumber}}</a>
+          </div>
+        </div>
+      </div>
+      <div class="form-group two fields weekly-to-do-two-fields">
+        <div class="ui labeled input field">
+          <!--         TODO create alternative textarea field to read/edit todos similar to templates logic of weeklyTodoForm, weekly-to-do.component.html lines 13-28 -->
+          <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{ this.getTitle(dailyTodo.titleTarget, this.dailyToDosEntries.target.meaning) }}</label>
+          <div class="ui small basic icon buttons" *ngIf="!isDoneList">
+            <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)" >
+              <i class="edit green large link icon left"></i>
+            </button>
+            <button class="ui icon button" (click)="copyText(this.todoTextTarget.value)">
+              <i class="ui copy outline large link icon left"></i>
             </button>
           </div>
+          <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget || isDoneList" #todoTextTarget readonly>
+          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completeTarget) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
         </div>
-      </div>
-      <div class="two fields" *ngIf="isDoneList">
-        <div class="field">
-          <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
-            <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
-            <label>{{'Complete day' | translate}}</label>
+        <div class="ui labeled input field">
+          <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{ this.getTitle(dailyTodo.titlePart, this.dailyToDosEntries.part.meaning) }}</label>
+          <div class="ui small basic icon buttons" *ngIf="!isDoneList">
+            <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)">
+              <i class="edit green large link icon left"></i>
+            </button>
+            <button class="ui icon button" (click)="copyText(this.todoTextPart.value)">
+              <i class="ui copy outline large link icon left"></i>
+            </button>
           </div>
+          <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextPart}}" [disabled]="dailyTodo.completePart  || isDoneList" #todoTextPart readonly>
+          <button class="ui circular icon button" [disabled]="isDoneList" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)"><i class="check circle {{(dailyTodo.completePart) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
         </div>
-        <div class="field">
-          <a class="ui large label">{{((dailyTodo.doneDate | date: 'EEEE') | translate)}}, {{dailyTodo.doneDate | date: 'd-M-yyyy'}}, ID: {{dailyTodo.idNumber}}</a>
+      </div>
+      <div class="form-group two fields weekly-to-do-two-fields">
+        <div class="ui labeled input field">
+          <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{ this.getTitle(dailyTodo.titleLongBox, this.dailyToDosEntries.longBox.meaning) }}</label>
+          <div class="ui small basic icon buttons" *ngIf="!isDoneList">
+            <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)">
+              <i class="edit green large link icon left"></i>
+            </button>
+            <button class="ui icon button" (click)="copyText(this.todoTextLongBox.value)">
+              <i class="ui copy outline large link icon left"></i>
+            </button>
+          </div>
+          <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextLongBox}}" [disabled]="dailyTodo.completeLongBox  || isDoneList" #todoTextLongBox readonly>
+          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completeLongBox) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
+        </div>
+        <div class="ui labeled input field">
+          <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{ this.getTitle(dailyTodo.titlePersonalGrowth, this.dailyToDosEntries.personalGrowth.meaning) }}</label>
+          <div class="ui small basic icon buttons" *ngIf="!isDoneList">
+            <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)">
+              <i class="edit green large link icon left"></i>
+            </button>
+            <button class="ui icon button" (click)="copyText(this.todoTextPersonalGrowth.value)">
+              <i class="ui copy outline large link icon left"></i>
+            </button>
+          </div>
+          <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextPersonalGrowth}}" [disabled]="dailyTodo.completePersonalGrowth  || isDoneList" #todoTextPersonalGrowth readonly>
+          <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completePersonalGrowth) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
         </div>
       </div>
-    </div>
-    <div class="form-group two fields weekly-to-do-two-fields">
-      <div class="ui labeled input field">
-<!--         TODO create alternative textarea field to read/edit todos similar to templates logic of weeklyTodoForm, weekly-to-do.component.html lines 13-28 -->
-        <label class="ui label"><i class="{{this.dailyToDosEntries.target.icon}} circle icon"></i>{{dailyTodo.titleTarget | translate}}</label>
-        <div class="ui small basic icon buttons" *ngIf="!isDoneList">
-          <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)" >
-            <i class="edit green large link icon left"></i>
-          </button>
-          <button class="ui icon button" (click)="copyText(this.todoTextTarget.value)">
-            <i class="ui copy outline large link icon left"></i>
-          </button>
-        </div>
-        <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextTarget}}" [disabled]="dailyTodo.completeTarget || isDoneList" #todoTextTarget readonly>
-        <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.target.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completeTarget) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
-      </div>
-      <div class="ui labeled input field">
-        <label class="ui label"><i class="{{this.dailyToDosEntries.part.icon}} circle icon"></i>{{dailyTodo.titlePart | translate}}</label>
-        <div class="ui small basic icon buttons" *ngIf="!isDoneList">
-          <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)">
-            <i class="edit green large link icon left"></i>
-          </button>
-          <button class="ui icon button" (click)="copyText(this.todoTextPart.value)">
-            <i class="ui copy outline large link icon left"></i>
-          </button>
-        </div>
-        <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextPart}}" [disabled]="dailyTodo.completePart  || isDoneList" #todoTextPart readonly>
-        <button class="ui circular icon button" [disabled]="isDoneList" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.part.meaning)"><i class="check circle {{(dailyTodo.completePart) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
-      </div>
-    </div>
-    <div class="form-group two fields weekly-to-do-two-fields">
-
-      <div class="ui labeled input field">
-        <label class="ui label"><i class="{{this.dailyToDosEntries.longBox.icon}} circle icon"></i>{{dailyTodo.titleLongBox | translate}}</label>
-        <div class="ui small basic icon buttons" *ngIf="!isDoneList">
-        <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)">
-          <i class="edit green large link icon left"></i>
-        </button>
-        <button class="ui icon button" (click)="copyText(this.todoTextLongBox.value)">
-          <i class="ui copy outline large link icon left"></i>
-        </button>
-      </div>
-        <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextLongBox}}" [disabled]="dailyTodo.completeLongBox  || isDoneList" #todoTextLongBox readonly>
-        <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.longBox.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completeLongBox) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
-      </div>
-      <div class="ui labeled input field">
-        <label class="ui label"><i class="{{this.dailyToDosEntries.personalGrowth.icon}} circle icon"></i>{{dailyTodo.titlePersonalGrowth | translate}}</label>
-        <div class="ui small basic icon buttons" *ngIf="!isDoneList">
-          <button class="ui button" (click)="this.editDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)">
-            <i class="edit green large link icon left"></i>
-          </button>
-          <button class="ui icon button" (click)="copyText(this.todoTextPersonalGrowth.value)">
-            <i class="ui copy outline large link icon left"></i>
-          </button>
-        </div>
-        <input class="weekly-to-do-input ui labeled input" type="text" value="{{dailyTodo.todoTextPersonalGrowth}}" [disabled]="dailyTodo.completePersonalGrowth  || isDoneList" #todoTextPersonalGrowth readonly>
-        <button class="ui circular icon button" (click)="completeDailyTodo(dailyTodo.uniqueId, this.dailyToDosEntries.personalGrowth.meaning)" [disabled]="isDoneList"><i class="check circle {{(dailyTodo.completePersonalGrowth) ? 'green' : 'grey'}} icon weekly-to-do-icon-size"></i></button>
-      </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 </ng-container>
