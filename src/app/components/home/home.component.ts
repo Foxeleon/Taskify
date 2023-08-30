@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
       ui: true
     };
 
-    this.tdService.updateTodos(JSON.parse(localStorage.getItem('todoStore')) || [], true);
+    this.tdService.initTodos();
     this.todos$ = this.tdService.getTodosObservable();
   }
 

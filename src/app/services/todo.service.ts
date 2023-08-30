@@ -150,19 +150,19 @@ export class TodoService implements OnInit {
 
   initTodos() {
     const todosStorage = JSON.parse(localStorage.getItem('todoStore'));
-    (todosStorage !== null) ?
-      this.updateTodos(JSON.parse(localStorage.getItem('todoStore')), true) :
-      this.updateTodos(initTodos, false);
+    (todosStorage !== null) ? this.updateTodos(JSON.parse(localStorage.getItem('todoStore')), true) : this.updateTodos(initTodos, false);
   }
 
   updateTodos(toDoArr: Todo[], fromServer: boolean) {
-    this.toDosSubject.next(toDoArr.map(todo => {
-      if (fromServer) {
-        // TODO this is migration, delete after january 2024
-        if (todo.uniqueId === null) todo.uniqueId = this.setUniqueId();
-      }
-      return todo;
-    }));
+    // TODO this is migration, refactor after that
+    if (fromServer) {
+      this.toDosSubject.next(toDoArr.map(todo => {
+          if (todo.uniqueId === undefined) todo.uniqueId = this.setUniqueId();
+          return todo;
+      }));
+    } else {
+      this.toDosSubject.next(toDoArr);
+    }
   }
 
   ngOnInit(): void {
