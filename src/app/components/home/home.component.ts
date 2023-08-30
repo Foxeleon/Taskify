@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit {
 
   setTodo(): void {
     this.tdService.setTodo(this.todoForm.value.title, this.todoForm.value.todoText, this.todoForm.value.deadline);
+    this.resetForm();
   }
 
   setTitleState() {

@@ -47,7 +47,7 @@
           </div>
 <!--          TODO complete app-buttons-complete-delete-all component with submit button, add wrapper to the component as below-->
           <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
-            <button class="ui primary button" type="submit" [disabled]="todoForm.get('todoText').invalid || todoForm.get('deadline').invalid || todoForm.get('title').errors?.maxlength" (click)="setTodo(); resetForm()">{{'TodoSubmit'|translate}}</button>
+            <button class="ui primary button" type="submit" [disabled]="todoForm.get('todoText').invalid || todoForm.get('deadline').invalid || todoForm.get('title').errors?.maxlength" (click)="setTodo()">{{'TodoSubmit'|translate}}</button>
             <div style="margin: 3px 0"></div>
             <app-buttons-complete-delete-all *ngIf="(this.todos$ | async).length > 0" [data]="{isWeekly: false, toDos: (this.todos$ | async)}"></app-buttons-complete-delete-all>
           </div>
