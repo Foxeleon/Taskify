@@ -16,7 +16,7 @@
           </div>
           <div class="two fields" style=" display: flex; flex-flow: row nowrap; margin: 0.5em 0!important; align-items: center; justify-content: space-between;">
             <div class="field">
-              <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
+              <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todo.uniqueId)">
                 <input type="checkbox" name="public" [checked]="todo.complete==true">
                 <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
                 <ng-template #newTodo>
@@ -30,7 +30,7 @@
             <div class="field">
               <div class="ui small basic icon buttons">
                 <button class="ui button">
-                  <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
+                  <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todo.uniqueId)"></i>
                 </button>
               </div>
             </div>
@@ -60,7 +60,7 @@
         <td data-label="TODO">{{todo.todoText}}</td>
         <td data-label="Deadline">{{todo.deadline}}</td>
         <td data-label="Complete?">
-          <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
+          <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todo.uniqueId)">
             <input type="checkbox" name="public" [checked]="todo.complete==true">
             <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
             <ng-template #newTodo>
@@ -74,7 +74,7 @@
         <td data-label="Delete">
           <div class="ui small basic icon buttons">
             <button class="ui button">
-              <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
+              <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todo.uniqueId)"></i>
             </button>
           </div>
         </td>

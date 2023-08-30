@@ -49,14 +49,14 @@
           <div class="weekly-to-do-forms-buttons {{(isHandset$ | async) ? 'mobile-buttons' : ''}}">
             <button class="ui primary button" type="submit" [disabled]="todoForm.get('todoText').invalid || todoForm.get('deadline').invalid || todoForm.get('title').errors?.maxlength" (click)="setTodo(); resetForm()">{{'TodoSubmit'|translate}}</button>
             <div style="margin: 3px 0"></div>
-            <app-buttons-complete-delete-all *ngIf="this.todos.length > 0" [data]="{isWeekly: false, toDos: this.todos}"></app-buttons-complete-delete-all>
+            <app-buttons-complete-delete-all *ngIf="(this.todos$ | async).length > 0" [data]="{isWeekly: false, toDos: (this.todos$ | async)}"></app-buttons-complete-delete-all>
           </div>
         </form>
       </div>
     </div>
     <br>
-    <app-todolist *ngIf="this.todos.length > 0" [todos]="this.todos"></app-todolist>
-    <ng-container *ngIf="this.todos.length === 0">
+    <app-todolist *ngIf="(this.todos$ | async).length > 0" [todos]="(this.todos$ | async)"></app-todolist>
+    <ng-container *ngIf="(this.todos$ | async).length === 0">
       <app-no-list-loading-animation [isDoneList]="false"/>
     </ng-container>
   </mat-tab>

@@ -17,7 +17,9 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class HomeComponent implements OnInit {
 
-  todos: Todo[] = [];
+  // todos: Todo[] = [];
+  todos$: Observable<Todo[]>;
+
   todosUncompleted: Todo[] = [];
   accordeonActive = true;
   holdTitle: boolean;
@@ -78,17 +80,9 @@ export class HomeComponent implements OnInit {
       icon: true,
       ui: true
     };
-    this.tdService.getTodos()
-    .subscribe(
-      (value) => {
-        this.tdService.allTodos = value;
-        this.todos = JSON.parse(localStorage.getItem('todoStore'));
-        if (this.todos == null) {
-          this.todos = this.tdService.allTodos;
-        }
-      },
-      (error) => console.log(error)
-      );
+
+    this.tdService.updateTodos(JSON.parse(localStorage.getItem('todoStore')) || [], true);
+    this.todos$ = this.tdService.getTodosObservable();
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -100,20 +94,7 @@ export class HomeComponent implements OnInit {
   }
 
   setTodo(): void {
-    this.tdService.todo = {
-      uniqueId: this.tdService.setUniqueId(),
-      id: this.setId(),
-      title: this.todoForm.value.title,
-      todoText: this.todoForm.value.todoText,
-      complete: false,
-      creationDate: this.tdService.yyyymmdd(this.tdService.currDay),
-      doneDate: '',
-      deadline: this.todoForm.value.deadline
-    };
-    this.todos.unshift(this.tdService.todo);
-    this.tdService.updateTodoStore(this.todos);
-    const todoId = JSON.stringify(this.tdService.todoId);
-    localStorage.setItem('todoId', todoId);
+    this.tdService.setTodo(this.todoForm.value.title, this.todoForm.value.todoText, this.todoForm.value.deadline);
   }
 
   setTitleState() {

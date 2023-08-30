@@ -22,7 +22,7 @@
                 <td data-label="Deadline">{{todo.deadline}}</td>
                 <td data-label="Complete?">
                     <div class="ui toggle checkbox">
-                        <input disabled (click)="this.tdService.completeTodo(todos, i)" type="checkbox" name="public" [checked]="todo.complete==true">
+                        <input disabled (click)="this.tdService.completeTodo(todo.uniqueId)" type="checkbox" name="public" [checked]="todo.complete==true">
                         <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
                         <ng-template #newTodo>
                           <label translate>{{'Complete issue'}}</label>

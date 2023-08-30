@@ -6,6 +6,7 @@ import { DeleteWarningDialogComponent } from '../components/delete-warning-dialo
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.state';
+import { initTodos } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,12 @@ export class TodoService implements OnInit {
     return checkCompletes ? arr.some(todo => todo.complete) : arr.some(todo => !todo.complete);
   }
 
-  getTodos(): Observable<Todo[]> {
+  getTodosObservable(): Observable<Todo[]> {
     return this.toDos$;
+  }
+
+  getTodos(): Todo[] {
+    return this.toDosSubject.getValue();
   }
 
   getUsers(): Observable<User[]> {
@@ -42,7 +47,7 @@ export class TodoService implements OnInit {
     return this.userId = Date.now().toString(36);
   }
 
-  yyyymmdd(date: Date) {
+  yyyymmdd(date: Date): string {
     const mm = date.getMonth() + 1;
     const dd = date.getDate();
 
@@ -52,15 +57,27 @@ export class TodoService implements OnInit {
            ].join('');
   }
 
-  completeTodo(arr: Todo[], index: number) {
-    if (arr[index].complete === false) {
-      arr[index].complete = true;
-      arr[index].doneDate = this.yyyymmdd(this.currDay);
-      } else {
-        arr[index].complete = false;
-        arr[index].doneDate = '';
+  completeTodo(uniqueId: string) {
+    const todosArray = this.getTodos();
+    let updatedTodosArray: Todo[];
+    updatedTodosArray = todosArray.map(todo => {
+      if (todo.uniqueId === uniqueId) {
+          return { ...todo, complete: true };
       }
-    this.updateTodoStore(arr);
+      return todo;
+    });
+    this.updateTodoStore(updatedTodosArray);
+  }
+
+  deleteTodo(uniqueId: string) {
+    const dialogRef = this.openDeleteDialog('DeleteDailyTodoTitle');
+
+    dialogRef.afterClosed().subscribe(deleteTodo => {
+      if (deleteTodo) {
+        const patchedWeeklyTodosArray = this.getTodos().filter(todo => todo.uniqueId !== uniqueId);
+        this.updateTodoStore(patchedWeeklyTodosArray);
+      }
+    });
   }
 
   openDeleteDialog(titleMessage: string) {
@@ -69,17 +86,6 @@ export class TodoService implements OnInit {
       enterAnimationDuration: '350ms',
       exitAnimationDuration: '150ms',
       data: { titleMessageData: titleMessage },
-    });
-  }
-
-  deleteTodo(arr: Todo[], i: number) {
-    const dialogRef = this.openDeleteDialog('DeleteDailyTodoTitle');
-
-    dialogRef.afterClosed().subscribe(deleteTodo => {
-      if (deleteTodo) {
-        arr.splice(i, 1);
-        this.updateTodoStore(arr);
-      }
     });
   }
 
@@ -110,9 +116,31 @@ export class TodoService implements OnInit {
     return (currentTime + randomNumber).toString(36);
   }
 
+  setId() {
+    return this.todoId++;
+  }
+
+  setTodo(title: string, todoText: string, deadline: string): void {
+    const todo: Todo = {
+      uniqueId: this.setUniqueId(),
+      id: this.setId(),
+      title,
+      todoText,
+      complete: false,
+      creationDate: this.yyyymmdd(this.currDay),
+      doneDate: '',
+      deadline
+    };
+    const currentTodos: Todo[] = this.toDosSubject.getValue();
+    const todos: Todo[] = currentTodos.concat(todo);
+    this.updateTodoStore(todos);
+    const todoId = JSON.stringify(this.todoId);
+    localStorage.setItem('todoId', todoId);
+  }
+
   updateTodoStore(arr: Todo[]) {
-    const todoStore = JSON.stringify(arr);
-    localStorage.setItem('todoStore', todoStore);
+    this.toDosSubject.next(arr);
+    localStorage.setItem('todoStore', JSON.stringify(this.getTodos()));
   }
 
   updateUsers(arr: User[]) {
@@ -120,11 +148,24 @@ export class TodoService implements OnInit {
     localStorage.setItem('users', usersStore);
   }
 
-  ngOnInit(): void {
+  initTodos() {
     const todosStorage = JSON.parse(localStorage.getItem('todoStore'));
-    if (todosStorage !== null) {
-      this.toDosSubject.next(todosStorage);
-    }
+    (todosStorage !== null) ?
+      this.updateTodos(JSON.parse(localStorage.getItem('todoStore')), true) :
+      this.updateTodos(initTodos, false);
+  }
+
+  updateTodos(toDoArr: Todo[], fromServer: boolean) {
+    this.toDosSubject.next(toDoArr.map(todo => {
+      if (fromServer) {
+        // TODO this is migration, delete after january 2024
+        if (todo.uniqueId === null) todo.uniqueId = this.setUniqueId();
+      }
+      return todo;
+    }));
+  }
+
+  ngOnInit(): void {
     this.toDos$.subscribe(todos => console.log(todos));
   }
 }
