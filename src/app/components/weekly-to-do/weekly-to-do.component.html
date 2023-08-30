@@ -27,8 +27,7 @@
               <input class="ui labeled input form-control" type="text" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder | translate}}">
             </ng-template>
             <ng-container *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid">
-<!--              TODO use "Max150Symbols" translation string after refactoring of weekly-to-dos-list.component.html, todo line 23 -->
-              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.maxlength" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Max75Symbols'|translate}}</small>
+              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.maxlength" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Max150Symbols'|translate}}</small>
             </ng-container>
           </div>
         </div>

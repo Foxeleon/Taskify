@@ -117,16 +117,16 @@ export class WeeklyToDoComponent implements OnInit {
 
     this.weeklyTodoForm = this.fb.group({
       titleTarget: '',
-      todoTextTarget: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextTarget: ['', [Validators.required, Validators.maxLength(150)] ],
 
       titlePart: '',
-      todoTextPart: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextPart: ['', [Validators.required, Validators.maxLength(150)] ],
 
       titleLongBox: '',
-      todoTextLongBox: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextLongBox: ['', [Validators.required, Validators.maxLength(150)] ],
 
       titlePersonalGrowth: '',
-      todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(150)] ],
     });
 
     this.singleTodoForm = this.fb.group({
