@@ -3,7 +3,7 @@ import { DailyToDo, DailyToDosEntries } from '../../types';
 import { FormBuilder } from '@angular/forms';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
 import { map, Observable, shareReplay } from 'rxjs';
-import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
+import { selectDailyToDosEntries } from '../../store/weekly-to-do/weekly-to-do.selector';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';

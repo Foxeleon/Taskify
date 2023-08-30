@@ -5,10 +5,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { DailyToDo, EditDialogData } from '../../types';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
+import { WeeklyTodoActions } from '../../store/weekly-to-do/weekly-to-do.actions';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -187,12 +186,6 @@ export class WeeklyTodoService extends TodoService {
 
   getDailyToDosLastId(): number {
     return this.dailyToDosLastIdCacheSubject.getValue();
-  }
-
-  setUniqueId(): string {
-    const currentTime = new Date().getTime();
-    const randomNumber = Math.floor(Math.random() * Math.pow(10, 13));
-    return (currentTime + randomNumber).toString(36);
   }
 
   setIdNumber(): number {

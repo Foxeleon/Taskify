@@ -2,11 +2,11 @@
   <ng-template #todosList>
   <h4 class="ui dividing header" translate>{{'todoList header'}}</h4>
   <ng-container *ngIf="(isHandset$ | async)">
-    <div class="ui card weekly-to-do" *ngFor="let todo of todos; index as i">
+    <div class="ui card weekly-to-do" *ngFor="let todo of todos | todoFilter: false; index as i">
       <div class="ui segment">
         <div class="three fields">
           <div class="field" style="display: flex; justify-content: center;">
-            <a class="ui large label">{{'TableTitle' | translate}}: {{todo.title}}, {{todo.deadline}}, ID: {{i + 1}}</a>
+            <a class="ui large label">{{'TableTitle' | translate}}: {{todo.title}}, {{todo.deadline}}, #{{i + 1}}</a>
           </div>
           <div class="field" style="display: flex; justify-content: center; flex-flow: column wrap">
             <form class="ui form">
@@ -42,15 +42,15 @@
   <table class="ui sortable celled table" *ngIf="!(isHandset$ | async)">
     <thead>
     <tr>
-      <th (click)="sortTitle(this.todos)" translate>{{'TableTitle'}}</th>
+      <th translate>{{'TableTitle'}}</th>
       <th translate>{{'TableTODO'}}</th>
       <th translate>{{'TableDeadline'}}</th>
       <th translate>{{'TableComplete'}}</th>
       <th translate>{{'Delete'}}</th>
     </tr>
     </thead>
-    <tbody *ngFor="let todo of todos; index as i">
-      <tr *ngIf="!todo.complete">
+    <tbody *ngFor="let todo of todos | todoFilter: false; index as i">
+      <tr>
         <td data-label="Title">
   <!--        TODO complete details component, translate -->
   <!--        <a class="ui ribbon label" (click)="showDetails(todo.id)">{{i + 1}}</a>-->

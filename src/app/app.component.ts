@@ -5,8 +5,8 @@ import { map, Observable, shareReplay, take } from 'rxjs';
 import { environment } from '../environments/environment.prod';
 import { Store } from '@ngrx/store';
 import { AppState } from './store/app.state';
-import { selectLanguage } from './store/home.selector';
-import { HomeActions } from './store/home.actions';
+import { selectLanguage } from './store/home/home.selector';
+import { HomeActions } from './store/home/home.actions';
 
 @Component({
   selector: 'app-root',

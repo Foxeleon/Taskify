@@ -1,5 +1,5 @@
-import { HOME_FEATURE_KEY, HomeState } from './home.state';
-import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './weekly-to-do.state';
+import { HOME_FEATURE_KEY, HomeState } from './home/home.state';
+import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './weekly-to-do/weekly-to-do.state';
 
 export interface AppState {
   [HOME_FEATURE_KEY]?: HomeState;

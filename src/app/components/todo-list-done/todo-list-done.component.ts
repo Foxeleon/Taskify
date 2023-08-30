@@ -4,9 +4,9 @@ import { DailyToDo, Todo } from '../../types';
 import { map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { selectTabIndex } from '../../store/home.selector';
+import { selectTabIndex } from '../../store/home/home.selector';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { HomeActions } from '../../store/home.actions';
+import { HomeActions } from '../../store/home/home.actions';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 

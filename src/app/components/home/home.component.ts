@@ -4,8 +4,8 @@ import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../types';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
-import { HomeActions } from '../../store/home.actions';
-import { selectTabIndex } from '../../store/home.selector';
+import { HomeActions } from '../../store/home/home.actions';
+import { selectTabIndex } from '../../store/home/home.selector';
 import { map, Observable, shareReplay } from 'rxjs';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit {
       deadline: [this.tdService.yyyymmdd(this.tdService.currDay), [Validators.required]]
     });
     this.tdService.todoId = JSON.parse(localStorage.getItem('todoId'));
+    // TODO change to ngrx
     if (this.tdService.todoId == null) {
       this.setId();
     }
@@ -100,6 +101,7 @@ export class HomeComponent implements OnInit {
 
   setTodo(): void {
     this.tdService.todo = {
+      uniqueId: this.tdService.setUniqueId(),
       id: this.setId(),
       title: this.todoForm.value.title,
       todoText: this.todoForm.value.todoText,

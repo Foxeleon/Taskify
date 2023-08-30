@@ -1,33 +1,38 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Todo, User } from '../types';
-import { Observable } from 'rxjs';
+import { DailyToDo, Todo, User } from '../types';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { DeleteWarningDialogComponent } from '../components/delete-warning-dialog/delete-warning-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/app.state';
+import { selectTodos } from '../store/todolist/todolist.selector';
+import { TodolistActions } from '../store/todolist/todolist.actions';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TodoService {
-
-  allTodos: any;
-  todoId: number;
-  userId: string;
-  currDay = new Date();
-  todo: Todo;
+export class TodoService implements OnInit {
   user: User;
+  userId: string;
   allUsers: User[];
-  private url = '../assets/initTodos.json';
   private users = '../assets/users.json';
 
-  constructor( private http: HttpClient, public matDialog: MatDialog ) { }
+  allTodos: Todo[];
+  todoId: number;
+  currDay = new Date();
+  todo: Todo;
+  private url = '../assets/initTodos.json';
+  toDos$: Observable<Todo[]>;
+
+  constructor( private http: HttpClient, public matDialog: MatDialog, private store: Store<AppState>) { }
 
   checkTodosCompletion(arr: Todo[], checkCompletes: boolean): boolean {
     return checkCompletes ? arr.some(todo => todo.complete) : arr.some(todo => !todo.complete);
   }
 
-  getTodos() {
-    return this.http.get(this.url);
+  getTodos(): Observable<Todo[]> {
+    return this.toDos$;
   }
 
   getUsers(): Observable<User[]> {
@@ -100,13 +105,28 @@ export class TodoService {
     this.updateTodoStore(arr);
   }
 
+  setUniqueId(): string {
+    const currentTime = new Date().getTime();
+    const randomNumber = Math.floor(Math.random() * Math.pow(10, 13));
+    return (currentTime + randomNumber).toString(36);
+  }
+
   updateTodoStore(arr: Todo[]) {
-    const todoStore = JSON.stringify(arr);
-    localStorage.setItem('todoStore', todoStore);
+    this.store.dispatch(TodolistActions.setTodos({toDos: arr}));
+    // const todoStore = JSON.stringify(arr);
+    // localStorage.setItem('todoStore', todoStore);
   }
 
   updateUsers(arr: User[]) {
     const usersStore = JSON.stringify(arr);
     localStorage.setItem('users', usersStore);
+  }
+
+  ngOnInit(): void {
+    const todosStorage = JSON.parse(localStorage.getItem('todoStore'));
+    if (todosStorage !== null) {
+      this.store.dispatch(TodolistActions.setTodos({toDos: todosStorage}));
+    }
+    this.toDos$ = this.store.select(selectTodos);
   }
 }

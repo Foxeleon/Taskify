@@ -1,4 +1,4 @@
-import { DailyToDosEntries } from './types';
+import { DailyToDosEntries, Todo } from './types';
 
 export const dailyToDosEntries: DailyToDosEntries = {
   target: {
@@ -25,4 +25,17 @@ export const dailyToDosEntries: DailyToDosEntries = {
     icon: 'chess king',
     todoTextPlaceholder: 'dailyToDosEntries.personalGrowth-todoTextPlaceholder'
   }
-}
+};
+
+export const initTodos: Todo[] = [
+  {
+    uniqueId: 'Example-UniqueId',
+    id: 0,
+    title: 'Example todo',
+    todoText: 'Delete or complete this todo',
+    complete: false,
+    creationDate: '2023-09-01',
+    doneDate: '',
+    deadline: '2033-09-01'
+  }
+];

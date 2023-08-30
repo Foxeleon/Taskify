@@ -1,4 +1,4 @@
-import { DailyToDosEntries } from '../types';
+import { DailyToDosEntries } from '../../types';
 
 export const WEEKLY_TODO_FEATURE_KEY = 'WeeklyTodo';
 

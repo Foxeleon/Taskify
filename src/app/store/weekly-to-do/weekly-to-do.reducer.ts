@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { WeeklyTodoState } from './weekly-to-do.state';
 import { WeeklyTodoActions } from './weekly-to-do.actions';
 import { Capacitor } from '@capacitor/core';
-import { dailyToDosEntries } from '../constants';
+import { dailyToDosEntries } from '../../constants';
 
 export const initialState: WeeklyTodoState = {
   dailyToDosEntries,

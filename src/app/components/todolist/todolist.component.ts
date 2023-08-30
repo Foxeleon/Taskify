@@ -33,6 +33,7 @@ export class TodolistComponent implements OnInit {
   }
 
   sortTitle(arr: Todo[]) {
+    // TODO Refactor with observables or pipes
     arr.reverse();
     this.tdService.updateTodoStore(arr);
   }

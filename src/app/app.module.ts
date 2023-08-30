@@ -26,12 +26,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { provideState, provideStore } from '@ngrx/store';
-import { homeReducer } from './store/home.reducer';
-import { HOME_FEATURE_KEY, HomeState } from './store/home.state';
+import { homeReducer } from './store/home/home.reducer';
+import { HOME_FEATURE_KEY, HomeState } from './store/home/home.state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { WeeklyToDosListComponent } from './components/weekly-to-dos-list/weekly-to-dos-list.component';
-import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './store/weekly-to-do.state';
-import { weeklyTodoReducer } from './store/weekly-to-do.reducer';
+import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './store/weekly-to-do/weekly-to-do.state';
+import { weeklyTodoReducer } from './store/weekly-to-do/weekly-to-do.reducer';
 import { MatDividerModule } from '@angular/material/divider';
 import { ButtonsCompleteDeleteAllComponent } from './components/shared-components/buttons-complete-delete-all/buttons-complete-delete-all.component';
 import { NoListLoadingAnimationComponent } from './components/shared-components/no-list-loading-animation/no-list-loading-animation.component';
@@ -40,6 +40,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteWarningDialogComponent } from './components/delete-warning-dialog/delete-warning-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { WeeklyTodoAnnotatedComponent } from './components/weekly-todo-annotated/weekly-todo-annotated.component';
+import { TodoFilterPipe } from './pipe/todo-filter.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -62,6 +63,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditDialogComponent,
     DeleteWarningDialogComponent,
     WeeklyTodoAnnotatedComponent,
+    TodoFilterPipe,
   ],
     imports: [
         MatTabsModule,

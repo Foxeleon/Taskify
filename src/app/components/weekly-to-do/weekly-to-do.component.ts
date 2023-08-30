@@ -10,8 +10,8 @@ import {
   selectDoneDate,
   selectFirstTodoIsToday,
   selectIsMobilePlatform
-} from '../../store/weekly-to-do.selector';
-import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
+} from '../../store/weekly-to-do/weekly-to-do.selector';
+import { WeeklyTodoActions } from '../../store/weekly-to-do/weekly-to-do.actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
