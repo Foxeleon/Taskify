@@ -6,8 +6,6 @@ import { DeleteWarningDialogComponent } from '../components/delete-warning-dialo
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.state';
-import { selectTodos } from '../store/todolist/todolist.selector';
-import { TodolistActions } from '../store/todolist/todolist.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +21,8 @@ export class TodoService implements OnInit {
   currDay = new Date();
   todo: Todo;
   private url = '../assets/initTodos.json';
-  toDos$: Observable<Todo[]>;
+  toDosSubject = new BehaviorSubject<Todo[]>([]);
+  toDos$: Observable<Todo[]> = this.toDosSubject.asObservable();
 
   constructor( private http: HttpClient, public matDialog: MatDialog, private store: Store<AppState>) { }
 
@@ -112,9 +111,8 @@ export class TodoService implements OnInit {
   }
 
   updateTodoStore(arr: Todo[]) {
-    this.store.dispatch(TodolistActions.setTodos({toDos: arr}));
-    // const todoStore = JSON.stringify(arr);
-    // localStorage.setItem('todoStore', todoStore);
+    const todoStore = JSON.stringify(arr);
+    localStorage.setItem('todoStore', todoStore);
   }
 
   updateUsers(arr: User[]) {
@@ -125,8 +123,8 @@ export class TodoService implements OnInit {
   ngOnInit(): void {
     const todosStorage = JSON.parse(localStorage.getItem('todoStore'));
     if (todosStorage !== null) {
-      this.store.dispatch(TodolistActions.setTodos({toDos: todosStorage}));
+      this.toDosSubject.next(todosStorage);
     }
-    this.toDos$ = this.store.select(selectTodos);
+    this.toDos$.subscribe(todos => console.log(todos));
   }
 }
