@@ -4,4 +4,5 @@ import { WEEKLY_TODO_FEATURE_KEY, WeeklyTodoState } from './weekly-to-do/weekly-
 export interface AppState {
   [HOME_FEATURE_KEY]?: HomeState;
   [WEEKLY_TODO_FEATURE_KEY]?: WeeklyTodoState;
+  [TODOLIST_FEATURE_KEY]?: TodolistState;
 }

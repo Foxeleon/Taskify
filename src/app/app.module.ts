@@ -95,6 +95,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     provideStore(),
     provideState<HomeState>(HOME_FEATURE_KEY, homeReducer),
     provideState<WeeklyTodoState>(WEEKLY_TODO_FEATURE_KEY, weeklyTodoReducer),
+    provideState<TodolistState>(TODOLIST_FEATURE_KEY, todolistReducer),
     provideStoreDevtools(),
   ],
   bootstrap: [AppComponent]

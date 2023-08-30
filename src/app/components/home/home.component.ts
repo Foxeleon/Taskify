@@ -17,8 +17,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class HomeComponent implements OnInit {
 
-  todos: Todo[] = [];
+  // todos: Todo[] = [];
+  todos$: Observable<Todo[]>;
+
   todosUncompleted: Todo[] = [];
+
   accordeonActive = true;
   holdTitle: boolean;
   todoTextArea = false;
@@ -78,17 +81,20 @@ export class HomeComponent implements OnInit {
       icon: true,
       ui: true
     };
-    this.tdService.getTodos()
-    .subscribe(
-      (value) => {
-        this.tdService.allTodos = value;
-        this.todos = JSON.parse(localStorage.getItem('todoStore'));
-        if (this.todos == null) {
-          this.todos = this.tdService.allTodos;
-        }
-      },
-      (error) => console.log(error)
-      );
+
+    this.todos$ = this.tdService.getTodos();
+
+    // this.tdService.getTodos()
+    // .subscribe(
+    //   (value) => {
+    //     this.tdService.allTodos = value as Todo[];
+    //     this.todos = JSON.parse(localStorage.getItem('todoStore'));
+    //     if (this.todos == null) {
+    //       this.todos = this.tdService.allTodos;
+    //     }
+    //   },
+    //   (error) => console.log(error)
+    //   );
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {

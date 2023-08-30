@@ -21,9 +21,9 @@ export class WeeklyTodoService extends TodoService {
   dailyToDosLastIdCacheSubject = new BehaviorSubject<number>(0);
 
   constructor(private httpWeekly: HttpClient,
-              private store: Store<AppState>,
-              public matDialogWeekly: MatDialog) {
-                super(httpWeekly, matDialogWeekly);
+              public matDialogWeekly: MatDialog,
+              private storeWeekly: Store<AppState>) {
+                super(httpWeekly, matDialogWeekly, storeWeekly);
               }
 
   backupWeeklyTodosToFile() {
@@ -181,7 +181,7 @@ export class WeeklyTodoService extends TodoService {
     // tslint:disable-next-line:max-line-length
     doneDate = (maxIdNumber === 0) ? new Date() : this.getWeeklyTodos().filter(dailyToDo => dailyToDo.idNumber === maxIdNumber)[0].doneDate;
     this.dailyToDosLastIdCacheSubject.next(maxIdNumber);
-    this.store.dispatch(WeeklyTodoActions.setDoneDate({doneDate}));
+    this.storeWeekly.dispatch(WeeklyTodoActions.setDoneDate({doneDate}));
   }
 
   getDailyToDosLastId(): number {
