@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { TodoService } from '../../todo.service';
+import { TodoService } from '../../services/todo.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DailyToDo, EditDialogData } from '../../types';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
+import { WeeklyTodoActions } from '../../store/weekly-to-do/weekly-to-do.actions';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteWarningDialogComponent } from '../delete-warning-dialog/delete-warning-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +21,9 @@ export class WeeklyTodoService extends TodoService {
   dailyToDosLastIdCacheSubject = new BehaviorSubject<number>(0);
 
   constructor(private httpWeekly: HttpClient,
-              private store: Store<AppState>,
-              public matDialog: MatDialog) {
-                super(httpWeekly);
+              public matDialogWeekly: MatDialog,
+              private storeWeekly: Store<AppState>) {
+                super(httpWeekly, matDialogWeekly, storeWeekly);
               }
 
   backupWeeklyTodosToFile() {
@@ -57,15 +56,6 @@ export class WeeklyTodoService extends TodoService {
 
   deleteAllUncompletedWeeklyTodos() {
     this.updateWeeklyTodos(this.getWeeklyTodos().filter(dailyTodo => dailyTodo.complete));
-  }
-
-  openDeleteDialog(titleMessage: string) {
-    return this.matDialog.open(DeleteWarningDialogComponent, {
-      width: '350px',
-      enterAnimationDuration: '350ms',
-      exitAnimationDuration: '150ms',
-      data: { titleMessageData: titleMessage },
-    });
   }
 
   deleteAllWeeklyTodos() {
@@ -137,7 +127,7 @@ export class WeeklyTodoService extends TodoService {
     const weeklyTodosArray = this.getWeeklyTodos();
     const todoToEdit = weeklyTodosArray.find(dailyTodo => dailyTodo.uniqueId === uniqueId);
     const editDialogData: EditDialogData = this.getTitleAndTextOfTodo(todoToEdit, meaning);
-    const dialogRef = this.matDialog.open(EditDialogComponent, {
+    const dialogRef = this.matDialogWeekly.open(EditDialogComponent, {
       width: '350px',
       enterAnimationDuration: '350ms',
       exitAnimationDuration: '150ms',
@@ -191,17 +181,11 @@ export class WeeklyTodoService extends TodoService {
     // tslint:disable-next-line:max-line-length
     doneDate = (maxIdNumber === 0) ? new Date() : this.getWeeklyTodos().filter(dailyToDo => dailyToDo.idNumber === maxIdNumber)[0].doneDate;
     this.dailyToDosLastIdCacheSubject.next(maxIdNumber);
-    this.store.dispatch(WeeklyTodoActions.setDoneDate({doneDate}));
+    this.storeWeekly.dispatch(WeeklyTodoActions.setDoneDate({doneDate}));
   }
 
   getDailyToDosLastId(): number {
     return this.dailyToDosLastIdCacheSubject.getValue();
-  }
-
-  setUniqueId(): string {
-    const currentTime = new Date().getTime();
-    const randomNumber = Math.floor(Math.random() * Math.pow(10, 13));
-    return (currentTime + randomNumber).toString(36);
   }
 
   setIdNumber(): number {

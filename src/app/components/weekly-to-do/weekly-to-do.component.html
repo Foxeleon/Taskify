@@ -26,8 +26,7 @@
             <ng-template #inputBlock>
               <input class="ui labeled input form-control" type="text" formControlName="{{'todoText' + dailyToDosEntry.meaning}}" placeholder="{{dailyToDosEntry.todoTextPlaceholder | translate}}">
             </ng-template>
-            <ng-container  *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid">
-              <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.required && weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).touched" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Required'|translate}}</small>
+            <ng-container *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).invalid">
 <!--              TODO use "Max150Symbols" translation string after refactoring of weekly-to-dos-list.component.html, todo line 23 -->
               <small *ngIf="weeklyTodoForm.get('todoText' + dailyToDosEntry.meaning).errors?.maxlength" class="ui left pointing red basic label" style="{{(isHandset$ | async) ? 'max-width: 30%;' : ''}}">{{'Max75Symbols'|translate}}</small>
             </ng-container>
@@ -51,14 +50,14 @@
             <i class="recycle red link icon"></i>
             {{'Delete all todos' | translate}}
           </button>
-          <div style="margin: 2px;">
-            <div class="ui vertical animated button" tabindex="0" (click)="this.backupWeeklyTodosToFile()">
+          <div style="margin: 2px;" *ngIf="!(isMobilePlatform$ | async)">
+            <div class="ui vertical animated button" (click)="this.backupWeeklyTodosToFile()">
                 <div class="hidden content" style="font-size: xx-small;">{{'Backup' | translate}}</div>
                 <div class="visible content">
                   <i class="save icon"></i>
                 </div>
             </div>
-            <div class="ui vertical animated button" tabindex="0" (click)="restorefileInput.click()">
+            <div class="ui vertical animated button" (click)="restorefileInput.click()">
               <div class="hidden content" style="font-size: xx-small;">{{'Restore' | translate}}</div>
               <div class="visible content">
                 <i class="sync icon"></i>

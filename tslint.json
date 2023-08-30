@@ -1,5 +1,5 @@
 {
-  "extends": "tslint:recommended",
+  "extends": ["codelyzer", "tslint:recommended"],
   "rules": {
     "curly": [true, "ignore-same-line"],
     "array-type": false,

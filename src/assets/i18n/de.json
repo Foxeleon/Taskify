@@ -1,5 +1,5 @@
 {
-  "ProjectTitle": "Taskify",
+  "ProjectTitle": "Taskify {{version}}",
   "ToDo-List": "TODO-Liste",
   "Done-Todos": "Erledigte TODO's",
   "UserProfile": "Benutzer Account",
@@ -32,7 +32,7 @@
   "Delete": "Löschen",
   "Complete issue": "Aufgabe fertigstellen",
   "Completed!": "Erledigt!",
-  "Required": "Mindestens eine Aufgabe",
+  "Required": "Pflichtfeld",
   "Max25Symbols": "Maximal 25 Zeichen",
   "Max150Symbols": "Maximal 150 Zeichen",
   "Max75Symbols": "Maximal 75 Zeichen",
@@ -78,5 +78,6 @@
     "Edit": "Bearbeiten",
     "titleFieldDescription": "Titel bearbeiten",
     "textFieldDescription": "Beschreibung bearbeiten"
-  }
+  },
+  "setWeeklyTodoAnnotation": "Aufgabe wurde erstellt"
 }

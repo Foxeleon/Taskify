@@ -1,41 +1,87 @@
-<h4 class="ui dividing header" translate>{{'todoList header'}}</h4>
-<table class="ui sortable celled table">
-  <thead>
-  <tr>
-    <th class="" (click)="sortTitle(this.todos)" translate>{{'TableTitle'}}</th>
-    <th translate>{{'TableTODO'}}</th>
-    <th translate>{{'TableDeadline'}}</th>
-    <th translate>{{'TableComplete'}}</th>
-    <th translate>{{'Delete'}}</th>
-  </tr>
-  </thead>
-  <tbody *ngFor="let todo of todos; index as i">
-    <tr *ngIf="!todo.complete">
-      <td data-label="Title">
-        <a class="ui ribbon label" (click)="showDetails(todo.id)">{{i + 1}}</a>
-        {{todo.title}}
-      </td>
-      <td data-label="TODO">{{todo.todoText}}</td>
-      <td data-label="Deadline">{{todo.deadline}}</td>
-      <td data-label="Complete?">
-        <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
-          <input type="checkbox" name="public" [checked]="todo.complete==true">
-          <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
-          <ng-template #newTodo>
-            <label translate>{{'Complete issue'}}</label>
-          </ng-template>
-          <ng-template #completedTodo>
-            <label translate>{{'Completed!'}}</label>
-          </ng-template>
+<ng-template *ngIf="checkUncompletedTodos(this.todos); then todosList; else noList"></ng-template>
+  <ng-template #todosList>
+  <h4 class="ui dividing header" translate>{{'todoList header'}}</h4>
+  <ng-container *ngIf="(isHandset$ | async)">
+    <div class="ui card weekly-to-do" *ngFor="let todo of todos | todoFilter: false; index as i">
+      <div class="ui segment">
+        <div class="three fields">
+          <div class="field" style="display: flex; justify-content: center;">
+            <a class="ui large label">{{'TableTitle' | translate}}: {{todo.title}}, {{todo.deadline}}, #{{i + 1}}</a>
+          </div>
+          <div class="field" style="display: flex; justify-content: center; flex-flow: column wrap">
+            <form class="ui form">
+              <div>{{'TableTODO' | translate}}:</div>
+              <input class="ui input" type="text" value="{{todo.todoText}}" readonly>
+            </form>
+          </div>
+          <div class="two fields" style=" display: flex; flex-flow: row nowrap; margin: 0.5em 0!important; align-items: center; justify-content: space-between;">
+            <div class="field">
+              <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
+                <input type="checkbox" name="public" [checked]="todo.complete==true">
+                <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
+                <ng-template #newTodo>
+                  <label translate>{{'Complete issue'}}</label>
+                </ng-template>
+                <ng-template #completedTodo>
+                  <label translate>{{'Completed!'}}</label>
+                </ng-template>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui small basic icon buttons">
+                <button class="ui button">
+                  <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </td>
-      <td data-label="Delete">
-        <div class="ui small basic icon buttons">
-          <button class="ui button">
-            <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
-          </button>
-        </div>
-      </td>
+      </div>
+    </div>
+  </ng-container>
+  <table class="ui sortable celled table" *ngIf="!(isHandset$ | async)">
+    <thead>
+    <tr>
+      <th translate>{{'TableTitle'}}</th>
+      <th translate>{{'TableTODO'}}</th>
+      <th translate>{{'TableDeadline'}}</th>
+      <th translate>{{'TableComplete'}}</th>
+      <th translate>{{'Delete'}}</th>
     </tr>
-  </tbody>
-</table>
+    </thead>
+    <tbody *ngFor="let todo of todos | todoFilter: false; index as i">
+      <tr>
+        <td data-label="Title">
+  <!--        TODO complete details component, translate -->
+  <!--        <a class="ui ribbon label" (click)="showDetails(todo.id)">{{i + 1}}</a>-->
+          <a class="ui ribbon label">{{i + 1}}</a>
+          {{todo.title}}
+        </td>
+        <td data-label="TODO">{{todo.todoText}}</td>
+        <td data-label="Deadline">{{todo.deadline}}</td>
+        <td data-label="Complete?">
+          <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todos, i)">
+            <input type="checkbox" name="public" [checked]="todo.complete==true">
+            <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
+            <ng-template #newTodo>
+              <label translate>{{'Complete issue'}}</label>
+            </ng-template>
+            <ng-template #completedTodo>
+              <label translate>{{'Completed!'}}</label>
+            </ng-template>
+          </div>
+        </td>
+        <td data-label="Delete">
+          <div class="ui small basic icon buttons">
+            <button class="ui button">
+              <i class="delete red large link icon left" (click)="this.tdService.deleteTodo(todos, i)"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+<ng-template #noList>
+  <app-no-list-loading-animation [isDoneList]="false"/>
+</ng-template>

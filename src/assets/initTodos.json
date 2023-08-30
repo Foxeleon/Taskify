@@ -1,0 +1,11 @@
+[
+  {
+    "id": 0,
+    "title": "Example todo",
+    "todoText": "Delete or complete this todo",
+    "complete": false,
+    "creationDate": "2023-09-01",
+    "doneDate": "",
+    "deadline": "2033-09-01"
+  }
+]

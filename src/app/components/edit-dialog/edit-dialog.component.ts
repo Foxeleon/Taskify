@@ -9,8 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class EditDialogComponent implements OnInit {
 
-  title: string;
-  text: string;
+  inputTitle: string;
+  inputText: string;
+  originalTranslatedTitle: string;
 
   constructor(
     public dialogRef: MatDialogRef<EditDialogComponent>,
@@ -27,11 +28,12 @@ export class EditDialogComponent implements OnInit {
   }
 
   getUpdatedData(): EditDialogData {
-    return {title: this.title, text: this.text};
+    if (this.inputTitle === this.originalTranslatedTitle) return {title: this.data.title, text: this.inputText};
+    return {title: this.inputTitle, text: this.inputText};
   }
 
   ngOnInit(): void {
-    this.title = this.getTranslation(this.data.title);
-    this.text = this.getTranslation(this.data.text);
+    this.inputTitle = this.originalTranslatedTitle = this.getTranslation(this.data.title);
+    this.inputText = this.getTranslation(this.data.text);
   }
 }

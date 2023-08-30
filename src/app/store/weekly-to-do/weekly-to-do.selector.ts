@@ -17,3 +17,8 @@ export const selectFirstTodoIsToday = createSelector(
   selectWeeklyToDo,
   state => state.dates.firstDoneDateToday
 );
+
+export const selectIsMobilePlatform = createSelector(
+  selectWeeklyToDo,
+  state => state.isMobilePlatform
+);

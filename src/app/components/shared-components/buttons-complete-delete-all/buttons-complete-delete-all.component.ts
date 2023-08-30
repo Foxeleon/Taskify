@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Todo } from '../../types';
-import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
-import { TodoService } from '../../todo.service';
+import { Todo } from '../../../types';
+import { WeeklyTodoService } from '../../weekly-to-do/weekly-todo.service';
+import { TodoService } from '../../../services/todo.service';
 
 @Component({
   selector: 'app-buttons-complete-delete-all',
@@ -24,7 +24,13 @@ export class ButtonsCompleteDeleteAllComponent implements OnInit {
   }
 
   clearToDoList() {
-    (this.data.isWeekly) ? this.weeklyTodoService.deleteAllUncompletedWeeklyTodos() : this.todoService.clearToDoList(this.data.toDos);
+    const dialogRef = this.todoService.openDeleteDialog('DeleteAllWeeklyTodosTitle');
+
+    dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
+      if (deleteAllWeeklyTodos) {
+        (this.data.isWeekly) ? this.weeklyTodoService.deleteAllUncompletedWeeklyTodos() : this.todoService.clearToDoList(this.data.toDos);
+      }
+    });
   }
 
 }

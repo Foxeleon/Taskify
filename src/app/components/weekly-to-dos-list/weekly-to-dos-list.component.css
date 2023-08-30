@@ -1,11 +1,7 @@
 /deep/ .mat-mdc-tab-body-content {  /* Removing the scrollbar from the Tabs card */
   overflow: hidden !important;
 }
-.ui.card.weekly-to-do {
-  width: auto;
-  margin: 0.5em 1px;
-  padding: 0.1em 0.5em;
-}
+
 .weekly-to-do-input::placeholder {
   color: black!important;
   font-weight: bold!important;

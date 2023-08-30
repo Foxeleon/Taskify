@@ -5,7 +5,7 @@
       <h4 class="ui dividing header" translate>{{'todoDoneList header'}}</h4>
         <table class="ui celled table">
           <thead>
-            <tr>
+            <tr *ngIf="!(isHandset$ | async)">
               <th translate class="sorted descending">{{'TableTitle'}}</th>
               <th translate>{{'TableTODO'}}</th>
               <th translate>{{'TableDoneDate'}}</th>

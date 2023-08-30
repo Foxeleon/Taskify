@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TodoService } from '../../todo.service';
+import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../types';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
-import { HomeActions } from '../../store/home.actions';
-import { selectTabIndex } from '../../store/home.selector';
+import { HomeActions } from '../../store/home/home.actions';
+import { selectTabIndex } from '../../store/home/home.selector';
 import { map, Observable, shareReplay } from 'rxjs';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -17,8 +17,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class HomeComponent implements OnInit {
 
-  todos: Todo[] = [];
+  // todos: Todo[] = [];
+  todos$: Observable<Todo[]>;
+
   todosUncompleted: Todo[] = [];
+
   accordeonActive = true;
   holdTitle: boolean;
   todoTextArea = false;
@@ -47,6 +50,7 @@ export class HomeComponent implements OnInit {
       deadline: [this.tdService.yyyymmdd(this.tdService.currDay), [Validators.required]]
     });
     this.tdService.todoId = JSON.parse(localStorage.getItem('todoId'));
+    // TODO change to ngrx
     if (this.tdService.todoId == null) {
       this.setId();
     }
@@ -77,17 +81,20 @@ export class HomeComponent implements OnInit {
       icon: true,
       ui: true
     };
-    this.tdService.getTodos()
-    .subscribe(
-      (value) => {
-        this.tdService.allTodos = value;
-        this.todos = JSON.parse(localStorage.getItem('todoStore'));
-        if (this.todos == null) {
-          this.todos = this.tdService.allTodos;
-        }
-      },
-      (error) => console.log(error)
-      );
+
+    this.todos$ = this.tdService.getTodos();
+
+    // this.tdService.getTodos()
+    // .subscribe(
+    //   (value) => {
+    //     this.tdService.allTodos = value as Todo[];
+    //     this.todos = JSON.parse(localStorage.getItem('todoStore'));
+    //     if (this.todos == null) {
+    //       this.todos = this.tdService.allTodos;
+    //     }
+    //   },
+    //   (error) => console.log(error)
+    //   );
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -100,6 +107,7 @@ export class HomeComponent implements OnInit {
 
   setTodo(): void {
     this.tdService.todo = {
+      uniqueId: this.tdService.setUniqueId(),
       id: this.setId(),
       title: this.todoForm.value.title,
       todoText: this.todoForm.value.todoText,
