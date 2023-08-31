@@ -6,7 +6,7 @@
       <div class="ui segment">
         <div class="three fields">
           <div class="field" style="display: flex; justify-content: center;">
-            <a class="ui large label">{{'TableTitle' | translate}}: {{todo.title}}, {{todo.deadline}}, #{{i + 1}}</a>
+            <a class="ui large label">{{'TableTitle' | translate}}: {{todo.title}}, {{todo.deadline | date: 'd-M-yyyy'}}, #{{i + 1}}</a>
           </div>
           <div class="field" style="display: flex; justify-content: center; flex-flow: column wrap">
             <form class="ui form">
@@ -58,7 +58,7 @@
           {{todo.title}}
         </td>
         <td data-label="TODO">{{todo.todoText}}</td>
-        <td data-label="Deadline">{{todo.deadline}}</td>
+        <td data-label="Deadline">{{todo.deadline | date: 'd-M-yyyy'}}</td>
         <td data-label="Complete?">
           <div class="ui toggle checkbox" (click)="this.tdService.completeTodo(todo.uniqueId)">
             <input type="checkbox" name="public" [checked]="todo.complete==true">

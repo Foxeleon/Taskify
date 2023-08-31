@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(25)] ],
       todoText: ['', [Validators.required, Validators.maxLength(150)] ],
-      deadline: [this.tdService.yyyymmdd(this.tdService.currDay), [Validators.required]]
+      deadline: [this.tdService.yyyymmdd(new Date()), [Validators.required]]
     });
     this.tdService.todoId = JSON.parse(localStorage.getItem('todoId'));
     // TODO change to ngrx
@@ -94,7 +94,9 @@ export class HomeComponent implements OnInit {
   }
 
   setTodo(): void {
-    this.tdService.setTodo(this.todoForm.value.title, this.todoForm.value.todoText, this.todoForm.value.deadline);
+    const deadline: Date = new Date(this.todoForm.value.deadline);
+    deadline.setHours(23, 59, 59, 999);
+    this.tdService.setTodo(this.todoForm.value.title, this.todoForm.value.todoText, deadline);
     this.resetForm();
   }
 

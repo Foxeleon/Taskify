@@ -159,7 +159,7 @@ export class WeeklyToDoComponent implements OnInit {
     this.weeklyTodoService.deleteAllWeeklyTodos();
   }
 
-  private getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
+  private getDate = (): string => this.weeklyTodoService.yyyymmdd(new Date());
 
   private getDoneDate = (): Date => {
     let dDate: Date;

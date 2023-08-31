@@ -4,9 +4,9 @@ export interface Todo {
   title: string;
   todoText: string;
   complete: boolean;
-  creationDate: string;
-  doneDate: string;
-  deadline: string;
+  creationDate: Date;
+  doneDate: Date;
+  deadline: Date;
 }
 
 export interface User {

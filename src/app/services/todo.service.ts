@@ -19,9 +19,7 @@ export class TodoService implements OnInit {
 
   allTodos: Todo[];
   todoId: number;
-  currDay = new Date();
   todo: Todo;
-  private url = '../assets/initTodos.json';
   toDosSubject = new BehaviorSubject<Todo[]>([]);
   toDos$: Observable<Todo[]> = this.toDosSubject.asObservable();
 
@@ -104,7 +102,7 @@ export class TodoService implements OnInit {
     for (const j in arr) {
     if (arr[j].complete === false) {
       arr[j].complete = true;
-      arr[j].doneDate = this.yyyymmdd(this.currDay);
+      arr[j].doneDate = new Date();
       }
     }
     this.updateTodoStore(arr);
@@ -120,15 +118,15 @@ export class TodoService implements OnInit {
     return this.todoId++;
   }
 
-  setTodo(title: string, todoText: string, deadline: string): void {
+  setTodo(title: string, todoText: string, deadline: Date): void {
     const todo: Todo = {
       uniqueId: this.setUniqueId(),
       id: this.setId(),
       title,
       todoText,
       complete: false,
-      creationDate: this.yyyymmdd(this.currDay),
-      doneDate: '',
+      creationDate: new Date(),
+      doneDate: undefined,
       deadline
     };
     const currentTodos: Todo[] = this.toDosSubject.getValue();
@@ -150,15 +148,19 @@ export class TodoService implements OnInit {
 
   initTodos() {
     const todosStorage = JSON.parse(localStorage.getItem('todoStore'));
-    (todosStorage !== null) ? this.updateTodos(JSON.parse(localStorage.getItem('todoStore')), true) : this.updateTodos(initTodos, false);
+    (todosStorage !== null) ? this.updateTodos(todosStorage, true) : this.updateTodos(initTodos, false);
   }
 
   updateTodos(toDoArr: Todo[], fromServer: boolean) {
-    // TODO this is migration, refactor after that
     if (fromServer) {
       this.toDosSubject.next(toDoArr.map(todo => {
-          if (todo.uniqueId === undefined) todo.uniqueId = this.setUniqueId();
-          return todo;
+        todo.deadline = new Date(todo.deadline);
+        todo.doneDate = todo.doneDate ? new Date(todo.doneDate) : undefined;
+        todo.creationDate = new Date(todo.creationDate);
+        // TODO this is migration, refactor after that
+        if (todo.uniqueId === undefined) todo.uniqueId = this.setUniqueId();
+
+        return todo;
       }));
     } else {
       this.toDosSubject.next(toDoArr);

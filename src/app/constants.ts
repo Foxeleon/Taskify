@@ -34,8 +34,8 @@ export const initTodos: Todo[] = [
     title: 'Example todo',
     todoText: 'Delete or complete this todo',
     complete: false,
-    creationDate: '2023-09-01',
-    doneDate: '',
-    deadline: '2033-09-01'
+    creationDate: new Date('2023-09-01'),
+    doneDate: undefined,
+    deadline: new Date('2033-09-01')
   }
 ];

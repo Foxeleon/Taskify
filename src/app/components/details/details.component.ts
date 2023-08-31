@@ -33,8 +33,8 @@ export class DetailsComponent implements OnInit {
       this.doneDate = new Date(this.todo.doneDate);
       this.deadlineDate = new Date(this.todo.deadline);
       this.daysTillDone = +this.countDays(this.creationDate, this.doneDate);
-      this.daysTillDeadline = +this.countDays(this.tdService.currDay, this.deadlineDate);
-      this.daysCurrDuration = +this.countDays(this.creationDate, this.tdService.currDay);
+      this.daysTillDeadline = +this.countDays(new Date(), this.deadlineDate);
+      this.daysCurrDuration = +this.countDays(this.creationDate, new Date());
     }
 
   getTodo(arr: Todo[]) {
