@@ -17,7 +17,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class HomeComponent implements OnInit {
 
-  // todos: Todo[] = [];
   todos$: Observable<Todo[]>;
 
   todosUncompleted: Todo[] = [];
@@ -38,7 +37,7 @@ export class HomeComponent implements OnInit {
   tabIndex$: Observable<number>;
   isHandset$: Observable<boolean>;
 
-  constructor( private fb: FormBuilder, private tdService: TodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
+  constructor( private fb: FormBuilder, private toddService: TodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit() {
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
@@ -46,11 +45,11 @@ export class HomeComponent implements OnInit {
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(25)] ],
       todoText: ['', [Validators.required, Validators.maxLength(150)] ],
-      deadline: [this.tdService.yyyymmdd(new Date()), [Validators.required]]
+      deadline: [this.toddService.yyyymmdd(new Date()), [Validators.required]]
     });
-    this.tdService.todoId = JSON.parse(localStorage.getItem('todoId'));
+    this.toddService.todoId = JSON.parse(localStorage.getItem('todoId'));
     // TODO change to ngrx
-    if (this.tdService.todoId == null) {
+    if (this.toddService.todoId == null) {
       this.setId();
     }
     this.holdTitle = JSON.parse(localStorage.getItem('titleState'));
@@ -81,8 +80,8 @@ export class HomeComponent implements OnInit {
       ui: true
     };
 
-    this.tdService.initTodos();
-    this.todos$ = this.tdService.getTodosObservable();
+    this.toddService.initTodos();
+    this.todos$ = this.toddService.getTodosObservable();
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -96,7 +95,7 @@ export class HomeComponent implements OnInit {
   setTodo(): void {
     const deadline: Date = new Date(this.todoForm.value.deadline);
     deadline.setHours(23, 59, 59, 999);
-    this.tdService.setTodo(this.todoForm.value.title, this.todoForm.value.todoText, deadline);
+    this.toddService.setTodo(this.todoForm.value.title, this.todoForm.value.todoText, deadline);
     this.resetForm();
   }
 
@@ -129,7 +128,7 @@ export class HomeComponent implements OnInit {
   }
 
   setId() {
-    return this.tdService.todoId++;
+    return this.toddService.todoId++;
   }
 
   resetForm() {
