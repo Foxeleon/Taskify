@@ -7,3 +7,11 @@
 .ui-accordion-input-form {
   margin-top: 5px;
 }
+
+.ui.label.mobile-label {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+  max-width: 25%;
+}

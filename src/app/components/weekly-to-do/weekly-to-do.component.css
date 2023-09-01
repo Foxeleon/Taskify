@@ -23,13 +23,6 @@
   flex-flow: column wrap!important;
 }
 
-.ui.label.mobile-label {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-evenly;
-  max-width: 25%;
-}
 .mat-expansion-panel {
   color: black;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Set the box shadow */
