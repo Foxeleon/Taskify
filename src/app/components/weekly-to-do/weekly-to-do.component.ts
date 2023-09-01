@@ -132,8 +132,8 @@ export class WeeklyToDoComponent implements OnInit {
     // this.store.select(selectDoneDate).subscribe(value => console.log(value));
   }
 
-  openSnackBar() {
-    this.utilsService.openSnackBar();
+  openSnackBar(message: string, iconClasses: string[]) {
+    this.utilsService.openSnackBar(message, iconClasses);
     // this.snackBar.openFromComponent(TodoAnnotationComponent, {
     //   duration: 1500
     // });
@@ -267,7 +267,7 @@ export class WeeklyToDoComponent implements OnInit {
     const currentDailyTodos = this.weeklyTodoService.getWeeklyTodos();
     currentDailyTodos.push(newDailyTodo);
     this.weeklyTodoService.updateWeeklyTodos(currentDailyTodos);
-    this.openSnackBar();
+    this.openSnackBar('setWeeklyTodoAnnotation', ['edit', 'outline', 'green']);
     this.resetForm();
   }
 }
