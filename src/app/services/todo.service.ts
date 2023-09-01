@@ -2,11 +2,11 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DailyToDo, Todo, User } from '../types';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DeleteWarningDialogComponent } from '../components/delete-warning-dialog/delete-warning-dialog.component';
+import { DeleteWarningDialogComponent } from '../components/shared-components/delete-warning-dialog/delete-warning-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.state';
-import { initTodos } from '../constants';
+import { initTodos, todoFilterStates } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,9 @@ export class TodoService implements OnInit {
   todo: Todo;
   toDosSubject = new BehaviorSubject<Todo[]>([]);
   toDos$: Observable<Todo[]> = this.toDosSubject.asObservable();
+
+  todoFilterBySubject = new BehaviorSubject<string>(todoFilterStates.byCreationDate);
+  todoFilterBy$: Observable<string> = this.todoFilterBySubject.asObservable();
 
   constructor( private http: HttpClient, public matDialog: MatDialog, private store: Store<AppState>) { }
 
@@ -165,6 +168,29 @@ export class TodoService implements OnInit {
     } else {
       this.toDosSubject.next(toDoArr);
     }
+  }
+
+  updateTodoFilterState(filterState: string) {
+    this.todoFilterBySubject.next(filterState);
+  }
+
+  getTodoFilterState(): string {
+    return this.todoFilterBySubject.getValue();
+  }
+
+  toggleTodoFilterState(): void {
+    switch (this.getTodoFilterState()) {
+      case todoFilterStates.byCreationDate:
+        this.updateTodoFilterState(todoFilterStates.byDeadline);
+        break;
+      case todoFilterStates.byDeadline:
+        this.updateTodoFilterState(todoFilterStates.byCreationDate);
+        break;
+      default:
+        this.updateTodoFilterState(todoFilterStates.byCreationDate);
+        break;
+    }
+    localStorage.setItem('todoFilterState', '');
   }
 
   ngOnInit(): void {

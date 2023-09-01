@@ -1,4 +1,9 @@
-import { DailyToDosEntries, Todo } from './types';
+import { DailyToDosEntries, Todo, TodoFilterStates } from './types';
+
+export const todoFilterStates: TodoFilterStates = {
+  byCreationDate: 'byCreationDate',
+  byDeadline: 'byDeadline'
+};
 
 export const dailyToDosEntries: DailyToDosEntries = {
   target: {

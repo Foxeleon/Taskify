@@ -9,6 +9,9 @@ import { selectTabIndex } from '../../store/home/home.selector';
 import { map, Observable, shareReplay } from 'rxjs';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { TodosSettingsDialogComponent } from '../todos-settings-dialog/todos-settings-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home',
@@ -38,7 +41,11 @@ export class HomeComponent implements OnInit {
   tabIndex$: Observable<number>;
   isHandset$: Observable<boolean>;
 
-  constructor( private fb: FormBuilder, private tdService: TodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
+  constructor( private fb: FormBuilder,
+               private tdService: TodoService,
+               private store: Store<AppState>,
+               private breakpointObserver: BreakpointObserver,
+               public matDialog: MatDialog) {}
 
   ngOnInit() {
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
@@ -85,12 +92,16 @@ export class HomeComponent implements OnInit {
     this.todos$ = this.tdService.getTodosObservable();
   }
 
-  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    this.store.dispatch(HomeActions.setTabIndex({appTabIndex: tabChangeEvent.index}));
+  openSettings() {
+    const dialogRef = this.matDialog.open(TodosSettingsDialogComponent, {
+      width: '350px',
+      enterAnimationDuration: '350ms',
+      exitAnimationDuration: '150ms',
+    });
   }
 
-  setTab(appTabIndex: number) {
-    this.store.dispatch(HomeActions.setTabIndex({appTabIndex}));
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.store.dispatch(HomeActions.setTabIndex({appTabIndex: tabChangeEvent.index}));
   }
 
   setTodo(): void {

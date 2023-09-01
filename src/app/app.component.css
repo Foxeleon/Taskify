@@ -7,3 +7,9 @@
 .ui-accordion-input-form {
   margin-top: 5px;
 }
+
+.todo-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+}

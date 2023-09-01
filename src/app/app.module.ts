@@ -37,10 +37,11 @@ import { ButtonsCompleteDeleteAllComponent } from './components/shared-component
 import { NoListLoadingAnimationComponent } from './components/shared-components/no-list-loading-animation/no-list-loading-animation.component';
 import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DeleteWarningDialogComponent } from './components/delete-warning-dialog/delete-warning-dialog.component';
+import { DeleteWarningDialogComponent } from './components/shared-components/delete-warning-dialog/delete-warning-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { WeeklyTodoAnnotatedComponent } from './components/weekly-todo-annotated/weekly-todo-annotated.component';
 import { TodoFilterPipe } from './pipe/todo-filter.pipe';
+import { TodosSettingsDialogComponent } from './components/todos-settings-dialog/todos-settings-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -64,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DeleteWarningDialogComponent,
     WeeklyTodoAnnotatedComponent,
     TodoFilterPipe,
+    TodosSettingsDialogComponent,
   ],
     imports: [
         MatTabsModule,

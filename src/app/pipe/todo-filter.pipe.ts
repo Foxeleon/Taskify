@@ -12,5 +12,4 @@ export class TodoFilterPipe implements PipeTransform {
     return todos.filter(todo => todo.complete === isCompleteList).sort((todoA, todoB) =>
       todoA.deadline.getTime() - todoB.deadline.getTime() + todoB.creationDate.getTime() - todoA.creationDate.getTime());
   }
-
 }

@@ -1,0 +1,18 @@
+<div class="ui container" style="overflow: hidden;">
+  <h4 class="ui dividing header" style="text-align: center;" mat-dialog-title>{{'todo settings' | translate}}</h4>
+  <div style="display: flex; flex-flow: column;" mat-dialog-content>
+    <div class="ui toggle checkbox" (click)="setTodoFilterState()">
+      <input type="checkbox" name="public" [checked]="(todoFilterBy$ | async) === todoFilterStates.byCreationDate">
+      <ng-template *ngIf="(todoFilterBy$ | async) === todoFilterStates.byCreationDate; then creationDateFilter; else deadlineFilter"></ng-template>
+      <ng-template #creationDateFilter>
+        <label translate>{{'Filter by creation date'}}</label>
+      </ng-template>
+      <ng-template #deadlineFilter>
+        <label translate>{{'Filter by deadline'}}</label>
+      </ng-template>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button class="ui button" mat-button [mat-dialog-close]="close()" cdkFocusInitial>{{'Ok' | translate}}</button>
+  </div>
+</div>
