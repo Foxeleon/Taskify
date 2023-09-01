@@ -1,12 +1,13 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DailyToDo, Todo, User } from '../types';
+import { Todo, User } from '../types';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DeleteWarningDialogComponent } from '../components/delete-warning-dialog/delete-warning-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { initTodos } from '../constants';
+import { UtilsService } from './utils.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.state';
-import { initTodos } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,12 @@ export class TodoService implements OnInit {
   allUsers: User[];
   private users = '../assets/users.json';
 
-  allTodos: Todo[];
   todoId: number;
   todo: Todo;
   toDosSubject = new BehaviorSubject<Todo[]>([]);
   toDos$: Observable<Todo[]> = this.toDosSubject.asObservable();
 
-  constructor( private http: HttpClient, public matDialog: MatDialog, private store: Store<AppState>) { }
+  constructor( private http: HttpClient, public matDialog: MatDialog, private store: Store<AppState>, private utilsService: UtilsService) { }
 
   checkTodosCompletion(arr: Todo[], checkCompletes: boolean): boolean {
     return checkCompletes ? arr.some(todo => todo.complete) : arr.some(todo => !todo.complete);
@@ -60,7 +60,7 @@ export class TodoService implements OnInit {
     let updatedTodosArray: Todo[];
     updatedTodosArray = todosArray.map(todo => {
       if (todo.uniqueId === uniqueId) {
-          return { ...todo, complete: true };
+          return { ...todo, complete: true, doneDate: new Date() };
       }
       return todo;
     });
@@ -134,6 +134,7 @@ export class TodoService implements OnInit {
     this.updateTodoStore(todos);
     const todoId = JSON.stringify(this.todoId);
     localStorage.setItem('todoId', todoId);
+    this.utilsService.openSnackBar('setWeeklyTodoAnnotation', ['edit', 'outline', 'green']);
   }
 
   updateTodoStore(arr: Todo[]) {
@@ -157,8 +158,14 @@ export class TodoService implements OnInit {
         todo.deadline = new Date(todo.deadline);
         todo.doneDate = todo.doneDate ? new Date(todo.doneDate) : undefined;
         todo.creationDate = new Date(todo.creationDate);
+
         // TODO this is migration, refactor after that
         if (todo.uniqueId === undefined) todo.uniqueId = this.setUniqueId();
+        if (todo.complete === true && todo.doneDate === undefined) {
+          const today = new Date();
+          today.setHours(Math.floor(Math.random() * 24), Math.floor(Math.random() * 60), Math.floor(Math.random() * 60), 0);
+          todo.doneDate = today;
+        }
 
         return todo;
       }));

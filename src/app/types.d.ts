@@ -64,3 +64,8 @@ export interface EditDialogData {
   title: string;
   text: string;
 }
+
+export interface SnackBarData {
+  translationMessage: string;
+  iconClasses: string[];
+}

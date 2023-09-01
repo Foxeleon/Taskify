@@ -13,9 +13,7 @@ import {
 } from '../../store/weekly-to-do/weekly-to-do.selector';
 import { WeeklyTodoActions } from '../../store/weekly-to-do/weekly-to-do.actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateService } from '@ngx-translate/core';
-import { WeeklyTodoAnnotatedComponent } from '../weekly-todo-annotated/weekly-todo-annotated.component';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -86,7 +84,7 @@ export class WeeklyToDoComponent implements OnInit {
                private weeklyTodoService: WeeklyTodoService,
                private store: Store<AppState>,
                private breakpointObserver: BreakpointObserver,
-               private snackBar: MatSnackBar, ) {}
+               private utilsService: UtilsService) {}
 
   selectFirstTodoIsToday$: Observable<boolean>;
 
@@ -99,8 +97,6 @@ export class WeeklyToDoComponent implements OnInit {
       this.dailyToDosEntries = dailyToDosEntries;
       this.dailyToDosEntriesArr = Object.values(this.dailyToDosEntries);
     });
-    // update weeklyTodos from localStorage
-    this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
     // this.dailyToDos$.subscribe(dailyToDos => console.log(dailyToDos));
@@ -134,10 +130,8 @@ export class WeeklyToDoComponent implements OnInit {
     // this.store.select(selectDoneDate).subscribe(value => console.log(value));
   }
 
-  openSnackBar() {
-    this.snackBar.openFromComponent(WeeklyTodoAnnotatedComponent, {
-      duration: 1500
-    });
+  openSnackBar(message: string, iconClasses: string[]) {
+    this.utilsService.openSnackBar(message, iconClasses);
   }
 
   backupWeeklyTodosToFile() {
@@ -268,7 +262,7 @@ export class WeeklyToDoComponent implements OnInit {
     const currentDailyTodos = this.weeklyTodoService.getWeeklyTodos();
     currentDailyTodos.push(newDailyTodo);
     this.weeklyTodoService.updateWeeklyTodos(currentDailyTodos);
-    this.openSnackBar();
+    this.openSnackBar('setWeeklyTodoAnnotation', ['edit', 'outline', 'green']);
     this.resetForm();
   }
 }

@@ -23,7 +23,7 @@ export class WeeklyTodoService extends TodoService {
   constructor(private httpWeekly: HttpClient,
               private storeWeekly: Store<AppState>,
               public matDialogWeekly: MatDialog) {
-                super(httpWeekly, matDialogWeekly, storeWeekly);
+                super(httpWeekly, matDialogWeekly, storeWeekly, null);
               }
 
   backupWeeklyTodosToFile() {
