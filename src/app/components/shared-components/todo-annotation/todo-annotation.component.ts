@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { MatSnackBarRef } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-weekly-todo-annotated',
-  templateUrl: './weekly-todo-annotated.component.html',
+  selector: 'app-todo-annotation',
+  templateUrl: './todo-annotation.component.html',
   styles: [`
     :host {
       display: flex;
@@ -14,10 +15,12 @@ import { Observable } from 'rxjs';
   `,
   ]
 })
-export class WeeklyTodoAnnotatedComponent implements OnInit {
+export class TodoAnnotationComponent implements OnInit {
   message$: Observable<string>;
-  constructor(private translateService: TranslateService) {}
+  data: any;
+  constructor(private translateService: TranslateService, public snackBarRef: MatSnackBarRef<TodoAnnotationComponent>) {}
   ngOnInit(): void {
     this.message$ = this.translateService.get('setWeeklyTodoAnnotation');
+    this.data = this.snackBarRef.data;
   }
 }

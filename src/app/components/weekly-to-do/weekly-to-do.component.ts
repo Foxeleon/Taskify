@@ -13,9 +13,7 @@ import {
 } from '../../store/weekly-to-do/weekly-to-do.selector';
 import { WeeklyTodoActions } from '../../store/weekly-to-do/weekly-to-do.actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateService } from '@ngx-translate/core';
-import { WeeklyTodoAnnotatedComponent } from '../weekly-todo-annotated/weekly-todo-annotated.component';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -86,7 +84,7 @@ export class WeeklyToDoComponent implements OnInit {
                private weeklyTodoService: WeeklyTodoService,
                private store: Store<AppState>,
                private breakpointObserver: BreakpointObserver,
-               private snackBar: MatSnackBar, ) {}
+               private utilsService: UtilsService) {}
 
   selectFirstTodoIsToday$: Observable<boolean>;
 
@@ -135,9 +133,10 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   openSnackBar() {
-    this.snackBar.openFromComponent(WeeklyTodoAnnotatedComponent, {
-      duration: 1500
-    });
+    this.utilsService.openSnackBar();
+    // this.snackBar.openFromComponent(TodoAnnotationComponent, {
+    //   duration: 1500
+    // });
   }
 
   backupWeeklyTodosToFile() {

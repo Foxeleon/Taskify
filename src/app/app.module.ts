@@ -39,7 +39,7 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog.compon
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteWarningDialogComponent } from './components/delete-warning-dialog/delete-warning-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { WeeklyTodoAnnotatedComponent } from './components/weekly-todo-annotated/weekly-todo-annotated.component';
+import { TodoAnnotationComponent } from './components/todo-annotation/todo-annotation.component';
 import { TodoFilterPipe } from './pipe/todo-filter.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -62,7 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NoListLoadingAnimationComponent,
     EditDialogComponent,
     DeleteWarningDialogComponent,
-    WeeklyTodoAnnotatedComponent,
+    TodoAnnotationComponent,
     TodoFilterPipe,
   ],
     imports: [
