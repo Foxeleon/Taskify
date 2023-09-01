@@ -1,12 +1,12 @@
 <mat-tab-group (selectedTabChange)="tabChanged($event)" [selectedIndex]="this.tabIndex$ | async">
   <mat-tab label="{{'todoList-tab-title' | translate}}">
-  <ng-template *ngIf="checkCompletedTodos(this.todos); then doneList; else noList"></ng-template>
+  <ng-template *ngIf="((todos$ | async) | todoFilter: true).length; then doneList; else noList"></ng-template>
     <ng-template #doneList>
       <h4 class="ui dividing header" translate>{{'todoDoneList header'}}</h4>
         <table class="ui celled table">
           <thead>
-            <tr>
-              <th translate class="sorted descending">{{'TableTitle'}}</th>
+            <tr *ngIf="!(isHandset$ | async)">
+              <th translate>{{'TableTitle'}}</th>
               <th translate>{{'TableTODO'}}</th>
               <th translate>{{'TableDoneDate'}}</th>
               <th translate>{{'TableDeadline'}}</th>
@@ -14,15 +14,15 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let todo of todos; index as i">
-              <tr *ngIf="todo.complete != false" style="text-decoration:line-through;">
+            <ng-container *ngFor="let todo of (todos$ | async) | todoFilter: true; index as i">
+              <tr style="text-decoration:line-through;">
                 <td data-label="Title"><a class="ui ribbon label">{{i + 1}}</a>{{todo.title}}</td>
                 <td data-label="TODO">{{todo.todoText}}</td>
-                <td data-label="doneDate">{{todo.doneDate}}</td>
-                <td data-label="Deadline">{{todo.deadline}}</td>
+                <td data-label="doneDate">{{'DoneDate' | translate}}: {{todo.doneDate | date: 'd-M-yyyy'}}</td>
+                <td data-label="Deadline">{{'Deadline' | translate}}: {{todo.deadline | date: 'd-M-yyyy'}}</td>
                 <td data-label="Complete?">
                     <div class="ui toggle checkbox">
-                        <input disabled (click)="this.tdService.completeTodo(todos, i)" type="checkbox" name="public" [checked]="todo.complete==true">
+                        <input disabled (click)="this.tdService.completeTodo(todo.uniqueId)" type="checkbox" name="public" [checked]="todo.complete==true">
                         <ng-template *ngIf="todo.complete; then completedTodo; else newTodo"></ng-template>
                         <ng-template #newTodo>
                           <label translate>{{'Complete issue'}}</label>

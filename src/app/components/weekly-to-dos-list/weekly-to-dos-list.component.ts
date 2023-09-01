@@ -3,10 +3,13 @@ import { DailyToDo, DailyToDosEntries } from '../../types';
 import { FormBuilder } from '@angular/forms';
 import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
 import { map, Observable, shareReplay } from 'rxjs';
-import { selectDailyToDosEntries } from '../../store/weekly-to-do.selector';
+import { selectDailyToDosEntries } from '../../store/weekly-to-do/weekly-to-do.selector';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { UtilsService } from '../../services/utils.service';
+import { dailyToDosEntries } from '../../constants';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-weekly-to-dos-list',
@@ -15,8 +18,14 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class WeeklyToDosListComponent {
 
-  constructor( private fb: FormBuilder, private weeklyTodoService: WeeklyTodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver ) {}
+  constructor( private fb: FormBuilder,
+               private weeklyTodoService: WeeklyTodoService,
+               private store: Store<AppState>,
+               private breakpointObserver: BreakpointObserver,
+               private utilsService: UtilsService,
+               private translateService: TranslateService) {}
 
+  dailyToDosEntriesConst: DailyToDosEntries;
   dailyToDosEntries: DailyToDosEntries;
   dailyToDosEntries$: Observable<DailyToDosEntries>;
   dailyToDos$: Observable<DailyToDo[]>;
@@ -24,6 +33,7 @@ export class WeeklyToDosListComponent {
   isHandset$: Observable<boolean>;
 
   ngOnInit(): void {
+    this.dailyToDosEntriesConst = dailyToDosEntries;
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$.pipe(map((dailyTodoArr) =>
@@ -31,7 +41,30 @@ export class WeeklyToDosListComponent {
           .sort((dailyToDoOne, dailyToDoTwo) => (dailyToDoTwo.doneDate.getTime() - dailyToDoOne.doneDate.getTime())) :
         dailyTodoArr.filter(dailyToDo => !dailyToDo.complete)
     ));
-    this.dailyToDosEntries$.subscribe(dailyToDosEntries => this.dailyToDosEntries = dailyToDosEntries);
+    this.dailyToDosEntries$.subscribe(dailyToDosEntriesValue => this.dailyToDosEntries = dailyToDosEntriesValue);
+  }
+
+  getTitle(translationString: string, meaning: string): string {
+    let title: string;
+    this.isHandset$.pipe(map(isHandset => isHandset)).subscribe(isHandset => {
+      switch (meaning) {
+        case 'Target':
+          title = !isHandset ? this.translateService.instant(translationString) : translationString === this.dailyToDosEntriesConst.target.title ? '' : translationString;
+          break;
+        case 'Part':
+          title = !isHandset ? this.translateService.instant(translationString) : translationString === this.dailyToDosEntriesConst.part.title ? '' : translationString;
+          break;
+        case 'LongBox':
+          title = !isHandset ? this.translateService.instant(translationString) : translationString === this.dailyToDosEntriesConst.longBox.title ? '' : translationString;
+          break;
+        case 'PersonalGrowth':
+          title = !isHandset ? this.translateService.instant(translationString) : translationString === this.dailyToDosEntriesConst.personalGrowth.title ? '' : translationString;
+          break;
+        default:
+          title = !isHandset ? this.translateService.instant(translationString) : '';
+      }
+    });
+    return title;
   }
 
   deleteDailyTodo(uniqueId: string) {
@@ -40,6 +73,10 @@ export class WeeklyToDosListComponent {
 
   editDailyTodo(uniqueId: string, meaning: string) {
     this.weeklyTodoService.editWeeklyTodo(uniqueId, meaning);
+  }
+
+  copyText = async (text: string) => {
+    await this.utilsService.copyText(text);
   }
 
   completeDailyTodo(uniqueId: string, meaning?: string) {

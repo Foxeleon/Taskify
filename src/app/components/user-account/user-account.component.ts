@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { TodoService } from '../../todo.service';
+import { TodoService } from '../../services/todo.service';
 import { User } from '../../types';
 
 @Component({
@@ -56,7 +56,7 @@ export class UserAccountComponent implements OnInit {
       lastName: this.registerForm.value.lastName,
       email: this.registerForm.value.lastName,
       password: this.registerForm.value.lastName,
-      creationDate: this.tdService.currDay,
+      creationDate: new Date(),
       lastLoginDate: null
     };
     this.users.unshift(this.tdService.user);
@@ -70,7 +70,7 @@ export class UserAccountComponent implements OnInit {
   loginUser(users: User[], username: string) {
     for (const user of users) {
       if (user.username === username) {
-        user.lastLoginDate = this.tdService.currDay;
+        user.lastLoginDate = new Date();
       }
     }
   }

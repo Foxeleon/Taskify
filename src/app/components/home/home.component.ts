@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TodoService } from '../../todo.service';
+import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../types';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
-import { HomeActions } from '../../store/home.actions';
-import { selectTabIndex } from '../../store/home.selector';
+import { HomeActions } from '../../store/home/home.actions';
+import { selectTabIndex } from '../../store/home/home.selector';
 import { map, Observable, shareReplay } from 'rxjs';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -17,7 +17,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class HomeComponent implements OnInit {
 
-  todos: Todo[] = [];
+  todos$: Observable<Todo[]>;
+
   todosUncompleted: Todo[] = [];
   accordeonActive = true;
   holdTitle: boolean;
@@ -36,7 +37,7 @@ export class HomeComponent implements OnInit {
   tabIndex$: Observable<number>;
   isHandset$: Observable<boolean>;
 
-  constructor( private fb: FormBuilder, private tdService: TodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
+  constructor( private fb: FormBuilder, private todoService: TodoService, private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {}
 
   ngOnInit() {
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
@@ -44,10 +45,11 @@ export class HomeComponent implements OnInit {
     this.todoForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(25)] ],
       todoText: ['', [Validators.required, Validators.maxLength(150)] ],
-      deadline: [this.tdService.yyyymmdd(this.tdService.currDay), [Validators.required]]
+      deadline: [this.todoService.yyyymmdd(new Date()), [Validators.required]]
     });
-    this.tdService.todoId = JSON.parse(localStorage.getItem('todoId'));
-    if (this.tdService.todoId == null) {
+    this.todoService.todoId = JSON.parse(localStorage.getItem('todoId'));
+    // TODO change to ngrx
+    if (this.todoService.todoId == null) {
       this.setId();
     }
     this.holdTitle = JSON.parse(localStorage.getItem('titleState'));
@@ -77,17 +79,8 @@ export class HomeComponent implements OnInit {
       icon: true,
       ui: true
     };
-    this.tdService.getTodos()
-    .subscribe(
-      (value) => {
-        this.tdService.allTodos = value;
-        this.todos = JSON.parse(localStorage.getItem('todoStore'));
-        if (this.todos == null) {
-          this.todos = this.tdService.allTodos;
-        }
-      },
-      (error) => console.log(error)
-      );
+
+    this.todos$ = this.todoService.getTodosObservable();
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
@@ -99,19 +92,10 @@ export class HomeComponent implements OnInit {
   }
 
   setTodo(): void {
-    this.tdService.todo = {
-      id: this.setId(),
-      title: this.todoForm.value.title,
-      todoText: this.todoForm.value.todoText,
-      complete: false,
-      creationDate: this.tdService.yyyymmdd(this.tdService.currDay),
-      doneDate: '',
-      deadline: this.todoForm.value.deadline
-    };
-    this.todos.unshift(this.tdService.todo);
-    this.tdService.updateTodoStore(this.todos);
-    const todoId = JSON.stringify(this.tdService.todoId);
-    localStorage.setItem('todoId', todoId);
+    const deadline: Date = new Date(this.todoForm.value.deadline);
+    deadline.setHours(23, 59, 59, 999);
+    this.todoService.setTodo(this.todoForm.value.title, this.todoForm.value.todoText, deadline);
+    this.resetForm();
   }
 
   setTitleState() {
@@ -143,7 +127,7 @@ export class HomeComponent implements OnInit {
   }
 
   setId() {
-    return this.tdService.todoId++;
+    return this.todoService.todoId++;
   }
 
   resetForm() {

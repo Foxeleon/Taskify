@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ToDoUI": {
+    "Taskify": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ToDoUI",
+            "outputPath": "dist/Taskify",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -74,21 +74,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ToDoUI:build"
+            "browserTarget": "Taskify:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ToDoUI:build:production"
+              "browserTarget": "Taskify:build:production"
             },
             "development": {
-              "browserTarget": "ToDoUI:build:development"
+              "browserTarget": "Taskify:build:development"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ToDoUI:build"
+            "browserTarget": "Taskify:build"
           }
         },
         "test": {
@@ -126,14 +126,14 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ToDoUI:serve"
+            "devServerTarget": "Taskify:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ToDoUI:serve:production"
+              "devServerTarget": "Taskify:serve:production"
             },
             "development": {
-              "devServerTarget": "ToDoUI:serve:development"
+              "devServerTarget": "Taskify:serve:development"
             }
           }
         }

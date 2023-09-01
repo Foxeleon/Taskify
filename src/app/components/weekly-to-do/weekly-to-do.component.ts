@@ -5,9 +5,15 @@ import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
 import { map, Observable, shareReplay, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { selectDailyToDosEntries, selectDoneDate, selectFirstTodoIsToday } from '../../store/weekly-to-do.selector';
-import { WeeklyTodoActions } from '../../store/weekly-to-do.actions';
+import {
+  selectDailyToDosEntries,
+  selectDoneDate,
+  selectFirstTodoIsToday,
+  selectIsMobilePlatform
+} from '../../store/weekly-to-do/weekly-to-do.selector';
+import { WeeklyTodoActions } from '../../store/weekly-to-do/weekly-to-do.actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-weekly-to-do',
@@ -18,7 +24,6 @@ export class WeeklyToDoComponent implements OnInit {
 
   panelOpenState = true;
   weeklyTodoForm: FormGroup;
-  singleTodoForm: FormGroup;
 
   todoTextArea = {
     target: true,
@@ -68,6 +73,7 @@ export class WeeklyToDoComponent implements OnInit {
   dailyToDos$: Observable<DailyToDo[]>;
 
   isHandset$: Observable<boolean>;
+  isMobilePlatform$: Observable<boolean>;
 
   // Observables for different cases in the future ideas implementations
   dailyToDosUncompleted$: Observable<DailyToDo[]>;
@@ -77,23 +83,23 @@ export class WeeklyToDoComponent implements OnInit {
   constructor( private fb: FormBuilder,
                private weeklyTodoService: WeeklyTodoService,
                private store: Store<AppState>,
-               private breakpointObserver: BreakpointObserver) {}
+               private breakpointObserver: BreakpointObserver,
+               private utilsService: UtilsService) {}
 
   selectFirstTodoIsToday$: Observable<boolean>;
 
   ngOnInit(): void {
     this.selectFirstTodoIsToday$ = this.store.select(selectFirstTodoIsToday);
+    this.isMobilePlatform$ = this.store.select(selectIsMobilePlatform);
     this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(state => state.matches), shareReplay());
     this.dailyToDosEntries$ = this.store.select(selectDailyToDosEntries);
     this.dailyToDosEntries$.subscribe(dailyToDosEntries => {
       this.dailyToDosEntries = dailyToDosEntries;
       this.dailyToDosEntriesArr = Object.values(this.dailyToDosEntries);
     });
-    // update weeklyTodos from localStorage
-    this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
-    this.dailyToDos$.subscribe(dailyToDos => console.log(dailyToDos));
+    // this.dailyToDos$.subscribe(dailyToDos => console.log(dailyToDos));
 
     this.dailyToDosUncompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => !dailyTodo.complete)));
     // this.dailyToDosPartlyCompleted$ = this.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo =>
@@ -106,25 +112,26 @@ export class WeeklyToDoComponent implements OnInit {
 
     this.weeklyTodoForm = this.fb.group({
       titleTarget: '',
-      todoTextTarget: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextTarget: ['', [Validators.required, Validators.maxLength(150)] ],
 
       titlePart: '',
-      todoTextPart: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextPart: ['', [Validators.required, Validators.maxLength(150)] ],
 
       titleLongBox: '',
-      todoTextLongBox: ['', [Validators.required, Validators.maxLength(75)] ],
+      todoTextLongBox: ['', [Validators.required, Validators.maxLength(150)] ],
 
       titlePersonalGrowth: '',
-      todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(75)] ],
-    });
-
-    this.singleTodoForm = this.fb.group({
+      todoTextPersonalGrowth: ['', [Validators.required, Validators.maxLength(150)] ],
     });
 
     this.dailyToDos$.subscribe(dailyTodos => {
       this.weeklyTodoService.updateWeeklyTodosLocalStorage(dailyTodos);
     });
-    this.store.select(selectDoneDate).subscribe(value => console.log(value));
+    // this.store.select(selectDoneDate).subscribe(value => console.log(value));
+  }
+
+  openSnackBar(message: string, iconClasses: string[]) {
+    this.utilsService.openSnackBar(message, iconClasses);
   }
 
   backupWeeklyTodosToFile() {
@@ -142,7 +149,7 @@ export class WeeklyToDoComponent implements OnInit {
     this.weeklyTodoService.deleteAllWeeklyTodos();
   }
 
-  private getDate = (): string => this.weeklyTodoService.yyyymmdd(this.weeklyTodoService.currDay);
+  private getDate = (): string => this.weeklyTodoService.yyyymmdd(new Date());
 
   private getDoneDate = (): Date => {
     let dDate: Date;
@@ -255,6 +262,7 @@ export class WeeklyToDoComponent implements OnInit {
     const currentDailyTodos = this.weeklyTodoService.getWeeklyTodos();
     currentDailyTodos.push(newDailyTodo);
     this.weeklyTodoService.updateWeeklyTodos(currentDailyTodos);
+    this.openSnackBar('setWeeklyTodoAnnotation', ['edit', 'outline', 'green']);
     this.resetForm();
   }
 }

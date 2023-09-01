@@ -1,5 +1,5 @@
 {
-  "ProjectTitle": "Taskify 'Список дел'",
+  "ProjectTitle": "Taskify {{version}}",
   "ToDo-List": "Список задач",
   "Done-Todos": "Завершённые задачи",
   "UserProfile": "Аккаунт пользователя",
@@ -11,6 +11,7 @@
   "todoDoneList header": "Ваши выполненные задачи",
   "todoList header": "Ваши задачи",
   "TableDoneDate": "Дата выполнения",
+  "DoneDate": "Выполнено",
   "Deadline": "Срок завершения",
   "SelectDeadline": "Выбрать дату",
   "creationDate": "Дата создания",
@@ -32,7 +33,7 @@
   "Delete all todos": "Удалить все задачи",
   "Complete issue": "Завершить задачу",
   "Completed!": "Выполнено!",
-  "Required": "обязательно не менее одной задачи",
+  "Required": "обязательное поле",
   "Max25Symbols": "Максимум 25 символов",
   "Max150Symbols": "Максимум 150 символов",
   "Max75Symbols": "Максимум 75 символов",
@@ -78,5 +79,6 @@
     "Edit": "Редактировать",
     "titleFieldDescription": "Обновить заголовок",
     "textFieldDescription": "Обновить описание"
-  }
+  },
+  "setWeeklyTodoAnnotation": "Задача создана"
 }

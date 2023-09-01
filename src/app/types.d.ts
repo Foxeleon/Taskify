@@ -1,11 +1,12 @@
 export interface Todo {
+  uniqueId: string;
   id: number;
   title: string;
   todoText: string;
   complete: boolean;
-  creationDate: string;
-  doneDate: string;
-  deadline: string;
+  creationDate: Date;
+  doneDate: Date;
+  deadline: Date;
 }
 
 export interface User {
@@ -62,4 +63,9 @@ export interface DailyToDoEntries {
 export interface EditDialogData {
   title: string;
   text: string;
+}
+
+export interface SnackBarData {
+  translationMessage: string;
+  iconClasses: string[];
 }
