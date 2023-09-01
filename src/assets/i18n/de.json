@@ -11,6 +11,7 @@
   "todoList header": "Deine TODO-Liste",
   "todoDoneList header": "Deine erledigte Aufgaben",
   "TableDoneDate": "Fertiggestellt",
+  "DoneDate": "Fertiggestellt am",
   "Deadline": "Stichtag",
   "SelectDeadline": "Datum wählen",
   "creationDate": "Erstellungsdatum",

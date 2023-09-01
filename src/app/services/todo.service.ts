@@ -18,7 +18,6 @@ export class TodoService implements OnInit {
   allUsers: User[];
   private users = '../assets/users.json';
 
-  allTodos: Todo[];
   todoId: number;
   todo: Todo;
   toDosSubject = new BehaviorSubject<Todo[]>([]);
@@ -61,7 +60,7 @@ export class TodoService implements OnInit {
     let updatedTodosArray: Todo[];
     updatedTodosArray = todosArray.map(todo => {
       if (todo.uniqueId === uniqueId) {
-          return { ...todo, complete: true };
+          return { ...todo, complete: true, doneDate: new Date() };
       }
       return todo;
     });
@@ -159,8 +158,14 @@ export class TodoService implements OnInit {
         todo.deadline = new Date(todo.deadline);
         todo.doneDate = todo.doneDate ? new Date(todo.doneDate) : undefined;
         todo.creationDate = new Date(todo.creationDate);
+        
         // TODO this is migration, refactor after that
         if (todo.uniqueId === undefined) todo.uniqueId = this.setUniqueId();
+        if (todo.complete === true && todo.doneDate === undefined) {
+          const today = new Date();
+          today.setHours(Math.floor(Math.random() * 24), Math.floor(Math.random() * 60), Math.floor(Math.random() * 60), 0);
+          todo.doneDate = today;
+        }
 
         return todo;
       }));

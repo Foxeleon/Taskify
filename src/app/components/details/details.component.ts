@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-details',
@@ -11,7 +12,7 @@ import { Todo } from '../../types';
 export class DetailsComponent implements OnInit {
 
   public id: number;
-  public todos: [];
+  todos$: Observable<Todo[]>;
   public todo: any;
   public creationDate: Date;
   public doneDate: Date;
@@ -24,11 +25,8 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit() {
       this.id = +this.route.snapshot.paramMap.get('id');
-      this.tdService.allTodos = JSON.parse(localStorage.getItem('todoStore'));
-      if (this.tdService.allTodos == null) {
-        this.tdService.allTodos = [];
-      }
-      this.todo = this.getTodo(this.tdService.allTodos);
+      this.todos$ = this.tdService.getTodosObservable();
+      this.todo = this.getTodo(this.tdService.getTodos());
       this.creationDate = new Date(this.todo.creationDate);
       this.doneDate = new Date(this.todo.doneDate);
       this.deadlineDate = new Date(this.todo.deadline);
