@@ -97,8 +97,6 @@ export class WeeklyToDoComponent implements OnInit {
       this.dailyToDosEntries = dailyToDosEntries;
       this.dailyToDosEntriesArr = Object.values(this.dailyToDosEntries);
     });
-    // update weeklyTodos from localStorage
-    this.weeklyTodoService.getWeeklyTodosLocalStorage();
 
     this.dailyToDos$ = this.weeklyTodoService.dailyToDos$;
     // this.dailyToDos$.subscribe(dailyToDos => console.log(dailyToDos));

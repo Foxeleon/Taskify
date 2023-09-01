@@ -28,7 +28,6 @@ export class TodoListDoneComponent implements OnInit {
     this.tabIndex$ = this.store.select(selectTabIndex);
     this.dailyToDosCompleted$ = this.weeklyTodoService.dailyToDos$.pipe(map(dailyTodoArr => dailyTodoArr.filter(dailyTodo => dailyTodo.complete)));
     this.todos$ = this.tdService.getTodosObservable();
-    this.todos$.subscribe(todos => console.log('todos', todos));
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
