@@ -158,7 +158,7 @@ export class TodoService implements OnInit {
         todo.deadline = new Date(todo.deadline);
         todo.doneDate = todo.doneDate ? new Date(todo.doneDate) : undefined;
         todo.creationDate = new Date(todo.creationDate);
-        
+
         // TODO this is migration, refactor after that
         if (todo.uniqueId === undefined) todo.uniqueId = this.setUniqueId();
         if (todo.complete === true && todo.doneDate === undefined) {
