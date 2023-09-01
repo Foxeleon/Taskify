@@ -26,8 +26,8 @@ export class UtilsService {
 
   openSnackBar(translationMessage: string, iconClasses: string[]) {
       this.snackBar.openFromComponent(TodoAnnotationComponent, {
-        duration: 150000,
-        data: {translationMessage, iconClasses}
+        duration: 1500,
+        data: { translationMessage, iconClasses }
       });
   }
 }

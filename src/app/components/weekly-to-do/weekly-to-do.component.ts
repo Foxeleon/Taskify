@@ -134,9 +134,6 @@ export class WeeklyToDoComponent implements OnInit {
 
   openSnackBar(message: string, iconClasses: string[]) {
     this.utilsService.openSnackBar(message, iconClasses);
-    // this.snackBar.openFromComponent(TodoAnnotationComponent, {
-    //   duration: 1500
-    // });
   }
 
   backupWeeklyTodosToFile() {

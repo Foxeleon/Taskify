@@ -13,14 +13,16 @@ import { SnackBarData } from '../../../types';
       align-items: center;
       background-color: white;
       width: fit-content;
-      border-radius: 10px;
       justify-content: center;
+      margin: -50px 0px 0px 120px;
     }
     .todo-snackBar {
       display: flex;
       flex-flow: row nowrap;
-      align-items: center;
-      justify-content: center;
+      align-items: stretch;
+      border: 1px solid #21ba45;
+      border-radius: 10px;
+      box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.25);
     }
   `,
   ]
@@ -30,10 +32,9 @@ export class TodoAnnotationComponent implements OnInit {
   iconClasses: string;
   constructor(private translateService: TranslateService, public snackBarRef: MatSnackBarRef<TodoAnnotationComponent>, @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData) {}
   ngOnInit(): void {
-    this.message$ = this.translateService.get('setWeeklyTodoAnnotation');
+    this.message$ = this.translateService.get(this.data.translationMessage);
     const iconClasses = this.data.iconClasses;
     iconClasses.push('icon');
     this.iconClasses = iconClasses.join(' ');
-    console.log(this.data);
   }
 }

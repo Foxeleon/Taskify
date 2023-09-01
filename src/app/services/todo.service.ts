@@ -1,12 +1,13 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DailyToDo, Todo, User } from '../types';
+import { Todo, User } from '../types';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DeleteWarningDialogComponent } from '../components/delete-warning-dialog/delete-warning-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { initTodos } from '../constants';
+import { UtilsService } from './utils.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.state';
-import { initTodos } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class TodoService implements OnInit {
   toDosSubject = new BehaviorSubject<Todo[]>([]);
   toDos$: Observable<Todo[]> = this.toDosSubject.asObservable();
 
-  constructor( private http: HttpClient, public matDialog: MatDialog, private store: Store<AppState>) { }
+  constructor( private http: HttpClient, public matDialog: MatDialog, private store: Store<AppState>, private utilsService: UtilsService) { }
 
   checkTodosCompletion(arr: Todo[], checkCompletes: boolean): boolean {
     return checkCompletes ? arr.some(todo => todo.complete) : arr.some(todo => !todo.complete);
@@ -134,6 +135,7 @@ export class TodoService implements OnInit {
     this.updateTodoStore(todos);
     const todoId = JSON.stringify(this.todoId);
     localStorage.setItem('todoId', todoId);
+    this.utilsService.openSnackBar('setWeeklyTodoAnnotation', ['edit', 'outline', 'green']);
   }
 
   updateTodoStore(arr: Todo[]) {
