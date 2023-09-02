@@ -24,10 +24,10 @@ export class UtilsService {
     });
   }
 
-  openSnackBar(translationMessage: string, iconClasses: string[]) {
+  openSnackBar(translationMessage: string, iconClasses: string[], color: string, duration: number = 1500) {
       this.snackBar.openFromComponent(TodoAnnotationComponent, {
-        duration: 1500,
-        data: { translationMessage, iconClasses }
+        duration,
+        data: { translationMessage, iconClasses, color }
       });
   }
 }

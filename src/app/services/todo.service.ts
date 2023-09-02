@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Todo, User } from '../types';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DeleteWarningDialogComponent } from '../components/delete-warning-dialog/delete-warning-dialog.component';
+import { WarningDialogComponent } from '../components/shared-components/warning-dialog/warning-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { initTodos } from '../constants';
 import { UtilsService } from './utils.service';
@@ -65,21 +65,23 @@ export class TodoService implements OnInit {
       return todo;
     });
     this.updateTodoStore(updatedTodosArray);
+    this.utilsService.openSnackBar('Annotations.TodoCompleted', ['check'], 'green');
   }
 
   deleteTodo(uniqueId: string) {
-    const dialogRef = this.openDeleteDialog('DeleteDailyTodoTitle');
+    const dialogRef = this.openWarningDialog('DeleteDailyTodoTitle');
 
     dialogRef.afterClosed().subscribe(deleteTodo => {
       if (deleteTodo) {
         const patchedWeeklyTodosArray = this.getTodos().filter(todo => todo.uniqueId !== uniqueId);
         this.updateTodoStore(patchedWeeklyTodosArray);
+        this.utilsService.openSnackBar('Annotations.deleteTodo', ['trash', 'alternate', 'outline'], 'red');
       }
     });
   }
 
-  openDeleteDialog(titleMessage: string) {
-    return this.matDialog.open(DeleteWarningDialogComponent, {
+  openWarningDialog(titleMessage: string) {
+    return this.matDialog.open(WarningDialogComponent, {
       width: '350px',
       enterAnimationDuration: '350ms',
       exitAnimationDuration: '150ms',
@@ -134,7 +136,7 @@ export class TodoService implements OnInit {
     this.updateTodoStore(todos);
     const todoId = JSON.stringify(this.todoId);
     localStorage.setItem('todoId', todoId);
-    this.utilsService.openSnackBar('setWeeklyTodoAnnotation', ['edit', 'outline', 'green']);
+    this.utilsService.openSnackBar('Annotations.setWeeklyTodo', ['edit', 'outline'], 'green');
   }
 
   updateTodoStore(arr: Todo[]) {

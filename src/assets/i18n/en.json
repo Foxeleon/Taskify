@@ -54,7 +54,9 @@
   "Restore": "Restore",
   "Yes": "Yes",
   "Cancel": "Cancel",
-  "DeleteAllWeeklyTodosTitle": "Are you sure want to delete completely all todos?",
+  "deleteAllDailyTodos": "Are you sure want to delete completely all todos, ink. completed?",
+  "ClearTodosUncompletedList": "Are you sure want to delete todos-list?",
+  "CompleteTodosList": "Are you sure want to complete all todos?",
   "DeleteDailyTodoTitle": "Are you sure want to delete todo?",
   "dailyToDosEntries": {
     "target-title": "TARGET",
@@ -80,5 +82,12 @@
     "titleFieldDescription": "Change title",
     "textFieldDescription": "Change description"
   },
-  "setWeeklyTodoAnnotation": "Task created"
+  "Annotations": {
+    "setWeeklyTodo": "Task created",
+    "deleteTodo": "Task deleted",
+    "deleteDailyTodo": "Deleted",
+    "deleteAllDailyTodos": "All daily todos deleted",
+    "TodoCompleted": "Task completed",
+    "DailyTodoCompleted": "Day completed"
+  }
 }

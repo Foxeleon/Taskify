@@ -6,7 +6,12 @@ import { SnackBarData } from '../../../types';
 
 @Component({
   selector: 'app-todo-annotation',
-  templateUrl: './todo-annotation.component.html',
+  template: `
+    <span class="todo-snackBar" style="{{borderStyle}}" matSnackBarLabel>
+      <div style="padding-right: 5px">{{message$ | async}} </div>
+      <i class="{{iconClasses}}"></i>
+    </span>
+  `,
   styles: [`
     :host {
       display: flex;
@@ -20,7 +25,6 @@ import { SnackBarData } from '../../../types';
       display: flex;
       flex-flow: row nowrap;
       align-items: stretch;
-      border: 1px solid #21ba45;
       border-radius: 10px;
       box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.25);
     }
@@ -30,11 +34,13 @@ import { SnackBarData } from '../../../types';
 export class TodoAnnotationComponent implements OnInit {
   message$: Observable<string>;
   iconClasses: string;
+  borderStyle: string;
   constructor(private translateService: TranslateService, public snackBarRef: MatSnackBarRef<TodoAnnotationComponent>, @Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData) {}
   ngOnInit(): void {
     this.message$ = this.translateService.get(this.data.translationMessage);
+    this.borderStyle = `border: 1px solid ${this.data.color}`;
     const iconClasses = this.data.iconClasses;
-    iconClasses.push('icon');
+    iconClasses.push('icon', this.data.color);
     this.iconClasses = iconClasses.join(' ');
   }
 }

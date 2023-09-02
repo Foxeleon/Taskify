@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { DailyToDo, DailyToDosEntries } from '../../types';
 import { FormBuilder } from '@angular/forms';
-import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
+import { WeeklyTodoService } from '../../services/weekly-todo.service';
 import { map, Observable, shareReplay } from 'rxjs';
 import { selectDailyToDosEntries } from '../../store/weekly-to-do/weekly-to-do.selector';
 import { Store } from '@ngrx/store';
@@ -68,7 +68,7 @@ export class WeeklyToDosListComponent {
   }
 
   deleteDailyTodo(uniqueId: string) {
-    this.weeklyTodoService.deleteWeeklyTodo(uniqueId);
+    this.weeklyTodoService.deleteDailyTodo(uniqueId);
   }
 
   editDailyTodo(uniqueId: string, meaning: string) {
@@ -135,6 +135,11 @@ export class WeeklyToDosListComponent {
           }
           return dailyTodo;
         });
+    }
+    if (!!meaning) {
+      this.utilsService.openSnackBar('Annotations.TodoCompleted', ['check'], 'green');
+    } else {
+      this.utilsService.openSnackBar('Annotations.DailyTodoCompleted', ['check'], 'green');
     }
     this.weeklyTodoService.updateWeeklyTodos(updatedWeeklyTodosArray);
   }

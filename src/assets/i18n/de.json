@@ -54,7 +54,9 @@
   "Restore": "Wiederherstellen",
   "Yes": "Ja",
   "Cancel": "Abbrechen",
-  "DeleteAllWeeklyTodosTitle": "Sind Sie sicher, dass Sie alle Aufgaben vollständig löschen möchten?",
+  "deleteAllDailyTodos": "Sind Sie sicher, dass Sie alle Aufgaben inkl. fertige vollständig löschen möchten?",
+  "ClearTodosUncompletedList": "Sind Sie sicher, dass Sie die Aufgabenliste löschen möchten?",
+  "CompleteTodosList": "Sind Sie sicher, dass Sie alle Aufgaben als erledigt markieren möchten?",
   "DeleteDailyTodoTitle": "Sind Sie sicher, dass Sie todo löschen möchten?",
   "dailyToDosEntries": {
     "target-title": "ZIEL",
@@ -80,5 +82,12 @@
     "titleFieldDescription": "Titel bearbeiten",
     "textFieldDescription": "Beschreibung bearbeiten"
   },
-  "setWeeklyTodoAnnotation": "Aufgabe wurde erstellt"
+  "Annotations": {
+    "setWeeklyTodo": "Aufgabe wurde erstellt",
+    "deleteTodo": "Aufgabe wurde gelöscht",
+    "deleteDailyTodo": "Gelöscht",
+    "deleteAllDailyTodos": "Alle Tagesaufgaben wurden gelöscht",
+    "TodoCompleted": "Aufgabe wurde erledigt",
+    "DailyTodoCompleted": "Tagesaufgabe wurde erledigt"
+  }
 }

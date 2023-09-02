@@ -8,7 +8,7 @@ import { AppState } from './store/app.state';
 import { selectLanguage } from './store/home/home.selector';
 import { HomeActions } from './store/home/home.actions';
 import { TodoService } from './services/todo.service';
-import { WeeklyTodoService } from './components/weekly-to-do/weekly-todo.service';
+import { WeeklyTodoService } from './services/weekly-todo.service';
 
 @Component({
   selector: 'app-root',

@@ -7,7 +7,7 @@ import { AppState } from '../../store/app.state';
 import { selectTabIndex } from '../../store/home/home.selector';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { HomeActions } from '../../store/home/home.actions';
-import { WeeklyTodoService } from '../weekly-to-do/weekly-todo.service';
+import { WeeklyTodoService } from '../../services/weekly-todo.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({

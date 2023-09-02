@@ -3,13 +3,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'delete-warning-dialog-dialog',
-  templateUrl: './delete-warning-dialog.component.html'
+  selector: 'warning-dialog-dialog',
+  templateUrl: './warning-dialog.component.html'
 })
-export class DeleteWarningDialogComponent implements OnInit {
+export class WarningDialogComponent implements OnInit {
   titleMessage: string;
   constructor(
-    public dialogRef: MatDialogRef<DeleteWarningDialogComponent>,
+    public dialogRef: MatDialogRef<WarningDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { titleMessageData: string },
     private translateService: TranslateService
   ) {}

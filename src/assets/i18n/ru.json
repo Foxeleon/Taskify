@@ -54,7 +54,9 @@
   "Restore": "Восстановить",
   "Yes": "Да",
   "Cancel": "Отмена",
-  "DeleteAllWeeklyTodosTitle": "Вы уверены, что хотите полностью удалить все задачи?",
+  "deleteAllDailyTodos": "Вы уверены, что хотите полностью удалить все задачи, в т.ч. выполненные?",
+  "ClearTodosUncompletedList": "Вы уверены, что хотите удалить список задач?",
+  "CompleteTodosList": "Вы уверены, что хотите завершить все задачи?",
   "DeleteDailyTodoTitle": "Вы уверены, что хотите удалить задачу?",
   "dailyToDosEntries": {
     "target-title": "ЦЕЛЬ",
@@ -80,5 +82,13 @@
     "titleFieldDescription": "Обновить заголовок",
     "textFieldDescription": "Обновить описание"
   },
-  "setWeeklyTodoAnnotation": "Задача создана"
+  "Annotations": {
+    "setWeeklyTodo": "Задача создана",
+    "deleteTodo": "Задача удалена",
+    "deleteDailyTodo": "Удалено",
+    "deleteAllDailyTodos": "Все дела удалены!",
+    "TodoCompleted": "Задача завершена",
+    "AllTodosCompleted": "Все задачи завершены!",
+    "DailyTodoCompleted": "День завершён"
+  }
 }

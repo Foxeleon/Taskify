@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { TodoService } from '../../services/todo.service';
+import { TodoService } from './todo.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DailyToDo, EditDialogData } from '../../types';
+import { DailyToDo, EditDialogData } from '../types';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../store/app.state';
-import { WeeklyTodoActions } from '../../store/weekly-to-do/weekly-to-do.actions';
-import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { AppState } from '../store/app.state';
+import { WeeklyTodoActions } from '../store/weekly-to-do/weekly-to-do.actions';
+import { EditDialogComponent } from '../components/edit-dialog/edit-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UtilsService } from './utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,9 @@ export class WeeklyTodoService extends TodoService {
 
   constructor(private httpWeekly: HttpClient,
               private storeWeekly: Store<AppState>,
-              public matDialogWeekly: MatDialog) {
-                super(httpWeekly, matDialogWeekly, storeWeekly, null);
+              public matDialogWeekly: MatDialog,
+              private utilsServiceWeekly: UtilsService) {
+                super(httpWeekly, matDialogWeekly, storeWeekly, utilsServiceWeekly);
               }
 
   backupWeeklyTodosToFile() {
@@ -58,24 +60,26 @@ export class WeeklyTodoService extends TodoService {
     this.updateWeeklyTodos(this.getWeeklyTodos().filter(dailyTodo => dailyTodo.complete));
   }
 
-  deleteAllWeeklyTodos() {
-    const dialogRef = this.openDeleteDialog('DeleteAllWeeklyTodosTitle');
+  deleteAllDailyTodos() {
+    const dialogRef = this.openWarningDialog('deleteAllDailyTodos');
 
     dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
       if (deleteAllWeeklyTodos) {
         this.dailyToDosLastIdCacheSubject.next(0);
         this.updateWeeklyTodos([]);
+        this.utilsServiceWeekly.openSnackBar('Annotations.deleteAllDailyTodos', ['exclamation triangle'], 'red', 3000);
       }
     });
   }
 
-  deleteWeeklyTodo(uniqueId: string) {
-    const dialogRef = this.openDeleteDialog('DeleteDailyTodoTitle');
+  deleteDailyTodo(uniqueId: string) {
+    const dialogRef = this.openWarningDialog('DeleteDailyTodoTitle');
 
     dialogRef.afterClosed().subscribe(deleteTodo => {
       if (deleteTodo) {
         const patchedWeeklyTodosArray = this.getWeeklyTodos().filter(dailyTodo => dailyTodo.uniqueId !== uniqueId);
         this.updateWeeklyTodos(patchedWeeklyTodosArray);
+        this.utilsServiceWeekly.openSnackBar('Annotations.deleteDailyTodo', ['trash', 'alternate', 'outline'], 'red');
       }
     });
   }

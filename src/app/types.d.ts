@@ -68,4 +68,5 @@ export interface EditDialogData {
 export interface SnackBarData {
   translationMessage: string;
   iconClasses: string[];
+  color: string;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { WeeklyTodoService } from './weekly-todo.service';
+import { WeeklyTodoService } from '../../services/weekly-todo.service';
 import { DailyToDo, DailyToDoEntries, DailyToDosEntries } from '../../types';
 import { map, Observable, shareReplay, take } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -127,11 +127,6 @@ export class WeeklyToDoComponent implements OnInit {
     this.dailyToDos$.subscribe(dailyTodos => {
       this.weeklyTodoService.updateWeeklyTodosLocalStorage(dailyTodos);
     });
-    // this.store.select(selectDoneDate).subscribe(value => console.log(value));
-  }
-
-  openSnackBar(message: string, iconClasses: string[]) {
-    this.utilsService.openSnackBar(message, iconClasses);
   }
 
   backupWeeklyTodosToFile() {
@@ -146,7 +141,7 @@ export class WeeklyToDoComponent implements OnInit {
   }
 
   deleteAllTodos() {
-    this.weeklyTodoService.deleteAllWeeklyTodos();
+    this.weeklyTodoService.deleteAllDailyTodos();
   }
 
   private getDate = (): string => this.weeklyTodoService.yyyymmdd(new Date());
@@ -262,7 +257,7 @@ export class WeeklyToDoComponent implements OnInit {
     const currentDailyTodos = this.weeklyTodoService.getWeeklyTodos();
     currentDailyTodos.push(newDailyTodo);
     this.weeklyTodoService.updateWeeklyTodos(currentDailyTodos);
-    this.openSnackBar('setWeeklyTodoAnnotation', ['edit', 'outline', 'green']);
+    this.utilsService.openSnackBar('Annotations.setWeeklyTodo', ['edit', 'outline'], 'green');
     this.resetForm();
   }
 }
