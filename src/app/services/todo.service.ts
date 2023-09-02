@@ -95,19 +95,19 @@ export class TodoService implements OnInit {
       // TODO
   }
 
-  clearToDoList(arr: Todo[]) {
-    arr.length = 0;
-    this.updateTodoStore(arr);
+  deleteAllTodos() {
+    this.updateTodoStore(this.getTodos().filter(todo => todo.complete));
   }
 
-  completeAll(arr: Todo[]) {
-    for (const j in arr) {
-    if (arr[j].complete === false) {
-      arr[j].complete = true;
-      arr[j].doneDate = new Date();
+  completeAllTodos() {
+    const allTodosCompleted = this.getTodos().map(todo => {
+      if (!todo.complete) {
+        todo.complete = true;
+        todo.doneDate = new Date();
       }
-    }
-    this.updateTodoStore(arr);
+      return todo;
+    });
+    this.updateTodoStore(allTodosCompleted);
   }
 
   setUniqueId(): string {
