@@ -1,4 +1,4 @@
-<div class="ui buttons" *ngIf="toDosArrLength > 1">
+<div class="ui buttons" *ngIf="(this.toDosUnCompletedObservable$ | async).length > 1">
   <div class="ui labeled buttons">
     <button class="ui positive button" (click)="completeAll()">{{'Complete all' | translate}}</button>
     <div class="middle-label ui basic label">

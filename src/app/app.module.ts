@@ -40,7 +40,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { WarningDialogComponent } from './components/shared-components/warning-dialog/warning-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TodoAnnotationComponent } from './components/shared-components/todo-annotation/todo-annotation.component';
-import { TodoFilterPipe } from './pipe/todo-filter.pipe';
+import { TodoFilterPipe } from './pipes/todo-filter.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);

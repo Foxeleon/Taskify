@@ -8,19 +8,7 @@ export interface Todo {
   doneDate: Date;
   deadline: Date;
 }
-
-export interface User {
-  id: string;
-  role: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  creationDate: Date;
-  email: string;
-  password: string;
-  lastLoginDate: Date;
-}
-
+// Refactor this interface with extending Todo interface
 export interface DailyToDo {
   titleTarget: string;
   todoTextTarget: string;
@@ -44,6 +32,18 @@ export interface DailyToDo {
 
   uniqueId: string;
   idNumber: number;
+}
+
+export interface User {
+  id: string;
+  role: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  creationDate: Date;
+  email: string;
+  password: string;
+  lastLoginDate: Date;
 }
 
 export interface DailyToDosEntries {

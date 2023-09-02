@@ -50,7 +50,10 @@ export class WeeklyTodoService extends TodoService {
 
   completeAllWeeklyTodos() {
     const allWeeklyTodosCompleted = this.getWeeklyTodos().map(dailyTodo => {
-      dailyTodo.complete = true;
+      if (!dailyTodo.complete) {
+        dailyTodo.complete = true;
+        dailyTodo.doneDate = new Date();
+      }
       return dailyTodo;
     });
     this.updateWeeklyTodos(allWeeklyTodosCompleted);
