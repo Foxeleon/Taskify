@@ -132,6 +132,7 @@ export class WeeklyToDoComponent implements OnInit {
   backupWeeklyTodosToFile() {
     this.weeklyTodoService.backupWeeklyTodosToFile();
   }
+
   restoreWeeklyTodosFromFile(event: any) {
     this.weeklyTodoService.restoreWeeklyTodosFromFile(event);
   }
@@ -147,16 +148,32 @@ export class WeeklyToDoComponent implements OnInit {
   private getDate = (): string => this.weeklyTodoService.yyyymmdd(new Date());
 
   private getDoneDate = (): Date => {
-    let dDate: Date;
-    this.store.select(selectDoneDate).pipe(take(1)).subscribe((doneDate) => dDate = doneDate);
-    return dDate;
+    let doneDateDependingSettings: Date;
+    let firstUncompletedTaskIsToday: boolean;
+    let firstTodoIsToday;
+    let storeDoneDate;
+
+    this.selectFirstTodoIsToday$.pipe(take(1)).subscribe(isToday => firstTodoIsToday = isToday);
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe((doneDate) => storeDoneDate = doneDate);
+    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => {
+      firstUncompletedTaskIsToday = dailyTodoArr.some(todo => this.weeklyTodoService.yyyymmdd(todo.doneDate) === this.weeklyTodoService.yyyymmdd(new Date()));
+    });
+
+    doneDateDependingSettings = storeDoneDate;
+    if (!firstUncompletedTaskIsToday && firstTodoIsToday) {
+        doneDateDependingSettings = new Date();
+        // Prevent wrong counting of doneDate in store, if new task day is today, but task list is long
+        this.store.dispatch(WeeklyTodoActions.setDoneDate({doneDate: new Date(storeDoneDate.getTime() - 86400000)}));
+    }
+
+    return doneDateDependingSettings;
   }
 
   private setDoneDate = (): Date => {
     let dDate: Date;
     let uncompletedTodosLength;
     let firstTodoIsToday;
-    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => uncompletedTodosLength = dailyTodoArr.length);
+    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => uncompletedTodosLength = dailyTodoArr.length ?? 0);
     this.selectFirstTodoIsToday$.pipe(take(1)).subscribe(isToday => firstTodoIsToday = isToday);
     this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
       if (uncompletedTodosLength === 0) {

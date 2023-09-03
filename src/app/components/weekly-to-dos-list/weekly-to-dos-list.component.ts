@@ -40,6 +40,7 @@ export class WeeklyToDosListComponent {
       (this.isDoneList) ? dailyTodoArr.filter(dailyToDo => dailyToDo.complete)
           .sort((dailyToDoOne, dailyToDoTwo) => (dailyToDoTwo.doneDate.getTime() - dailyToDoOne.doneDate.getTime())) :
         dailyTodoArr.filter(dailyToDo => !dailyToDo.complete)
+          .sort((dailyToDoOne, dailyToDoTwo) => (dailyToDoOne.doneDate.getTime() - dailyToDoTwo.doneDate.getTime()))
     ));
     this.dailyToDosEntries$.subscribe(dailyToDosEntriesValue => this.dailyToDosEntries = dailyToDosEntriesValue);
   }
