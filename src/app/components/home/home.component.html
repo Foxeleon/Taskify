@@ -18,8 +18,8 @@
                 <i class="calendar check outline icon"></i>
                 {{'Deadline' | translate}}
               </label>
-              <input type="date" class="form-control" formControlName="deadline" value="todoForm.get('deadline')">
-              <a *ngIf="todoForm.get('deadline').untouched" class="ui tag label">{{'SelectDeadline'|translate}}</a>
+              <input type="date" class="form-control" formControlName="deadline" value="{{todoForm.get('deadline')}}">
+              <a *ngIf="todoForm.get('deadline').untouched && !(isHandset$ | async)" class="ui tag label">{{'SelectDeadline'|translate}}</a>
               <small *ngIf="todoForm.get('deadline').invalid" class="ui left pointing red basic label">{{'Required'|translate}}</small>
             </div>
           </div>
