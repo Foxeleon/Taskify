@@ -87,7 +87,7 @@
     "deleteTodo": "Задача удалена",
     "deleteDailyTodo": "Удалено",
     "deleteAllDailyTodos": "Все дела удалены!",
-    "TodoCompleted": "Задача завершена",
+    "TodoCompleted": "Задача выполнена",
     "AllTodosCompleted": "Все задачи завершены!",
     "DailyTodoCompleted": "День завершён"
   }

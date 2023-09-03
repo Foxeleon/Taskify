@@ -132,6 +132,7 @@ export class WeeklyToDoComponent implements OnInit {
   backupWeeklyTodosToFile() {
     this.weeklyTodoService.backupWeeklyTodosToFile();
   }
+
   restoreWeeklyTodosFromFile(event: any) {
     this.weeklyTodoService.restoreWeeklyTodosFromFile(event);
   }
@@ -155,11 +156,19 @@ export class WeeklyToDoComponent implements OnInit {
   private setDoneDate = (): Date => {
     let dDate: Date;
     let uncompletedTodosLength;
+    let firstUncompletedDateIsToday: boolean;
     let firstTodoIsToday;
-    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => uncompletedTodosLength = dailyTodoArr.length);
+    const storeDoneDate$ = this.store.select(selectDoneDate);
+    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => {
+      firstUncompletedDateIsToday = dailyTodoArr.some(todo => todo.doneDate.getDate() === new Date().getDate());
+      uncompletedTodosLength = dailyTodoArr.length;
+    });
     this.selectFirstTodoIsToday$.pipe(take(1)).subscribe(isToday => firstTodoIsToday = isToday);
-    this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
-      if (uncompletedTodosLength === 0) {
+
+    storeDoneDate$.pipe(take(1)).subscribe(doneDate => {
+
+      if (uncompletedTodosLength === 0 || uncompletedTodosLength === undefined) {
+        // if there is no uncompleted todos, set doneDate to next day or today if firstTodoIsToday
         if (firstTodoIsToday) {
           dDate = new Date();
         } else {
@@ -167,7 +176,8 @@ export class WeeklyToDoComponent implements OnInit {
         }
       } else {
         // (milliseconds of given date + 24h*60minutes*60seconds*10^3=86400000) = next day
-        dDate = new Date(doneDate.getTime() + 86400000);
+        // if first uncompleted task is not today and setting has firstTodoIsToday = true, set doneDate to today
+        dDate = (firstTodoIsToday && firstUncompletedDateIsToday) ? new Date() : new Date(doneDate.getTime() + 86400000);
       }
     });
     return dDate;
