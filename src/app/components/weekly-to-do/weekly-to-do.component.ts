@@ -148,27 +148,35 @@ export class WeeklyToDoComponent implements OnInit {
   private getDate = (): string => this.weeklyTodoService.yyyymmdd(new Date());
 
   private getDoneDate = (): Date => {
-    let dDate: Date;
-    this.store.select(selectDoneDate).pipe(take(1)).subscribe((doneDate) => dDate = doneDate);
-    return dDate;
+    let doneDateDependingSettings: Date;
+    let firstUncompletedTaskIsToday: boolean;
+    let firstTodoIsToday;
+    let storeDoneDate;
+
+    this.selectFirstTodoIsToday$.pipe(take(1)).subscribe(isToday => firstTodoIsToday = isToday);
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe((doneDate) => storeDoneDate = doneDate);
+    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => {
+      firstUncompletedTaskIsToday = dailyTodoArr.some(todo => this.weeklyTodoService.yyyymmdd(todo.doneDate) === this.weeklyTodoService.yyyymmdd(new Date()));
+    });
+
+    doneDateDependingSettings = storeDoneDate;
+    if (!firstUncompletedTaskIsToday && firstTodoIsToday) {
+        doneDateDependingSettings = new Date();
+        // Prevent wrong counting of doneDate in store, if new task day is today, but task list is long
+        this.store.dispatch(WeeklyTodoActions.setDoneDate({doneDate: new Date(storeDoneDate.getTime() - 86400000)}));
+    }
+
+    return doneDateDependingSettings;
   }
 
   private setDoneDate = (): Date => {
     let dDate: Date;
     let uncompletedTodosLength;
-    let firstUncompletedDateIsToday: boolean;
     let firstTodoIsToday;
-    const storeDoneDate$ = this.store.select(selectDoneDate);
-    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => {
-      firstUncompletedDateIsToday = dailyTodoArr.some(todo => todo.doneDate.getDate() === new Date().getDate());
-      uncompletedTodosLength = dailyTodoArr.length;
-    });
+    this.dailyToDosUncompleted$.pipe(take(1)).subscribe(dailyTodoArr => uncompletedTodosLength = dailyTodoArr.length ?? 0);
     this.selectFirstTodoIsToday$.pipe(take(1)).subscribe(isToday => firstTodoIsToday = isToday);
-
-    storeDoneDate$.pipe(take(1)).subscribe(doneDate => {
-
-      if (uncompletedTodosLength === 0 || uncompletedTodosLength === undefined) {
-        // if there is no uncompleted todos, set doneDate to next day or today if firstTodoIsToday
+    this.store.select(selectDoneDate).pipe(take(1)).subscribe(doneDate => {
+      if (uncompletedTodosLength === 0) {
         if (firstTodoIsToday) {
           dDate = new Date();
         } else {
@@ -176,8 +184,7 @@ export class WeeklyToDoComponent implements OnInit {
         }
       } else {
         // (milliseconds of given date + 24h*60minutes*60seconds*10^3=86400000) = next day
-        // if first uncompleted task is not today and setting has firstTodoIsToday = true, set doneDate to today
-        dDate = (firstTodoIsToday && firstUncompletedDateIsToday) ? new Date() : new Date(doneDate.getTime() + 86400000);
+        dDate = new Date(doneDate.getTime() + 86400000);
       }
     });
     return dDate;
