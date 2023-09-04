@@ -8,7 +8,7 @@
       <div class="ui segment">
         <div class="two fields" *ngIf="!isDoneList">
           <div class="field" style="display: flex; {{(isHandset$ | async) ? 'justify-content: center' : 'justify-content: flex-start'}};">
-            <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)" *ngIf="!(isHandset$ | async)">
+            <div class="ui toggle checkbox" (click)="completeDay(dailyTodo.uniqueId)" *ngIf="!(isHandset$ | async)">
               <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
               <label>{{'Complete day' | translate}}</label>
             </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="two fields" *ngIf="isDoneList">
           <div class="field">
-            <div class="ui toggle checkbox" (click)="completeDailyTodo(dailyTodo.uniqueId)">
+            <div class="ui toggle checkbox" (click)="this.completeDay(dailyTodo.uniqueId)">
               <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
               <label>{{'Complete day' | translate}}</label>
             </div>

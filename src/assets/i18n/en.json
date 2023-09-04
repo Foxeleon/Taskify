@@ -34,11 +34,14 @@
   "Complete issue": "Complete task",
   "Completed!": "Completed!",
   "Required": "Required",
+
   "Max25Symbols": "Max 25 symbols",
   "Max150Symbols": "Max 150 symbols",
   "Max75Symbols": "Max 75 symbols",
+
   "todoList-tab-title": "General Todos",
   "dailyTodos-tab-title": "Daily Todos",
+
   "Sunday": "Sunday",
   "Monday": "Monday",
   "Tuesday": "Tuesday",
@@ -46,6 +49,7 @@
   "Thursday": "Thursday",
   "Friday": "Friday",
   "Saturday": "Saturday",
+
   "Week of year": "Week of year",
   "Week of month": "Week of month",
   "Complete day": "Complete day",
@@ -54,10 +58,16 @@
   "Restore": "Restore",
   "Yes": "Yes",
   "Cancel": "Cancel",
-  "deleteAllDailyTodos": "Are you sure want to delete completely all todos, ink. completed?",
-  "ClearTodosUncompletedList": "Are you sure want to delete todos-list?",
-  "CompleteTodosList": "Are you sure want to complete all todos?",
-  "DeleteDailyTodoTitle": "Are you sure want to delete todo?",
+
+  "WarningMessages": {
+    "WarningRestore": "Are you sure want to restore data from backup?",
+    "deleteAllDailyTodos": "Are you sure want to delete completely all todos, ink. completed?",
+    "ClearTodosUncompletedList": "Are you sure want to delete todos-list?",
+    "CompleteTodosList": "Are you sure want to complete all todos?",
+    "DeleteDailyTodoTitle": "Are you sure want to delete todo?",
+    "CompleteDay": "Are you sure want to complete day?"
+  },
+
   "dailyToDosEntries": {
     "target-title": "TARGET",
     "target-todoTextPlaceholder": "Main task of the day",
@@ -71,6 +81,7 @@
     "personalGrowth-title": "GROWTH",
     "personalGrowth-todoTextPlaceholder": "Everything that will increase your \"personal growth\" today"
   },
+
   "tap-to-change": " tap to change",
   "additional settings": "Additional settings",
   "First todo is": "First todo is",
@@ -82,12 +93,13 @@
     "titleFieldDescription": "Change title",
     "textFieldDescription": "Change description"
   },
+
   "Annotations": {
     "setWeeklyTodo": "Task created",
     "deleteTodo": "Task deleted",
     "deleteDailyTodo": "Deleted",
     "deleteAllDailyTodos": "All daily todos deleted",
     "TodoCompleted": "Task completed",
-    "DailyTodoCompleted": "Day completed"
+    "DayCompleted": "Day completed"
   }
 }

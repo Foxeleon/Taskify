@@ -14,6 +14,6 @@
             <option class="item" *ngFor="let lang of translateService.getLangs()" value="{{lang}}">{{lang}}</option>
           </select>
     </div>
-    <br>
+    <br *ng-If="!(isHandset$| async)">
   <router-outlet></router-outlet>
 </div>

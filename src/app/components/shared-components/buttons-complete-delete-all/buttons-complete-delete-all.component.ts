@@ -31,7 +31,7 @@ export class ButtonsCompleteDeleteAllComponent implements OnInit {
   }
 
   completeAll() {
-    const dialogRef = this.todoService.openWarningDialog('CompleteTodosList');
+    const dialogRef = this.todoService.openWarningDialog('WarningMessages.CompleteTodosList');
 
     dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
       if (deleteAllWeeklyTodos) {
@@ -42,7 +42,7 @@ export class ButtonsCompleteDeleteAllComponent implements OnInit {
   }
 
   clearToDoList() {
-    const dialogRef = this.todoService.openWarningDialog('ClearTodosUncompletedList');
+    const dialogRef = this.todoService.openWarningDialog('WarningMessages.ClearTodosUncompletedList');
 
     dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
       if (deleteAllWeeklyTodos) {

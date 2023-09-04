@@ -39,6 +39,7 @@
   "Max75Symbols": "Maximal 75 Zeichen",
   "todoList-tab-title": "Generelle Aufgaben",
   "dailyTodos-tab-title": "Tagesaufgaben",
+
   "Sunday": "Sonntag",
   "Monday": "Montag",
   "Tuesday": "Dienstag",
@@ -46,6 +47,7 @@
   "Thursday": "Donnerstag",
   "Friday": "Freitag",
   "Saturday": "Samstag",
+
   "Week of year": "Jahreswoche",
   "Week of month": "Monatswoche",
   "Complete day": "Tag abschließen",
@@ -54,10 +56,16 @@
   "Restore": "Wiederherstellen",
   "Yes": "Ja",
   "Cancel": "Abbrechen",
-  "deleteAllDailyTodos": "Sind Sie sicher, dass Sie alle Aufgaben inkl. fertige vollständig löschen möchten?",
-  "ClearTodosUncompletedList": "Sind Sie sicher, dass Sie die Aufgabenliste löschen möchten?",
-  "CompleteTodosList": "Sind Sie sicher, dass Sie alle Aufgaben als erledigt markieren möchten?",
-  "DeleteDailyTodoTitle": "Sind Sie sicher, dass Sie todo löschen möchten?",
+
+  "WarningMessages": {
+    "WarningRestore": "Sind Sie sicher, dass Sie die Datensicherung wiederherstellen möchten?",
+    "deleteAllDailyTodos": "Sind Sie sicher, dass Sie alle Aufgaben inkl. fertige vollständig löschen möchten?",
+    "ClearTodosUncompletedList": "Sind Sie sicher, dass Sie die Aufgabenliste löschen möchten?",
+    "CompleteTodosList": "Sind Sie sicher, dass Sie alle Aufgaben als erledigt markieren möchten?",
+    "DeleteDailyTodoTitle": "Sind Sie sicher, dass Sie todo löschen möchten?",
+    "CompleteDay": "Sind Sie sicher, dass Sie den Tag als erledigt markieren möchten?"
+  },
+
   "dailyToDosEntries": {
     "target-title": "ZIEL",
     "target-todoTextPlaceholder": "Tageshauptaufgabe",
@@ -71,6 +79,7 @@
     "personalGrowth-title": "WACHSTUM",
     "personalGrowth-todoTextPlaceholder": "Alles, was Ihr \"persönliches Wachstum\" heute entwickelt"
   },
+
   "tap-to-change": "zum Ändern antippen",
   "additional settings": "Zusätzliche Tools",
   "First todo is": "Die erste Aufgabe ist für",
@@ -82,12 +91,13 @@
     "titleFieldDescription": "Titel bearbeiten",
     "textFieldDescription": "Beschreibung bearbeiten"
   },
+
   "Annotations": {
     "setWeeklyTodo": "Aufgabe wurde erstellt",
     "deleteTodo": "Aufgabe wurde gelöscht",
     "deleteDailyTodo": "Gelöscht",
     "deleteAllDailyTodos": "Alle Tagesaufgaben wurden gelöscht",
     "TodoCompleted": "Aufgabe wurde erledigt",
-    "DailyTodoCompleted": "Tagesaufgabe wurde erledigt"
+    "DayCompleted": "Tag wurde erledigt"
   }
 }

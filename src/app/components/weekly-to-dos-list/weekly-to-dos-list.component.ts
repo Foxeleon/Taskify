@@ -10,6 +10,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { UtilsService } from '../../services/utils.service';
 import { dailyToDosEntries } from '../../constants';
 import { TranslateService } from '@ngx-translate/core';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-weekly-to-dos-list',
@@ -23,7 +24,8 @@ export class WeeklyToDosListComponent {
                private store: Store<AppState>,
                private breakpointObserver: BreakpointObserver,
                private utilsService: UtilsService,
-               private translateService: TranslateService) {}
+               private translateService: TranslateService,
+               private todoService: TodoService) {}
 
   dailyToDosEntriesConst: DailyToDosEntries;
   dailyToDosEntries: DailyToDosEntries;
@@ -77,6 +79,20 @@ export class WeeklyToDosListComponent {
 
   copyText = async (text: string) => {
     await this.utilsService.copyText(text);
+  }
+
+  getPercent(uniqueId: string): number {
+    return this.weeklyTodoService.getPercent(uniqueId);
+  }
+
+  completeDay(uniqueId: string) {
+    const dialogRef = this.todoService.openWarningDialog('WarningMessages.CompleteDay');
+
+    dialogRef.afterClosed().subscribe(completeDay => {
+      if (completeDay) {
+        this.completeDailyTodo(uniqueId);
+      }
+    });
   }
 
   completeDailyTodo(uniqueId: string, meaning?: string) {
@@ -136,11 +152,22 @@ export class WeeklyToDosListComponent {
           return dailyTodo;
         });
     }
-    if (!!meaning) {
+    this.weeklyTodoService.updateWeeklyTodos(updatedWeeklyTodosArray);
+    // right percent value comes after update of weekly todos
+    const percent = this.getPercent(uniqueId);
+    // if percent is less than 100% and meaning is not undefined, then open snackbar.
+    // But if more, than it means that all daily todos are completed and open daily completed snackbar
+    if (!!meaning && percent !== 100) {
       this.utilsService.openSnackBar('Annotations.TodoCompleted', ['check'], 'green');
     } else {
-      this.utilsService.openSnackBar('Annotations.DailyTodoCompleted', ['check'], 'green');
+      let styles: { color: string; iconClasses: string } = { color: 'thumbs up outline', iconClasses: 'green' };
+      if (percent === 0) {
+        styles = {
+          iconClasses: 'thumbs down outline',
+          color: 'red'
+        };
+      }
+      this.utilsService.openSnackBar(this.translateService.instant('Annotations.DayCompleted', { percent }), [styles.iconClasses], styles.color);
     }
-    this.weeklyTodoService.updateWeeklyTodos(updatedWeeklyTodosArray);
   }
 }
