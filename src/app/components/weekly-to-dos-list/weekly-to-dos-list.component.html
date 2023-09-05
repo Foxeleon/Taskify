@@ -17,7 +17,7 @@
           <div class="two fields" style="flex-flow: row nowrap; margin: 0!important; align-items: stretch;">
             <div class="field">
               <div class="field" style="display: flex; justify-content: flex-start;" *ngIf="(isHandset$ | async)">
-                <button class="ui right labeled icon button" (click)="completeDailyTodo(dailyTodo.uniqueId)">
+                <button class="ui right labeled icon button" (click)="completeDay(dailyTodo.uniqueId)">
                   <i class="check green link icon"></i>
                   {{'Complete day' | translate}}
                 </button>
@@ -34,7 +34,7 @@
         </div>
         <div class="two fields" *ngIf="isDoneList">
           <div class="field">
-            <div class="ui toggle checkbox" (click)="this.completeDay(dailyTodo.uniqueId)">
+            <div class="ui toggle checkbox">
               <input type="checkbox" name="gift" class="hidden" [disabled]="isDoneList" [checked]="dailyTodo.complete==true">
               <label>{{'Complete day' | translate}}</label>
             </div>

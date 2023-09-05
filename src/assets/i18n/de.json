@@ -98,6 +98,6 @@
     "deleteDailyTodo": "Gelöscht",
     "deleteAllDailyTodos": "Alle Tagesaufgaben wurden gelöscht",
     "TodoCompleted": "Aufgabe wurde erledigt",
-    "DayCompleted": "Tag wurde erledigt"
+    "DayCompleted": "Tag wurde erledigt ({{percent}}%)"
   }
 }

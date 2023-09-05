@@ -100,6 +100,6 @@
     "deleteDailyTodo": "Deleted",
     "deleteAllDailyTodos": "All daily todos deleted",
     "TodoCompleted": "Task completed",
-    "DayCompleted": "Day completed"
+    "DayCompleted": "Day completed ({{percent}}%)"
   }
 }
