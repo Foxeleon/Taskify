@@ -64,7 +64,7 @@ export class WeeklyTodoService extends TodoService {
   }
 
   deleteAllDailyTodos() {
-    const dialogRef = this.openWarningDialog('deleteAllDailyTodos');
+    const dialogRef = this.openWarningDialog('WarningMessages.deleteAllDailyTodos');
 
     dialogRef.afterClosed().subscribe(deleteAllWeeklyTodos => {
       if (deleteAllWeeklyTodos) {
@@ -76,7 +76,7 @@ export class WeeklyTodoService extends TodoService {
   }
 
   deleteDailyTodo(uniqueId: string) {
-    const dialogRef = this.openWarningDialog('DeleteDailyTodoTitle');
+    const dialogRef = this.openWarningDialog('WarningMessages.DeleteDailyTodoTitle');
 
     dialogRef.afterClosed().subscribe(deleteTodo => {
       if (deleteTodo) {
@@ -189,6 +189,11 @@ export class WeeklyTodoService extends TodoService {
     doneDate = (maxIdNumber === 0) ? new Date() : this.getWeeklyTodos().filter(dailyToDo => dailyToDo.idNumber === maxIdNumber)[0].doneDate;
     this.dailyToDosLastIdCacheSubject.next(maxIdNumber);
     this.storeWeekly.dispatch(WeeklyTodoActions.setDoneDate({doneDate}));
+  }
+
+  getPercent(uniqueId: string): number {
+    const dailyTodo = this.getWeeklyTodos().find(todo => todo.uniqueId === uniqueId);
+    return Number(dailyTodo.completeTarget) * 25 + Number(dailyTodo.completePart) * 25 + Number(dailyTodo.completeLongBox) * 25 + Number(dailyTodo.completePersonalGrowth) * 25;
   }
 
   getDailyToDosLastId(): number {

@@ -69,7 +69,7 @@ export class TodoService implements OnInit {
   }
 
   deleteTodo(uniqueId: string) {
-    const dialogRef = this.openWarningDialog('DeleteDailyTodoTitle');
+    const dialogRef = this.openWarningDialog('WarningMessages.DeleteDailyTodoTitle');
 
     dialogRef.afterClosed().subscribe(deleteTodo => {
       if (deleteTodo) {
